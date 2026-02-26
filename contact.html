@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact & Get Help - STILL STANDING</title>
+    <meta name="description" content="24/7 support, crisis help, and contact information. We're here for you.">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <!-- Icons & Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@300;400;500&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* Contact Page Specific Styles */
+        .contact-hero {
+            background: linear-gradient(rgba(231, 76, 60, 0.9), rgba(44, 62, 80, 0.9));
+            color: white;
+            padding: 100px 0 60px;
+            text-align: center;
+            margin-top: 70px;
+        }
+
+        .emergency-banner {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 40px;
+            border-radius: 10px;
+            margin: 40px 0;
+            text-align: center;
+            animation: pulse 2s infinite;
+        }
+
+        .contact-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .contact-card {
+            background: white;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border-top: 5px solid;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .contact-card.phone {
+            border-color: #3498db;
+        }
+
+        .contact-card.whatsapp {
+            border-color: #25D366;
+        }
+
+        .contact-card.email {
+            border-color: #9b59b6;
+        }
+
+        .contact-card.booking {
+            border-color: #2ecc71;
+        }
+
+        .contact-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .contact-card.phone .contact-icon {
+            color: #3498db;
+        }
+
+        .contact-card.whatsapp .contact-icon {
+            color: #25D366;
+        }
+
+        .contact-card.email .contact-icon {
+            color: #9b59b6;
+        }
+
+        .contact-card.booking .contact-icon {
+            color: #2ecc71;
+        }
+
+        .contact-form-section {
+            background: #f8f9fa;
+            padding: 80px 0;
+        }
+
+        .contact-form-container {
+            background: white;
+            border-radius: 10px;
+            padding: 50px;
+            box-shadow: var(--shadow);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-tabs {
+            display: flex;
+            border-bottom: 2px solid #eee;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .form-tab {
+            padding: 15px 30px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--gray-color);
+            transition: var(--transition);
+        }
+
+        .form-tab.active {
+            color: var(--secondary-color);
+            border-bottom-color: var(--secondary-color);
+        }
+
+        .form-panel {
+            display: none;
+        }
+
+        .form-panel.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #eee;
+            border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .privacy-notice {
+            background: #e8f4fc;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .faq-section {
+            padding: 80px 0;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .faq-question {
+            padding: 20px 25px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .faq-question:hover {
+            background: #f8f9fa;
+        }
+
+        .faq-answer {
+            padding: 0 25px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 25px 25px;
+            max-height: 500px;
+        }
+
+        .faq-item.active .faq-question {
+            border-bottom: 1px solid #eee;
+        }
+
+        .faq-toggle {
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(45deg);
+        }
+
+        .support-network {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 80px 0;
+        }
+
+        .network-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .network-item {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .response-time {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 40px auto;
+            max-width: 600px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .response-timeline {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .response-timeline::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #eee;
+            z-index: 1;
+        }
+
+        .timeline-point {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .timeline-dot {
+            width: 30px;
+            height: 30px;
+            background: var(--healing-color);
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .hours {
+            background: var(--accent-color);
+        }
+
+        .day {
+            background: var(--secondary-color);
+        }
+
+        .days {
+            background: var(--primary-color);
+        }
+
+        .location-section {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+
+        .location-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .location-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .map-placeholder {
+            height: 300px;
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray-color);
+        }
+
+        .contact-hours {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .hours-table {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .hours-table tr {
+            border-bottom: 1px solid #eee;
+        }
+
+        .hours-table td {
+            padding: 10px 0;
+        }
+
+        .hours-table td:last-child {
+            text-align: right;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p>Loading Contact Information...</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <h1><span class="still">STILL</span> <span class="standing">STANDING</span></h1>
+                <p class="tagline">Together in Resilience</p>
+            </a>
+
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="about.html"><i class="fas fa-heart"></i> Our Story</a></li>
+                <li class="dropdown">
+                    <a href="grief-support.html"><i class="fas fa-hands-helping"></i> Support <i
+                            class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="grief-support.html">Grief & Loss</a></li>
+                        <li><a href="addiction-recovery.html">Addiction Recovery</a></li>
+                        <li><a href="mental-health.html">Mental Health</a></li>
+                        <li><a href="gbv-support.html">GBV Support</a></li>
+                        <li><a href="child-abuse-support.html">Child Abuse Support</a></li>
+                    </ul>
+                </li>
+                <li><a href="community.html"><i class="fas fa-users"></i> Community</a></li>
+                <li><a href="booking-portal.html"><i class="fas fa-calendar-check"></i> My Journey</a></li>
+                <li><a href="contact.html" class="active contact-btn"><i class="fas fa-phone-alt"></i> Get Help</a></li>
+            </ul>
+
+            <div class="crisis-alert">
+                <a href="tel:+254112219135" class="crisis-btn">
+                    <i class="fas fa-life-ring"></i> CRISIS HELP
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="contact-hero">
+        <div class="container">
+            <h1 class="animate-fade-in">We're Here for You</h1>
+            <p class="hero-subtitle animate-fade-in-delay">24/7 support, crisis help, and a listening ear</p>
+        </div>
+    </section>
+
+    <!-- Emergency Banner -->
+    <section class="emergency-contact">
+        <div class="container">
+            <div class="emergency-banner">
+                <h2><i class="fas fa-exclamation-triangle"></i> IN CRISIS? NEED IMMEDIATE HELP?</h2>
+                <p>If you're having thoughts of harming yourself or others, please reach out NOW.</p>
+                <div class="emergency-numbers">
+                    <a href="tel:+254112219135" class="emergency-number">
+                        <i class="fas fa-phone"></i> CALL NOW: +254 112 219 135
+                    </a>
+                    <span class="emergency-or">OR</span>
+                    <a href="https://wa.me/25496874539" class="emergency-number whatsapp">
+                        <i class="fab fa-whatsapp"></i> WHATSAPP: +254 968 74539
+                    </a>
+                </div>
+                <p class="emergency-note">Available 24 hours a day, 7 days a week. You are not alone.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="contact-content">
+        <div class="container">
+            <!-- Contact Options -->
+            <section class="contact-options-section">
+                <h2 class="section-title">Choose How to Connect</h2>
+                <p class="section-subtitle">Multiple ways to reach us, depending on what you need</p>
+
+                <div class="contact-options">
+                    <div class="contact-card phone scroll-animate">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <h3>24/7 Crisis Line</h3>
+                        <p>Immediate support for crisis situations, suicidal thoughts, or urgent mental health needs.
+                        </p>
+                        <a href="tel:+254112219135" class="btn-primary">
+                            <i class="fas fa-phone"></i> Call Now
+                        </a>
+                        <p class="contact-note">Answered by trained peer counselors</p>
+                    </div>
+
+                    <div class="contact-card whatsapp scroll-animate">
+                        <div class="contact-icon">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                        <h3>WhatsApp Support</h3>
+                        <p>Text-based support for non-urgent issues, questions, or ongoing support conversations.</p>
+                        <a href="https://wa.me/25496874539" class="btn-primary whatsapp-btn">
+                            <i class="fab fa-whatsapp"></i> Message on WhatsApp
+                        </a>
+                        <p class="contact-note">Typically responds within 1-2 hours</p>
+                    </div>
+
+                    <div class="contact-card email scroll-animate">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h3>Email Support</h3>
+                        <p>For detailed questions, resource requests, or non-urgent support needs.</p>
+                        <a href="mailto:manyasadaniel630@gmail.com" class="btn-primary">
+                            <i class="fas fa-envelope"></i> Send Email
+                        </a>
+                        <p class="contact-note">Response within 24 hours</p>
+                    </div>
+
+                    <div class="contact-card booking scroll-animate">
+                        <div class="contact-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <h3>Book a Session</h3>
+                        <p>Schedule a one-on-one peer counseling session at a time that works for you.</p>
+                        <a href="booking-portal.html" class="btn-primary">
+                            <i class="fas fa-calendar"></i> Book Online
+                        </a>
+                        <p class="contact-note">Online or in-person sessions available</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Form -->
+            <section class="contact-form-section">
+                <div class="container">
+                    <h2 class="section-title">Send Us a Message</h2>
+                    <p class="section-subtitle">Prefer to write? Fill out the form below</p>
+
+                    <div class="contact-form-container">
+                        <div class="form-tabs">
+                            <button class="form-tab active" data-form="support">Get Support</button>
+                            <button class="form-tab" data-form="question">Ask a Question</button>
+                            <button class="form-tab" data-form="feedback">Give Feedback</button>
+                            <button class="form-tab" data-form="volunteer">Volunteer</button>
+                            <button class="form-tab" data-form="partner">Partnership</button>
+                        </div>
+
+                        <!-- Support Form -->
+                        <form id="supportForm" class="form-panel active">
+                            <div class="form-group">
+                                <label>What type of support are you looking for? *</label>
+                                <select id="supportType" required>
+                                    <option value="">Select an option...</option>
+                                    <option value="grief">Grief & Loss Support</option>
+                                    <option value="addiction">Addiction Recovery</option>
+                                    <option value="mental-health">Mental Health Support</option>
+                                    <option value="crisis">Crisis Intervention</option>
+                                    <option value="general">General Emotional Support</option>
+                                    <option value="other">Other Support Needs</option>
+                                </select>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Your Name *</label>
+                                    <input type="text" id="supportName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Your Email *</label>
+                                    <input type="email" id="supportEmail" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Phone Number</label>
+                                    <input type="tel" id="supportPhone">
+                                </div>
+                                <div class="form-group">
+                                    <label>Preferred Contact Method</label>
+                                    <select id="supportContactMethod">
+                                        <option value="email">Email</option>
+                                        <option value="phone">Phone Call</option>
+                                        <option value="whatsapp">WhatsApp</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>How can we help you? *</label>
+                                <textarea id="supportMessage" required
+                                    placeholder="Please share what you're going through and how we can support you..."></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Urgency Level</label>
+                                <div class="urgency-levels">
+                                    <label>
+                                        <input type="radio" name="urgency" value="non-urgent" checked>
+                                        Non-urgent (response within 24 hours)
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="urgency" value="urgent">
+                                        Urgent (response within 6 hours)
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="urgency" value="crisis">
+                                        Crisis (call the hotline immediately)
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="privacy-notice">
+                                <p><i class="fas fa-lock"></i> <strong>Privacy Notice:</strong> All information shared
+                                    is confidential. We never share your personal details with anyone outside our
+                                    trained support team.</p>
+                            </div>
+
+                            <button type="submit" class="btn-primary">
+                                <i class="fas fa-paper-plane"></i> Send Support Request
+                            </button>
+                        </form>
+
+                        <!-- Question Form -->
+                        <form id="questionForm" class="form-panel">
+                            <!-- Similar structure for other forms -->
+                            <p>Question form content would go here...</p>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Response Time -->
+            <section class="response-time">
+                <h3><i class="fas fa-clock"></i> What to Expect After Contacting Us</h3>
+                <p>We're committed to responding as quickly as possible. Here's our typical response timeline:</p>
+
+                <div class="response-timeline">
+                    <div class="timeline-point">
+                        <div class="timeline-dot hours">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <p>Crisis Calls</p>
+                        <small>Immediate</small>
+                    </div>
+
+                    <div class="timeline-point">
+                        <div class="timeline-dot">
+                            <i class="fas fa-hourglass-half"></i>
+                        </div>
+                        <p>WhatsApp</p>
+                        <small>1-2 hours</small>
+                    </div>
+
+                    <div class="timeline-point">
+                        <div class="timeline-dot day">
+                            <i class="fas fa-calendar-day"></i>
+                        </div>
+                        <p>Email</p>
+                        <small>24 hours</small>
+                    </div>
+
+                    <div class="timeline-point">
+                        <div class="timeline-dot days">
+                            <i class="fas fa-calendar-week"></i>
+                        </div>
+                        <p>Form Submissions</p>
+                        <small>48 hours</small>
+                    </div>
+                </div>
+
+                <p class="timeline-note"><i class="fas fa-info-circle"></i> Response times may vary based on volume and
+                    urgency.</p>
+            </section>
+
+            <!-- FAQ Section -->
+            <section class="faq-section">
+                <div class="container">
+                    <h2 class="section-title">Frequently Asked Questions</h2>
+
+                    <div class="faq-container">
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>Is this service really free?</span>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Yes, absolutely. STILL STANDING provides all support services free of charge. We
+                                    believe that mental health support should be accessible to everyone, regardless of
+                                    their financial situation.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>Is my information kept confidential?</span>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Yes, confidentiality is our top priority. We never share your personal information
+                                    with anyone outside our trained support team. The only exception would be if we
+                                    believe there's immediate risk of harm to yourself or others, in which case we may
+                                    need to contact emergency services.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>What qualifications do your counselors have?</span>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Our team consists of trained peer counselors who have personal experience with grief,
+                                    addiction recovery, or mental health challenges. Many are certified in peer support
+                                    counseling. However, we are not licensed therapists or psychiatrists. For clinical
+                                    diagnoses or medication management, we can provide referrals to appropriate
+                                    professionals.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>Can I remain anonymous?</span>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Yes, you can choose to remain anonymous when contacting us. For phone and WhatsApp
+                                    support, we don't require your real name. For online forms, you can use initials or
+                                    a pseudonym if you prefer.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>What if I need help outside of Kenya?</span>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p>While we're based in Kenya, we provide online support to anyone worldwide. Our
+                                    WhatsApp and online sessions are available internationally. However, for local
+                                    emergency services or in-person support, we recommend contacting services in your
+                                    own country.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>How can I support STILL STANDING?</span>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p>There are several ways to support us: 1) Share our resources with someone who might
+                                    need them, 2) Volunteer as a peer supporter (training provided), 3) Share your story
+                                    to help others, 4) Make a donation to help cover operational costs, 5) Follow and
+                                    share our social media posts.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Support Network -->
+            <section class="support-network">
+                <div class="container">
+                    <h2 class="section-title">Our Support Network</h2>
+                    <p class="section-subtitle">We work with trusted partners to provide comprehensive support</p>
+
+                    <div class="network-grid">
+                        <div class="network-item">
+                            <h3><i class="fas fa-hospital"></i> Medical Referrals</h3>
+                            <p>Connections to trusted psychiatrists, therapists, and medical detox centers when needed.
+                            </p>
+                        </div>
+
+                        <div class="network-item">
+                            <h3><i class="fas fa-hands-helping"></i> Community Partners</h3>
+                            <p>Collaboration with local NGOs, support groups, and community organizations.</p>
+                        </div>
+
+                        <div class="network-item">
+                            <h3><i class="fas fa-graduation-cap"></i> Training Institutions</h3>
+                            <p>Partnerships with organizations that provide ongoing training for our peer counselors.
+                            </p>
+                        </div>
+
+                        <div class="network-item">
+                            <h3><i class="fas fa-globe-africa"></i> International Resources</h3>
+                            <p>Access to global mental health resources and crisis lines for those outside Kenya.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Location & Hours -->
+            <section class="location-section">
+                <div class="container">
+                    <h2 class="section-title">Location & Hours</h2>
+
+                    <div class="location-container">
+                        <div class="location-info">
+                            <h3><i class="fas fa-map-marker-alt"></i> Based in Kenya, Serving Worldwide</h3>
+                            <p>While we're physically located in Kenya, our online support services are available to
+                                anyone, anywhere in the world.</p>
+
+                            <div class="contact-hours">
+                                <h4><i class="fas fa-clock"></i> Support Hours</h4>
+                                <table class="hours-table">
+                                    <tr>
+                                        <td>Crisis Hotline</td>
+                                        <td>24/7</td>
+                                    </tr>
+                                    <tr>
+                                        <td>WhatsApp Support</td>
+                                        <td>7 AM - 11 PM EAT</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Email Support</td>
+                                        <td>Mon-Sun, 9 AM - 9 PM EAT</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Online Sessions</td>
+                                        <td>By Appointment</td>
+                                    </tr>
+                                    <tr>
+                                        <td>In-person Meetings</td>
+                                        <td>Nairobi, by Appointment</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="location-map">
+                            <div class="map-placeholder">
+                                <i class="fas fa-map"></i>
+                                <p>Map would display here</p>
+                            </div>
+                            <p class="map-note"><i class="fas fa-info-circle"></i> For privacy and security reasons, we
+                                don't publicly list our physical address. Once you book a session, we'll provide
+                                location details.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Immediate Help Reminder -->
+            <section class="immediate-help">
+                <div class="container">
+                    <div class="help-reminder">
+                        <h3><i class="fas fa-life-ring"></i> Remember: Immediate Help is Available</h3>
+                        <p>If you're in crisis right now, don't wait for an email response or booked session.</p>
+                        <div class="immediate-buttons">
+                            <a href="tel:+254112219135" class="btn-primary emergency">
+                                <i class="fas fa-phone"></i> Call Crisis Line Now
+                            </a>
+                            <a href="https://wa.me/25496874539" class="btn-secondary">
+                                <i class="fab fa-whatsapp"></i> WhatsApp Immediate Help
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col about-col">
+                    <h3><span class="still">STILL</span> <span class="standing">STANDING</span></h3>
+                    <p>No matter what you're going through, we're here to listen and support.</p>
+                    <div class="support-promise">
+                        <p><i class="fas fa-check-circle"></i> Confidential</p>
+                        <p><i class="fas fa-check-circle"></i> Non-judgmental</p>
+                        <p><i class="fas fa-check-circle"></i> Always free</p>
+                    </div>
+                </div>
+
+                <div class="footer-col quick-links">
+                    <h4>Quick Contact</h4>
+                    <ul>
+                        <li><a href="tel:+254112219135">24/7 Crisis Line</a></li>
+                        <li><a href="https://wa.me/25496874539">WhatsApp Support</a></li>
+                        <li><a href="mailto:manyasadaniel630@gmail.com">Email Support</a></li>
+                        <li><a href="booking-portal.html">Book a Session</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col contact-col">
+                    <h4>Other Resources</h4>
+                    <ul class="contact-info">
+                        <li><a href="mental-health.html#crisis">Crisis Resources</a></li>
+                        <li><a href="addiction-recovery.html#emergency">Emergency Detox Info</a></li>
+                        <li><a href="community.html#groups">Support Groups</a></li>
+                        <li><a href="resources.html">Downloadable Resources</a></li>
+                    </ul>
+                    <p class="disclaimer"><strong>You are not alone.</strong> Reach out.</p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; <span id="currentYear"></span> STILL STANDING. Free support for those who need it most.</p>
+                <p class="disclaimer">If you're reading this and struggling, please reach out. We're here for you.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <script src="js/security.js"></script>
+
+    <!-- Contact Page Specific JS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Form Tabs
+            document.querySelectorAll('.form-tab').forEach(tab => {
+                tab.addEventListener('click', function () {
+                    // Remove active class from all tabs
+                    document.querySelectorAll('.form-tab').forEach(t => t.classList.remove('active'));
+
+                    // Remove active class from all form panels
+                    document.querySelectorAll('.form-panel').forEach(panel => panel.classList.remove('active'));
+
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+
+                    // Show corresponding form panel
+                    const formId = this.getAttribute('data-form') + 'Form';
+                    document.getElementById(formId).classList.add('active');
+                });
+            });
+
+            // FAQ Toggle
+            document.querySelectorAll('.faq-question').forEach(question => {
+                question.addEventListener('click', function () {
+                    const faqItem = this.parentElement;
+                    faqItem.classList.toggle('active');
+
+                    const toggle = this.querySelector('.faq-toggle');
+                    if (faqItem.classList.contains('active')) {
+                        toggle.textContent = '×';
+                    } else {
+                        toggle.textContent = '+';
+                    }
+
+                    // Close other FAQ items
+                    document.querySelectorAll('.faq-item').forEach(item => {
+                        if (item !== faqItem && item.classList.contains('active')) {
+                            item.classList.remove('active');
+                            item.querySelector('.faq-toggle').textContent = '+';
+                        }
+                    });
+                });
+            });
+
+            // Form Submission
+            document.querySelectorAll('form').forEach(form => {
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    // Basic validation
+                    const requiredFields = this.querySelectorAll('[required]');
+                    let isValid = true;
+
+                    requiredFields.forEach(field => {
+                        if (!field.value.trim()) {
+                            field.style.borderColor = 'var(--accent-color)';
+                            isValid = false;
+                        } else {
+                            field.style.borderColor = '';
+                        }
+                    });
+
+                    if (!isValid) {
+                        alert('Please fill in all required fields.');
+                        return;
+                    }
+
+                    // Show loading state
+                    const submitBtn = this.querySelector('button[type="submit"]');
+                    const originalText = submitBtn.innerHTML;
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+                    submitBtn.disabled = true;
+
+                    // Simulate form submission
+                    setTimeout(() => {
+                        // Show success message
+                        const modal = document.createElement('div');
+                        modal.className = 'success-modal';
+                        modal.innerHTML = `
+                            <div class="modal-content">
+                                <div class="success-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <h3>Message Sent Successfully!</h3>
+                                <p>Thank you for reaching out. We'll get back to you as soon as possible.</p>
+                                <p><strong>Expected Response Time:</strong> ${getResponseTime(this.id)}</p>
+                                <p>If this is an emergency, please call our crisis line immediately.</p>
+                                <button class="btn-primary close-modal">OK</button>
+                            </div>
+                        `;
+                        document.body.appendChild(modal);
+
+                        // Reset form
+                        form.reset();
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.disabled = false;
+
+                        // Close modal
+                        modal.querySelector('.close-modal').addEventListener('click', function () {
+                            modal.remove();
+                        });
+                    }, 1500);
+                });
+            });
+
+            function getResponseTime(formId) {
+                switch (formId) {
+                    case 'supportForm':
+                        return 'Within 24 hours (or sooner for urgent cases)';
+                    case 'questionForm':
+                        return 'Within 48 hours';
+                    case 'feedbackForm':
+                        return 'Within 1 week';
+                    case 'volunteerForm':
+                        return 'Within 1 week';
+                    case 'partnerForm':
+                        return 'Within 2-3 business days';
+                    default:
+                        return 'Within 48 hours';
+                }
+            }
+
+            // Emergency banner animation
+            const emergencyBanner = document.querySelector('.emergency-banner');
+            if (emergencyBanner) {
+                setInterval(() => {
+                    emergencyBanner.style.boxShadow = emergencyBanner.style.boxShadow === '0 0 20px rgba(231, 76, 60, 0.5)'
+                        ? '0 0 30px rgba(231, 76, 60, 0.8)'
+                        : '0 0 20px rgba(231, 76, 60, 0.5)';
+                }, 1000);
+            }
+
+            // Contact cards animation
+            const contactCards = document.querySelectorAll('.contact-card');
+            contactCards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
+
+            // WhatsApp button special styling
+            const whatsappBtn = document.querySelector('.whatsapp-btn');
+            if (whatsappBtn) {
+                whatsappBtn.style.cssText = `
+                    background: #25D366;
+                    border-color: #25D366;
+                `;
+
+                whatsappBtn.addEventListener('mouseenter', function () {
+                    this.style.background = '#128C7E';
+                    this.style.borderColor = '#128C7E';
+                });
+
+                whatsappBtn.addEventListener('mouseleave', function () {
+                    this.style.background = '#25D366';
+                    this.style.borderColor = '#25D366';
+                });
+            }
+
+            // Urgency level selection
+            document.querySelectorAll('input[name="urgency"]').forEach(radio => {
+                radio.addEventListener('change', function () {
+                    if (this.value === 'crisis') {
+                        const confirmCrisis = confirm('For crisis situations, we recommend calling our hotline immediately for fastest support. Would you like to call now?');
+                        if (confirmCrisis) {
+                            window.location.href = 'tel:+254112219135';
+                        }
+                    }
+                });
+            });
+
+            // Add click tracking for analytics (simulated)
+            document.querySelectorAll('a[href^="tel:"], a[href^="mailto:"], a[href*="whatsapp"]').forEach(link => {
+                link.addEventListener('click', function () {
+                    const contactMethod = this.href.includes('tel:') ? 'phone' :
+                        this.href.includes('mailto:') ? 'email' : 'whatsapp';
+
+                    // In real implementation, send to analytics
+                    console.log(`Contact method clicked: ${contactMethod}`);
+                });
+            });
+
+            // Auto-populate form based on URL parameters (for referrals)
+            const urlParams = new URLSearchParams(window.location.search);
+            const referralType = urlParams.get('ref');
+
+            if (referralType) {
+                const supportTypeSelect = document.getElementById('supportType');
+                if (supportTypeSelect) {
+                    switch (referralType) {
+                        case 'grief':
+                            supportTypeSelect.value = 'grief';
+                            break;
+                        case 'addiction':
+                            supportTypeSelect.value = 'addiction';
+                            break;
+                        case 'mental':
+                            supportTypeSelect.value = 'mental-health';
+                            break;
+                        case 'crisis':
+                            supportTypeSelect.value = 'crisis';
+                            document.querySelector('input[name="urgency"][value="crisis"]').checked = true;
+                            break;
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- PWA Support -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#667eea">
+    <link rel="apple-touch-icon" href="/images/icon-192x192.png">
+
+    <title>Support Groups - STILL STANDING</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@300;400;500&display=swap"
+        rel="stylesheet">
+
+    <style>
+        .groups-hero {
+            background: linear-gradient(135deg, rgba(118, 75, 162, 0.95), rgba(102, 126, 234, 0.95));
+            padding: 120px 0 60px;
+            text-align: center;
+            color: white;
+        }
+
+        .group-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .group-card {
+            background: var(--glass-bg, rgba(255, 255, 255, 0.9));
+            border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.2));
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .group-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .group-topic {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .topic-grief {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .topic-addiction {
+            background: #f44336;
+            color: white;
+        }
+
+        .topic-ptsd {
+            background: #9c27b0;
+            color: white;
+        }
+
+        .topic-anxiety {
+            background: #ff9800;
+            color: white;
+        }
+
+        .topic-depression {
+            background: #3f51b5;
+            color: white;
+        }
+
+        .topic-parenting {
+            background: #4caf50;
+            color: white;
+        }
+
+        .group-stats {
+            display: flex;
+            gap: 20px;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: var(--gray-color);
+        }
+
+        .group-stat {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .create-group-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .create-group-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 10px;
+            margin: 30px 0;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .filter-tab {
+            padding: 10px 20px;
+            border: 2px solid var(--primary-color);
+            border-radius: 25px;
+            background: white;
+            color: var(--primary-color);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+
+        .filter-tab.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .group-detail-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .group-detail-content {
+            background: white;
+            border-radius: 15px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .post-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            color: var(--gray-color);
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <h1><span class="still">STILL</span> <span class="standing">STANDING</span></h1>
+                <p class="tagline">Together in Resilience</p>
+            </a>
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="community.html"><i class="fas fa-book-open"></i> Stories</a></li>
+                <li><a href="groups.html" class="active"><i class="fas fa-users"></i> Groups</a></li>
+                <li><a href="qa.html"><i class="fas fa-question-circle"></i> Q&A</a></li>
+                <li><a href="booking-portal.html"><i class="fas fa-calendar"></i> Book Session</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="groups-hero">
+        <div class="container">
+            <h1><i class="fas fa-users"></i> Support Groups</h1>
+            <p>Connect with others who understand. Join topic-based support groups for shared healing.</p>
+        </div>
+    </section>
+
+    <!-- Groups Section -->
+    <section style="padding: 60px 0;">
+        <div class="container">
+            <!-- Filters -->
+            <div class="filter-tabs">
+                <button class="filter-tab active" onclick="filterGroups('')">All Groups</button>
+                <button class="filter-tab" onclick="filterGroups('grief')">Grief</button>
+                <button class="filter-tab" onclick="filterGroups('addiction')">Addiction</button>
+                <button class="filter-tab" onclick="filterGroups('ptsd')">PTSD</button>
+                <button class="filter-tab" onclick="filterGroups('anxiety')">Anxiety</button>
+                <button class="filter-tab" onclick="filterGroups('depression')">Depression</button>
+                <button class="filter-tab" onclick="filterGroups('parenting')">Parenting</button>
+            </div>
+
+            <!-- Groups Grid -->
+            <div id="groupsGrid" class="group-grid">
+                <div class="glass-panel" style="padding: 40px; text-align: center;">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary-color);"></i>
+                    <p>Loading groups...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Create Group Button -->
+    <button class="create-group-btn" onclick="showCreateGroupModal()" title="Create New Group">
+        <i class="fas fa-plus"></i>
+    </button>
+
+    <script src="js/particles.js"></script>
+    <script src="js/daily-verse.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/dark-mode.js"></script>
+    <script src="js/pwa-manager.js"></script>
+    <script src="js/groups.js"></script>
+</body>
+
+</html>

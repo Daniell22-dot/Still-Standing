@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GBV Support - STILL STANDING</title>
+    <meta name="description"
+        content="Support and resources for survivors of Gender-Based Violence. You are believed, you are safe here.">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <!-- Icons & Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@300;400;500&display=swap"
+        rel="stylesheet">
+
+    <style>
+        .gbv-hero {
+            background: linear-gradient(rgba(142, 68, 173, 0.9), rgba(155, 89, 182, 0.9));
+            /* Purple theme */
+            color: white;
+            padding: 100px 0 60px;
+            text-align: center;
+            margin-top: 70px;
+        }
+
+        .safety-alert {
+            background: #ffebee;
+            border-left: 5px solid #e74c3c;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .safety-alert i {
+            color: #e74c3c;
+            font-size: 2rem;
+        }
+
+        .resource-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            transition: var(--transition);
+        }
+
+        .resource-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .exit-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #e74c3c;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+
+        .exit-btn:hover {
+            background: #c0392b;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+
+<body>
+    <a href="https://www.google.com" class="exit-btn"><i class="fas fa-sign-out-alt"></i> Quick Exit</a>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <h1><span class="still">STILL</span> <span class="standing">STANDING</span></h1>
+                <p class="tagline">Together in Resilience</p>
+            </a>
+
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li class="dropdown">
+                    <a href="#" class="active"><i class="fas fa-hands-helping"></i> Support <i
+                            class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="grief-support.html">Grief & Loss</a></li>
+                        <li><a href="addiction-recovery.html">Addiction Recovery</a></li>
+                        <li><a href="mental-health.html">Mental Health</a></li>
+                        <li><a href="gbv-support.html" class="active">GBV Support</a></li>
+                        <li><a href="child-abuse-support.html">Child Abuse Support</a></li>
+                    </ul>
+                </li>
+                <li><a href="community.html"><i class="fas fa-users"></i> Community</a></li>
+                <li><a href="booking-portal.html"><i class="fas fa-calendar-check"></i> My Journey</a></li>
+                <li><a href="contact.html" class="contact-btn"><i class="fas fa-phone-alt"></i> Get Help</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="gbv-hero">
+        <div class="container">
+            <h1 class="animate-fade-in">Gender-Based Violence Support</h1>
+            <p class="hero-subtitle animate-fade-in-delay">You are not alone. You are not to blame. Help is available.
+            </p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="content-section">
+        <div class="container">
+
+            <div class="safety-alert">
+                <i class="fas fa-user-shield"></i>
+                <div>
+                    <strong>Safety Checking:</strong> If you believe your device is being monitored, please use a safer
+                    computer or phone.
+                    <a href="https://www.google.com" style="color: #e74c3c; text-decoration: underline;">Click here to
+                        leave this site immediately.</a>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8 mx-auto">
+                    <!-- Immediate Help -->
+                    <section class="mb-5">
+                        <h2 class="section-title">Immediate Help</h2>
+                        <div class="resource-card">
+                            <h3><i class="fas fa-phone-alt"></i> National GBV Hotline (1195)</h3>
+                            <p>Toll-free, 24/7 support for survivors of domestic violence and sexual assault.</p>
+                            <a href="tel:1195" class="btn-primary">Call 1195 Now</a>
+                        </div>
+
+                        <div class="resource-card">
+                            <h3><i class="fas fa-hospital"></i> Medical Assistance</h3>
+                            <p>If you have been physically hurt or sexually assaulted, please seek medical attention
+                                immediately. Use the link below to find the nearest Gender Violence Recovery Centre
+                                (GVRC).</p>
+                            <a href="https://lvcthealth.org/" target="_blank" class="btn-outline">Find Medical Help</a>
+                        </div>
+                    </section>
+
+                    <!-- Safety Planning -->
+                    <section class="mb-5">
+                        <h2 class="section-title">Safety Planning</h2>
+                        <p>A safety plan is a personalized, practical plan that can help you avoid dangerous situations
+                            and know the best way to react when you are in danger.</p>
+
+                        <div class="resource-card">
+                            <h4><i class="fas fa-suitcase"></i> Emergency Bag Checklist</h4>
+                            <ul>
+                                <li>Identification documents (ID, Passport)</li>
+                                <li>Important papers (Birth certificates, medical records)</li>
+                                <li>Emergency money</li>
+                                <li>Medications</li>
+                                <li>Keys to house/car</li>
+                                <li>Change of clothes</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <!-- Legal & Counseling -->
+                    <section>
+                        <h2 class="section-title">Legal & Counseling Support</h2>
+                        <div class="resource-card">
+                            <h3>FIDA Kenya</h3>
+                            <p>Legal aid and advice for women.</p>
+                            <a href="https://adhoc.fidakenya.org/" target="_blank" class="btn-outline">Visit Website</a>
+                        </div>
+                        <div class="resource-card">
+                            <h3>Counselling Support</h3>
+                            <p>Book a confidential session with our trauma-informed counselors.</p>
+                            <a href="booking-portal.html" class="btn-primary">Book Session</a>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; <span id="currentYear"></span> STILL STANDING. You are safe here.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>document.getElementById('currentYear').textContent = new Date().getFullYear();</script>
+</body>
+
+</html>

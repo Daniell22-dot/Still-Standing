@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- PWA Support -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#667eea">
+    <link rel="apple-touch-icon" href="/images/icon-192x192.png">
+
+    <title>Q&A - STILL STANDING</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@300;400;500&display=swap"
+        rel="stylesheet">
+
+    <style>
+        .qa-hero {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.95), rgba(118, 75, 162, 0.95));
+            padding: 120px 0 60px;
+            text-align: center;
+            color: white;
+        }
+
+        .questions-list {
+            margin-top: 30px;
+        }
+
+        .question-card {
+            background: var(--glass-bg, rgba(255, 255, 255, 0.9));
+            border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.2));
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .question-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+        }
+
+        .question-stats {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9rem;
+            color: var(--gray-color);
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .upvote-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--gray-color);
+            transition: all 0.3s ease;
+        }
+
+        .upvote-btn:hover,
+        .upvote-btn.active {
+            color: var(--primary-color);
+        }
+
+        .upvote-btn i {
+            font-size: 1.2rem;
+        }
+
+        .answer-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .answer-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .expert-badge {
+            background: var(--healing-color);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .accepted-answer {
+            border-left-color: var(--healing-color);
+            background: rgba(52, 211, 153, 0.05);
+        }
+
+        .ask-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 15px 30px;
+            border-radius: 30px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ask-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .status-answered {
+            background: var(--healing-color);
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <h1><span class="still">STILL</span> <span class="standing">STANDING</span></h1>
+                <p class="tagline">Together in Resilience</p>
+            </a>
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="community.html"><i class="fas fa-book-open"></i> Stories</a></li>
+                <li><a href="groups.html"><i class="fas fa-users"></i> Groups</a></li>
+                <li><a href="qa.html" class="active"><i class="fas fa-question-circle"></i> Q&A</a></li>
+                <li><a href="booking-portal.html"><i class="fas fa-calendar"></i> Book Session</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="qa-hero">
+        <div class="container">
+            <h1><i class="fas fa-question-circle"></i> Ask & Answer</h1>
+            <p>Get support from the community. Ask questions anonymously and receive helpful answers.</p>
+        </div>
+    </section>
+
+    <!-- Questions Section -->
+    <section style="padding: 60px 0;">
+        <div class="container">
+            <!-- Filter Tabs -->
+            <div class="filter-tabs">
+                <button class="filter-tab active" onclick="filterQuestions('')">All Questions</button>
+                <button class="filter-tab" onclick="filterQuestions('pending')">Unanswered</button>
+                <button class="filter-tab" onclick="filterQuestions('answered')">Answered</button>
+            </div>
+
+            <!-- Questions List -->
+            <div id="questionsList" class="questions-list">
+                <div class="glass-panel" style="padding: 40px; text-align: center;">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary-color);"></i>
+                    <p>Loading questions...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ask Question Button -->
+    <button class="ask-btn" onclick="showAskQuestionModal()">
+        <i class="fas fa-plus"></i>
+        Ask Question
+    </button>
+
+    <script src="js/particles.js"></script>
+    <script src="js/daily-verse.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/dark-mode.js"></script>
+    <script src="js/pwa-manager.js"></script>
+    <script src="js/qa.js"></script>
+</body>
+
+</html>

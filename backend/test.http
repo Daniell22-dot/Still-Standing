@@ -1,0 +1,71 @@
+### Health Check
+GET http://localhost:5000/health
+
+### Register User
+POST http://localhost:5000/api/auth/register
+Content-Type: application/json
+
+{
+    "email": "test@example.com",
+    "password": "Test123!",
+    "name": "Test User",
+    "phone": "+254712345678"
+}
+
+### Login
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "test@example.com",
+    "password": "Test123!"
+}
+
+### Get User Profile
+GET http://localhost:5000/api/auth/me
+Authorization: Bearer YOUR_TOKEN_HERE
+
+### Create Booking
+POST http://localhost:5000/api/bookings
+Authorization: Bearer YOUR_TOKEN_HERE
+Content-Type: application/json
+
+{
+    "booking_date": "2024-02-20",
+    "booking_time": "14:00:00",
+    "session_type": "peer-support",
+    "notes": "Test booking"
+}
+
+### Get My Bookings
+GET http://localhost:5000/api/bookings/my-bookings
+Authorization: Bearer YOUR_TOKEN_HERE
+
+### Create Story
+POST http://localhost:5000/api/stories
+Authorization: Bearer YOUR_TOKEN_HERE
+Content-Type: application/json
+
+{
+    "title": "My Recovery Journey",
+    "content": "This is my story of recovery and hope...",
+    "category": "recovery",
+    "is_anonymous": false,
+    "allow_comments": true
+}
+
+### Get Stories
+GET http://localhost:5000/api/stories?category=recovery&page=1&limit=10
+
+### Update Progress
+POST http://localhost:5000/api/progress
+Authorization: Bearer YOUR_TOKEN_HERE
+Content-Type: application/json
+
+{
+    "date": "2024-02-19",
+    "mood": "good",
+    "recovery_day": true,
+    "journal_entry": "Had a good day today",
+    "self_care_score": 85
+}

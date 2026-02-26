@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Become a Volunteer - STILL STANDING</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@300;400;500&display=swap"
+        rel="stylesheet">
+
+    <style>
+        .volunteer-hero {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.95), rgba(118, 75, 162, 0.95));
+            padding: 120px 0 80px;
+            text-align: center;
+            color: white;
+        }
+
+        .volunteer-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .volunteer-hero p {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .impact-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin: 60px 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--healing-color);
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: var(--dark-color);
+        }
+
+        .why-volunteer {
+            padding: 80px 0;
+            background: linear-gradient(to bottom, #f8f9fa, white);
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .benefit-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .benefit-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--secondary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .application-section {
+            padding: 80px 0;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .form-section {
+            margin-bottom: 40px;
+        }
+
+        .form-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+
+        .volunteer-roles {
+            display: grid;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .role-checkbox {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .role-checkbox:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .role-checkbox input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 2px;
+        }
+
+        .role-info h4 {
+            margin: 0 0 5px 0;
+            color: var(--dark-color);
+        }
+
+        .role-info p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--gray-color);
+        }
+
+        .availability-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+        }
+
+        .time-slot {
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .time-slot input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+        .time-slot:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Canvas for particles -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <h1><span class="still">STILL</span> <span class="standing">STANDING</span></h1>
+                <p class="tagline">Together in Resilience</p>
+            </a>
+
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="about.html"><i class="fas fa-heart"></i> Our Story</a></li>
+                <li><a href="volunteers.html" class="active"><i class="fas fa-hands-helping"></i> Volunteer</a></li>
+                <li><a href="contact.html" class="contact-btn"><i class="fas fa-phone-alt"></i> Get Help</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="volunteer-hero">
+        <div class="container">
+            <h1><i class="fas fa-heart"></i> Become a Volunteer</h1>
+            <p>Join our community of compassionate individuals dedicated to supporting those in crisis. Your time and
+                skills can make a life-changing difference.</p>
+
+            <div class="impact-stats">
+                <div class="stat-card glass-panel">
+                    <div class="stat-number">250+</div>
+                    <div class="stat-label">Active Volunteers</div>
+                </div>
+                <div class="stat-card glass-panel">
+                    <div class="stat-number">5,000+</div>
+                    <div class="stat-label">Lives Touched</div>
+                </div>
+                <div class="stat-card glass-panel">
+                    <div class="stat-number">12,000+</div>
+                    <div class="stat-label">Volunteer Hours</div>
+                </div>
+                <div class="stat-card glass-panel">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">Satisfaction Rate</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Volunteer Section -->
+    <section class="why-volunteer">
+        <div class="container">
+            <h2 class="section-title" style="text-align: center; margin-bottom: 20px;">Why Volunteer With Us?</h2>
+            <p style="text-align: center; max-width: 700px; margin: 0 auto 40px; color: var(--gray-color);">
+                Every contribution matters. Whether you have professional expertise or simply a caring heart, you can
+                help save lives and restore hope.
+            </p>
+
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-hand-holding-heart"></i>
+                    </div>
+                    <h3>Make Real Impact</h3>
+                    <p>Directly support individuals through their darkest moments and witness their transformation.</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Join a Community</h3>
+                    <p>Connect with like-minded individuals who share your passion for mental health advocacy.</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Develop Skills</h3>
+                    <p>Receive training in crisis intervention, active listening, and compassionate communication.</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Flexible Schedule</h3>
+                    <p>Choose volunteer opportunities that fit your availability and lifestyle.</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h3>Recognition & Growth</h3>
+                    <p>Gain valuable experience and certificates for your contributions.</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Support & Safety</h3>
+                    <p>Access ongoing supervision, debriefing sessions, and mental health support.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Application Form -->
+    <section class="application-section">
+        <div class="container" style="max-width: 900px;">
+            <div class="glass-panel" style="padding: 40px;">
+                <h2 style="text-align: center; margin-bottom: 10px;">Volunteer Application</h2>
+                <p style="text-align: center; color: var(--gray-color); margin-bottom: 40px;">
+                    Fill out the form below to join our volunteer team. We'll review your application and get back to
+                    you within 3-5 business days.
+                </p>
+
+                <form id="volunteerForm">
+                    <!-- Personal Information -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-user"></i> Personal Information</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="fullName">Full Name *</label>
+                                <input type="text" id="fullName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Address *</label>
+                                <input type="email" id="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number *</label>
+                                <input type="tel" id="phone" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="age">Age</label>
+                                <input type="number" id="age" min="18" max="100">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="location">Location (City/Town) *</label>
+                            <input type="text" id="location" required>
+                        </div>
+                    </div>
+
+                    <!-- Volunteer Roles -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-tasks"></i> Areas of Interest</h3>
+                        <p style="margin-bottom: 15px; color: var(--gray-color);">Select the volunteer roles you're
+                            interested in (select all that apply):</p>
+
+                        <div class="volunteer-roles">
+                            <label class="role-checkbox">
+                                <input type="checkbox" name="roles" value="peer_support">
+                                <div class="role-info">
+                                    <h4>Peer Support Counselor</h4>
+                                    <p>Provide emotional support and active listening to those in crisis</p>
+                                </div>
+                            </label>
+
+                            <label class="role-checkbox">
+                                <input type="checkbox" name="roles" value="crisis_chat">
+                                <div class="role-info">
+                                    <h4>Crisis Chat Responder</h4>
+                                    <p>Respond to online chat requests and provide immediate support</p>
+                                </div>
+                            </label>
+
+                            <label class="role-checkbox">
+                                <input type="checkbox" name="roles" value="content_moderator">
+                                <div class="role-info">
+                                    <h4>Story Moderator</h4>
+                                    <p>Review and moderate user-submitted stories with compassion</p>
+                                </div>
+                            </label>
+
+                            <label class="role-checkbox">
+                                <input type="checkbox" name="roles" value="facilitator">
+                                <div class="role-info">
+                                    <h4>Support Group Facilitator</h4>
+                                    <p>Lead virtual or in-person support group sessions</p>
+                                </div>
+                            </label>
+
+                            <label class="role-checkbox">
+                                <input type="checkbox" name="roles" value="technical">
+                                <div class="role-info">
+                                    <h4>Technical Support</h4>
+                                    <p>Help maintain and improve our platform (web dev, design, etc.)</p>
+                                </div>
+                            </label>
+
+                            <label class="role-checkbox">
+                                <input type="checkbox" name="roles" value="content_creator">
+                                <div class="role-info">
+                                    <h4>Content Creator</h4>
+                                    <p>Develop mental health resources, articles, and educational materials</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Experience & Background -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-briefcase"></i> Experience & Background</h3>
+                        <div class="form-group">
+                            <label for="experience">Relevant Experience or Qualifications</label>
+                            <textarea id="experience" rows="4"
+                                placeholder="Tell us about any relevant education, certifications, or experience in mental health, counseling, or support work..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="motivation">Why do you want to volunteer with STILL STANDING? *</label>
+                            <textarea id="motivation" rows="4" required
+                                placeholder="Share your motivation and what you hope to contribute..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="skills">Special Skills or Languages</label>
+                            <input type="text" id="skills"
+                                placeholder="e.g., Swahili, Sign Language, Web Development, Graphic Design">
+                        </div>
+                    </div>
+
+                    <!-- Availability -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-calendar-alt"></i> Availability</h3>
+                        <div class="form-group">
+                            <label>How many hours per week can you commit? *</label>
+                            <select id="hoursPerWeek" required>
+                                <option value="">Select...</option>
+                                <option value="1-5">1-5 hours</option>
+                                <option value="6-10">6-10 hours</option>
+                                <option value="11-15">11-15 hours</option>
+                                <option value="16-20">16-20 hours</option>
+                                <option value="20+">20+ hours</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Preferred Days (select all that apply):</label>
+                            <div class="availability-grid">
+                                <label class="time-slot">
+                                    <input type="checkbox" name="days" value="monday"> Monday
+                                </label>
+                                <label class="time-slot">
+                                    <input type="checkbox" name="days" value="tuesday"> Tuesday
+                                </label>
+                                <label class="time-slot">
+                                    <input type="checkbox" name="days" value="wednesday"> Wednesday
+                                </label>
+                                <label class="time-slot">
+                                    <input type="checkbox" name="days" value="thursday"> Thursday
+                                </label>
+                                <label class="time-slot">
+                                    <input type="checkbox" name="days" value="friday"> Friday
+                                </label>
+                                <label class="time-slot">
+                                    <input type="checkbox" name="days" value="saturday"> Saturday
+                                </label>
+                                <label class="time-slot">
+                                    <input type="checkbox" name="days" value="sunday"> Sunday
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- References -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-address-book"></i> References</h3>
+                        <p style="margin-bottom: 20px; color: var(--gray-color);">Please provide two references
+                            (previous employer, teacher, or community leader):</p>
+
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="margin-bottom: 15px;">Reference 1</h4>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="ref1Name">Name</label>
+                                    <input type="text" id="ref1Name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="ref1Relation">Relationship</label>
+                                    <input type="text" id="ref1Relation" placeholder="e.g., Former Supervisor">
+                                </div>
+                                <div class="form-group">
+                                    <label for="ref1Phone">Phone</label>
+                                    <input type="tel" id="ref1Phone">
+                                </div>
+                                <div class="form-group">
+                                    <label for="ref1Email">Email</label>
+                                    <input type="email" id="ref1Email">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 style="margin-bottom: 15px;">Reference 2</h4>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="ref2Name">Name</label>
+                                    <input type="text" id="ref2Name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="ref2Relation">Relationship</label>
+                                    <input type="text" id="ref2Relation" placeholder="e.g., Teacher">
+                                </div>
+                                <div class="form-group">
+                                    <label for="ref2Phone">Phone</label>
+                                    <input type="tel" id="ref2Phone">
+                                </div>
+                                <div class="form-group">
+                                    <label for="ref2Email">Email</label>
+                                    <input type="email" id="ref2Email">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Agreements -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-check-circle"></i> Agreements</h3>
+                        <div style="display: grid; gap: 15px;">
+                            <label style="display: flex; gap: 10px; align-items: flex-start; cursor: pointer;">
+                                <input type="checkbox" id="backgroundCheck" required
+                                    style="margin-top: 4px; width: 18px; height: 18px;">
+                                <span>I consent to a background check as part of the screening process *</span>
+                            </label>
+                            <label style="display: flex; gap: 10px; align-items: flex-start; cursor: pointer;">
+                                <input type="checkbox" id="training" required
+                                    style="margin-top: 4px; width: 18px; height: 18px;">
+                                <span>I commit to completing required volunteer training *</span>
+                            </label>
+                            <label style="display: flex; gap: 10px; align-items: flex-start; cursor: pointer;">
+                                <input type="checkbox" id="confidentiality" required
+                                    style="margin-top: 4px; width: 18px; height: 18px;">
+                                <span>I understand and agree to maintain strict confidentiality *</span>
+                            </label>
+                            <label style="display: flex; gap: 10px; align-items: flex-start; cursor: pointer;">
+                                <input type="checkbox" id="acknowledge" required
+                                    style="margin-top: 4px; width: 18px; height: 18px;">
+                                <span>I acknowledge that crisis support work can be emotionally challenging and will
+                                    utilize supervision and self-care resources *</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div style="text-align: center; margin-top: 40px;">
+                        <button type="submit" class="btn-primary" style="padding: 15px 50px; font-size: 1.1rem;">
+                            <i class="fas fa-paper-plane"></i> Submit Application
+                        </button>
+                        <p style="margin-top: 15px; color: var(--gray-color); font-size: 0.9rem;">
+                            By submitting this form, you agree to our
+                            <a href="terms-and-conditions.html" target="_blank"
+                                style="color: var(--primary-color);">Terms and Conditions</a> and
+                            <a href="privacy-policy.html" target="_blank" style="color: var(--primary-color);">Privacy
+                                Policy</a>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-bottom">
+                <p>&copy; <span id="currentYear"></span> STILL STANDING. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/particles.js"></script>
+    <script src="js/daily-verse.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Handle form submission
+        document.getElementById('volunteerForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            // Collect form data
+            const formData = {
+                fullName: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                age: document.getElementById('age').value,
+                location: document.getElementById('location').value,
+                roles: Array.from(document.querySelectorAll('input[name="roles"]:checked')).map(cb => cb.value),
+                experience: document.getElementById('experience').value,
+                motivation: document.getElementById('motivation').value,
+                skills: document.getElementById('skills').value,
+                hoursPerWeek: document.getElementById('hoursPerWeek').value,
+                availableDays: Array.from(document.querySelectorAll('input[name="days"]:checked')).map(cb => cb.value),
+                references: {
+                    ref1: {
+                        name: document.getElementById('ref1Name').value,
+                        relation: document.getElementById('ref1Relation').value,
+                        phone: document.getElementById('ref1Phone').value,
+                        email: document.getElementById('ref1Email').value
+                    },
+                    ref2: {
+                        name: document.getElementById('ref2Name').value,
+                        relation: document.getElementById('ref2Relation').value,
+                        phone: document.getElementById('ref2Phone').value,
+                        email: document.getElementById('ref2Email').value
+                    }
+                }
+            };
+
+            // Validate at least one role is selected
+            if (formData.roles.length === 0) {
+                alert('Please select at least one area of interest');
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:5000/api/volunteers/apply', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    alert('✅ Thank you for your application! We will review it and contact you within 3-5 business days.');
+                    this.reset();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                    alert('❌ ' + (data.error || 'Failed to submit application. Please try again.'));
+                }
+            } catch (error) {
+                console.error('Submission error:', error);
+                alert('❌ Error submitting application. Please make sure the backend server is running.');
+            }
+        });
+    </script>
+</body>
+
+</html>

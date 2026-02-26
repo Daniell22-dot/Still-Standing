@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STILL STANDING | Admin Dashboard</title>
+
+    <!-- CSS - Reusing main styles for consistency -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* Admin Specific Overrides */
+        body {
+            /* Ensure background matches main site */
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background-attachment: fixed;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .admin-layout {
+            display: flex;
+            width: 100%;
+        }
+
+        /* Sidebar Styling */
+        .admin-sidebar {
+            width: 280px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            overflow-y: auto;
+            z-index: 1000;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .admin-sidebar .logo {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .admin-nav {
+            flex: 1;
+        }
+
+        .admin-nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .admin-nav li {
+            margin-bottom: 10px;
+        }
+
+        .admin-nav a {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border-radius: 10px;
+            color: var(--dark-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .admin-nav a:hover,
+        .admin-nav a.active {
+            background: rgba(52, 152, 219, 0.1);
+            color: var(--secondary-color);
+            transform: translateX(5px);
+        }
+
+        .admin-nav a i {
+            width: 25px;
+            margin-right: 10px;
+        }
+
+        /* Main Content Styling */
+        .admin-main {
+            margin-left: 280px;
+            /* Match sidebar width */
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .admin-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .admin-stat-card {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .stat-icon-wrapper {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .bg-blue {
+            background: var(--secondary-color);
+        }
+
+        .bg-green {
+            background: var(--healing-color);
+        }
+
+        .bg-red {
+            background: var(--accent-color);
+        }
+
+        .bg-purple {
+            background: #9b59b6;
+        }
+
+        .stat-info h3 {
+            font-size: 2rem;
+            margin: 0;
+            color: var(--dark-color);
+        }
+
+        .stat-info p {
+            margin: 0;
+            color: var(--gray-color);
+            font-size: 0.9rem;
+        }
+
+        /* Review Section */
+        .review-section h2 {
+            margin-bottom: 20px;
+        }
+
+        .story-review-card {
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .story-review-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: white;
+            font-weight: 600;
+        }
+
+        .badge-info {
+            background: var(--secondary-color);
+        }
+
+        .badge-success {
+            background: var(--healing-color);
+        }
+
+        .badge-warning {
+            background: #f39c12;
+        }
+
+        .badge-primary {
+            background: #9b59b6;
+        }
+
+        .notification-header {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @media (max-width: 900px) {
+            .admin-sidebar {
+                width: 70px;
+                padding: 10px;
+            }
+
+            .admin-sidebar .logo h1,
+            .admin-sidebar .logo p,
+            .link-text {
+                display: none;
+            }
+
+            .admin-nav a {
+                justify-content: center;
+            }
+
+            .admin-nav a i {
+                margin: 0;
+            }
+
+            .admin-main {
+                margin-left: 70px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Layout Wrapper -->
+    <div class="admin-layout">
+
+        <!-- Sidebar -->
+        <aside class="admin-sidebar glass-panel">
+            <div class="logo">
+                <h1><span class="still">S</span><span class="standing">S</span></h1>
+                <p style="font-size: 0.7rem; color: #666;">ADMIN</p>
+            </div>
+
+            <nav class="admin-nav">
+                <ul>
+                    <li><a href="#" class="nav-link active" data-view="dashboard"><i class="fas fa-tachometer-alt"></i>
+                            <span class="link-text">Dashboard</span></a></li>
+                    <li><a href="#" class="nav-link" data-view="users"><i class="fas fa-users"></i> <span
+                                class="link-text">Users</span></a></li>
+                    <li><a href="#" class="nav-link" data-view="stories"><i class="fas fa-book"></i> <span
+                                class="link-text">Stories</span></a></li>
+                    <li><a href="#" class="nav-link" data-view="bookings"><i class="fas fa-calendar-check"></i> <span
+                                class="link-text">Bookings</span></a>
+                    </li>
+                    <li><a href="#" class="nav-link" data-view="resources"><i class="fas fa-toolbox"></i> <span
+                                class="link-text">Resources</span></a></li>
+                    <li><a href="#" class="nav-link" data-view="volunteers"><i class="fas fa-hands-helping"></i> <span
+                                class="link-text">Volunteers</span></a></li>
+                    <li><a href="#" class="nav-link" data-view="settings"><i class="fas fa-cog"></i> <span
+                                class="link-text">Settings</span></a></li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="index.html" class="btn-outline"
+                    style="width: 100%; justify-content: center; display: flex; text-align: center;">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Header -->
+            <header class="admin-header">
+                <div>
+                    <h2>Welcome back, Admin</h2>
+                    <p class="text-muted">Here's what's happening in your community today.</p>
+                </div>
+                <div class="header-actions" style="display: flex; gap: 15px; align-items: center;">
+                    <div class="notification-header">
+                        <i class="fas fa-bell" style="font-size: 1.2rem; color: var(--gray-color);"></i>
+                        <span class="notification-badge">3</span>
+                    </div>
+                    <div class="admin-profile glass-panel"
+                        style="padding: 5px 15px; display: flex; align-items: center; gap: 10px;">
+                        <div class="avatar"
+                            style="width: 35px; height: 35px; background: var(--primary-color); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            A</div>
+                        <span>Admin User</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Stats Grid -->
+            <div class="admin-stats-grid">
+                <div class="admin-stat-card glass-panel">
+                    <div class="stat-info">
+                        <h3>1,245</h3>
+                        <p>Total Users</p>
+                    </div>
+                    <div class="stat-icon-wrapper bg-blue">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+
+                <div class="admin-stat-card glass-panel">
+                    <div class="stat-info">
+                        <h3 id="totalStories">42</h3>
+                        <p>Total Stories</p>
+                    </div>
+                    <div class="stat-icon-wrapper bg-green">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                </div>
+
+                <div class="admin-stat-card glass-panel">
+                    <div class="stat-info">
+                        <h3 id="pendingStories" style="color: var(--accent-color);">4</h3>
+                        <p>Pending Review</p>
+                    </div>
+                    <div class="stat-icon-wrapper bg-red">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                </div>
+
+                <div class="admin-stat-card glass-panel">
+                    <div class="stat-info">
+                        <h3>18</h3>
+                        <p>Sessions Today</p>
+                    </div>
+                    <div class="stat-icon-wrapper bg-purple">
+                        <i class="fas fa-calendar-day"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Multi-View Content Container -->
+            <div id="viewContainer">
+                <!-- Dashboard View -->
+                <div class="admin-view active" id="dashboardView">
+                    <div class="content-grid" style="display: grid; grid-template-columns: 2fr 1fr; gap: 30px;">
+                        <section class="review-section">
+                            <div class="glass-panel" style="padding: 20px;">
+                                <h2>Recent Activity</h2>
+                                <div id="recentActivity" style="margin-top: 20px;">
+                                    <p class="text-muted">Loading recent activity...</p>
+                                </div>
+                            </div>
+                        </section>
+
+                        <aside class="admin-widgets">
+                            <div class="glass-panel" style="padding: 20px; margin-bottom: 20px;">
+                                <h3>Quick Actions</h3>
+                                <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+                                    <button class="btn-primary" style="text-align: left;"><i
+                                            class="fas fa-plus-circle"></i> Add Resource</button>
+                                    <button class="btn-outline" style="text-align: left;"><i
+                                            class="fas fa-bullhorn"></i> Create Announcement</button>
+                                    <button class="btn-outline" style="text-align: left;"><i
+                                            class="fas fa-user-plus"></i> Invite Moderator</button>
+                                </div>
+                            </div>
+
+                            <div class="glass-panel" style="padding: 20px;">
+                                <h3>System Status</h3>
+                                <ul style="list-style: none; padding: 0; margin-top: 10px;">
+                                    <li
+                                        style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.05);">
+                                        <span>Database</span>
+                                        <span style="color: var(--healing-color);"><i class="fas fa-check-circle"></i>
+                                            Online</span>
+                                    </li>
+                                    <li
+                                        style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.05);">
+                                        <span>API Server</span>
+                                        <span style="color: var(--healing-color);"><i class="fas fa-check-circle"></i>
+                                            Online</span>
+                                    </li>
+                                    <li style="display: flex; justify-content: space-between; padding: 8px 0;">
+                                        <span>Email Service</span>
+                                        <span style="color: var(--healing-color);"><i class="fas fa-check-circle"></i>
+                                            Active</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+
+                <!-- Users View -->
+                <div class="admin-view" id="usersView" style="display: none;">
+                    <div class="glass-panel" style="padding: 20px;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                            <h2>User Management</h2>
+                            <button class="btn-outline" onclick="window.adminApp.loadUsers()"><i
+                                    class="fas fa-sync"></i> Refresh</button>
+                        </div>
+                        <div id="usersList">
+                            <p class="text-muted">Loading users...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stories View -->
+                <div class="admin-view" id="storiesView" style="display: none;">
+                    <div class="glass-panel" style="padding: 20px;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                            <h2>Pending Stories</h2>
+                            <button class="btn-outline" onclick="loadPendingStories()"><i class="fas fa-sync"></i>
+                                Refresh</button>
+                        </div>
+                        <div id="pendingStoriesList">
+                            <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Loading...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bookings View -->
+                <div class="admin-view" id="bookingsView" style="display: none;">
+                    <div class="glass-panel" style="padding: 20px;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                            <h2>Booking Management</h2>
+                            <button class="btn-outline" onclick="window.adminApp.loadBookings()"><i
+                                    class="fas fa-sync"></i> Refresh</button>
+                        </div>
+                        <div id="bookingsList">
+                            <p class="text-muted">Loading bookings...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resources View -->
+                <div class="admin-view" id="resourcesView" style="display: none;">
+                    <div class="glass-panel" style="padding: 20px; margin-bottom: 20px;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                            <h2>Resource Management</h2>
+                            <button class="btn-primary" onclick="window.adminApp.showAddResourceModal()"><i
+                                    class="fas fa-plus"></i> Add Resource</button>
+                        </div>
+
+                        <div id="resourcesList">
+                            <p class="text-muted">Loading resources...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Volunteers View -->
+                <div class="admin-view" id="volunteersView" style="display: none;">
+                    <div class="glass-panel" style="padding: 20px; margin-bottom: 20px;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                            <h2><i class="fas fa-hands-helping"></i> Volunteer Applications</h2>
+                            <div style="display: flex; gap: 10px;">
+                                <select id="volunteerFilter"
+                                    style="padding: 8px 15px; border-radius: 5px; border: 1px solid #ddd;">
+                                    <option value="">All Applications</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="approved">Approved</option>
+                                    <option value="training">In Training</option>
+                                    <option value="rejected">Rejected</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="volunteersTableContainer">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Roles</th>
+                                        <th>Hours/Week</th>
+                                        <th>Status</th>
+                                        <th>Applied</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="volunteersTableBody">
+                                    <tr>
+                                        <td colspan="7" class="text-center">Loading volunteers...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings View -->
+                <div class="admin-view" id="settingsView" style="display: none;">
+                    <div class="glass-panel" style="padding: 20px; margin-bottom: 20px;">
+                        <h2>System Settings</h2>
+
+                        <div style="margin-top: 30px;">
+                            <h3 style="margin-bottom: 20px; color: var(--primary-color);">
+                                <i class="fas fa-cog"></i> General Configuration
+                            </h3>
+
+                            <div style="display: grid; gap: 25px;">
+                                <!-- Site Settings -->
+                                <div class="glass-panel" style="padding: 20px;">
+                                    <h4 style="margin: 0 0 15px 0;">Site Information</h4>
+                                    <div style="display: grid; gap: 15px;">
+                                        <div>
+                                            <label style="display: block; margin-bottom: 5px; font-weight: 500;">Site
+                                                Name</label>
+                                            <input type="text" value="STILL STANDING" id="siteName"
+                                                style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+                                        </div>
+                                        <div>
+                                            <label style="display: block; margin-bottom: 5px; font-weight: 500;">Crisis
+                                                Hotline</label>
+                                            <input type="tel" value="+254 112 219135" id="crisisHotline"
+                                                style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+                                        </div>
+                                        <div>
+                                            <label style="display: block; margin-bottom: 5px; font-weight: 500;">Support
+                                                Email</label>
+                                            <input type="email" value="support@stillstanding.com" id="supportEmail"
+                                                style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Story Moderation Settings -->
+                                <div class="glass-panel" style="padding: 20px;">
+                                    <h4 style="margin: 0 0 15px 0;">Story Moderation</h4>
+                                    <div style="display: grid; gap: 15px;">
+                                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                            <input type="checkbox" id="autoApproveStories"
+                                                style="width: 18px; height: 18px;">
+                                            <span>Auto-approve stories from verified users</span>
+                                        </label>
+                                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                            <input type="checkbox" id="allowAnonymous" checked
+                                                style="width: 18px; height: 18px;">
+                                            <span>Allow anonymous story submissions</span>
+                                        </label>
+                                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                            <input type="checkbox" id="allowComments" checked
+                                                style="width: 18px; height: 18px;">
+                                            <span>Enable comments on stories</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Booking Settings -->
+                                <div class="glass-panel" style="padding: 20px;">
+                                    <h4 style="margin: 0 0 15px 0;">Booking Configuration</h4>
+                                    <div style="display: grid; gap: 15px;">
+                                        <div>
+                                            <label style="display: block; margin-bottom: 5px; font-weight: 500;">Booking
+                                                Window (days in advance)</label>
+                                            <input type="number" value="30" id="bookingWindow" min="1" max="90"
+                                                style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+                                        </div>
+                                        <div>
+                                            <label style="display: block; margin-bottom: 5px; font-weight: 500;">Session
+                                                Duration (minutes)</label>
+                                            <input type="number" value="60" id="sessionDuration" min="30" max="120"
+                                                step="15"
+                                                style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+                                        </div>
+                                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                            <input type="checkbox" id="sendReminders" checked
+                                                style="width: 18px; height: 18px;">
+                                            <span>Send email reminders 24 hours before sessions</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- User Management -->
+                                <div class="glass-panel" style="padding: 20px;">
+                                    <h4 style="margin: 0 0 15px 0;">User Management</h4>
+                                    <div style="display: grid; gap: 15px;">
+                                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                            <input type="checkbox" id="requireEmailVerification"
+                                                style="width: 18px; height: 18px;">
+                                            <span>Require email verification for new accounts</span>
+                                        </label>
+                                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                            <input type="checkbox" id="allowSelfDeactivation" checked
+                                                style="width: 18px; height: 18px;">
+                                            <span>Allow users to deactivate their own accounts</span>
+                                        </label>
+                                        <div>
+                                            <label
+                                                style="display: block; margin-bottom: 5px; font-weight: 500;">Password
+                                                Minimum Length</label>
+                                            <input type="number" value="8" id="minPasswordLength" min="6" max="20"
+                                                style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px;">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- System Info -->
+                                <div class="glass-panel" style="padding: 20px; background: rgba(102, 126, 234, 0.05);">
+                                    <h4 style="margin: 0 0 15px 0;">System Information</h4>
+                                    <div style="display: grid; gap: 10px; font-size: 0.9rem;">
+                                        <div style="display: flex; justify-content: space-between;">
+                                            <span>Platform Version:</span>
+                                            <strong>1.0.0</strong>
+                                        </div>
+                                        <div style="display: flex; justify-content: space-between;">
+                                            <span>Database Status:</span>
+                                            <strong style="color: var(--healing-color);">Connected</strong>
+                                        </div>
+                                        <div style="display: flex; justify-content: space-between;">
+                                            <span>Last Updated:</span>
+                                            <strong>Feb 10, 2026</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="margin-top: 30px; text-align: center;">
+                                <button class="btn-primary" onclick="window.adminApp.saveSettings()"
+                                    style="margin-right: 10px;">
+                                    <i class="fas fa-save"></i> Save Settings
+                                </button>
+                                <button class="btn-outline" onclick="window.adminApp.loadSettings()">
+                                    <i class="fas fa-undo"></i> Reset to Defaults
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/api-config.js"></script>
+    <script src="js/admin-dashboard.js"></script>
+    <script src="js/admin-volunteers.js"></script>
+    <script src="js/particles.js"></script> <!-- Add Particles -->
+
+    <script>
+        // Init particles if not running
+        document.addEventListener('DOMContentLoaded', () => {
+            // Admin specific init if needed
+        });
+    </script>
+</body>
+
+</html>

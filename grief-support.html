@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grief & Loss Support - STILL STANDING</title>
+    <meta name="description"
+        content="Support for those navigating grief after losing loved ones. You are not alone in your journey.">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <!-- Icons & Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@300;400;500&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p>Loading Support Resources...</p>
+        </div>
+    </div>
+
+    <!-- Navigation (Same as index.html) -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <h1><span class="still">STILL</span> <span class="standing">STANDING</span></h1>
+                <p class="tagline">Together in Resilience</p>
+            </a>
+
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="about.html"><i class="fas fa-heart"></i> Our Story</a></li>
+                <li class="dropdown">
+                    <a href="grief-support.html" class="active"><i class="fas fa-hands-helping"></i> Support <i
+                            class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="grief-support.html" class="active">Grief & Loss</a></li>
+                        <li><a href="addiction-recovery.html">Addiction Recovery</a></li>
+                        <li><a href="mental-health.html">Mental Health</a></li>
+                        <li><a href="gbv-support.html">GBV Support</a></li>
+                        <li><a href="child-abuse-support.html">Child Abuse Support</a></li>
+                    </ul>
+                </li>
+                <li><a href="community.html"><i class="fas fa-users"></i> Community</a></li>
+                <li><a href="booking-portal.html"><i class="fas fa-calendar-check"></i> My Journey</a></li>
+                <li><a href="contact.html" class="contact-btn"><i class="fas fa-phone-alt"></i> Get Help</a></li>
+            </ul>
+
+            <div class="crisis-alert">
+                <a href="tel:+254112219135" class="crisis-btn">
+                    <i class="fas fa-life-ring"></i> CRISIS HELP
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header grief-header">
+        <div class="header-overlay"></div>
+        <div class="header-content">
+            <h1 class="animate-fade-in">Grief & Loss Support</h1>
+            <p class="header-subtitle animate-fade-in-delay">Honoring your pain, supporting your healing journey</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="grief-content">
+        <div class="container">
+            <!-- Understanding Grief -->
+            <section class="content-section">
+                <h2 class="section-title">Understanding Your Grief</h2>
+                <div class="content-grid">
+                    <div class="content-card scroll-animate">
+                        <div class="card-icon">
+                            <i class="fas fa-heart-broken"></i>
+                        </div>
+                        <h3>Grief is Not Linear</h3>
+                        <p>There's no "right way" to grieve. Your journey may include anger, denial, bargaining,
+                            depression, and acceptance—often in no particular order.</p>
+                    </div>
+
+                    <div class="content-card scroll-animate">
+                        <div class="card-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3>There's No Timeline</h3>
+                        <p>Grief doesn't follow a schedule. Whether it's been weeks or years since your loss, your
+                            feelings are valid.</p>
+                    </div>
+
+                    <div class="content-card scroll-animate">
+                        <div class="card-icon">
+                            <i class="fas fa-hands"></i>
+                        </div>
+                        <h3>You're Not Alone</h3>
+                        <p>Many have walked this path before. Sharing your story can help lighten the burden.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Specific Loss Types -->
+            <section class="content-section loss-types">
+                <h2 class="section-title">Support for Specific Losses</h2>
+
+                <div class="loss-category">
+                    <div class="loss-header" id="lossParent">
+                        <h3><i class="fas fa-user-friends"></i> Losing a Parent or Grandparent</h3>
+                        <button class="collapse-toggle">+</button>
+                    </div>
+                    <div class="loss-content">
+                        <p>Losing a parent or grandparent often feels like losing your foundation. These relationships
+                            shape who we are.</p>
+                        <div class="coping-strategies">
+                            <h4>Coping Strategies:</h4>
+                            <ul>
+                                <li>Create a memory book or box with photos and mementos</li>
+                                <li>Continue their traditions or start new ones in their honor</li>
+                                <li>Write letters to them expressing what you wish you could say</li>
+                                <li>Talk about them with family members who share your loss</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="loss-category">
+                    <div class="loss-header" id="lossChild">
+                        <h3><i class="fas fa-child"></i> Losing a Child</h3>
+                        <button class="collapse-toggle">+</button>
+                    </div>
+                    <div class="loss-content">
+                        <p>No parent should have to bury their child. This is perhaps the most profound loss one can
+                            experience.</p>
+                        <div class="support-groups">
+                            <h4><i class="fas fa-users"></i> Parent Support Groups:</h4>
+                            <p>We offer confidential support groups specifically for bereaved parents. These groups
+                                provide a safe space to share your pain with others who truly understand.</p>
+                            <a href="booking-portal.html" class="btn-primary">Join a Support Group</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="loss-category">
+                    <div class="loss-header" id="lossPartner">
+                        <h3><i class="fas fa-heart"></i> Losing a Partner or Spouse</h3>
+                        <button class="collapse-toggle">+</button>
+                    </div>
+                    <div class="loss-content">
+                        <p>The loss of a life partner affects every aspect of daily life and future plans.</p>
+                        <!-- Content... -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Daily Coping Tools -->
+            <section class="content-section coping-tools">
+                <h2 class="section-title">Daily Coping Tools</h2>
+
+                <div class="tool-cards">
+                    <div class="tool-card">
+                        <div class="tool-number">01</div>
+                        <h3>Breathing Exercises</h3>
+                        <p>When grief feels overwhelming, focus on your breath. Try the 4-7-8 technique: Inhale for 4
+                            seconds, hold for 7, exhale for 8.</p>
+                        <button class="tool-try-btn">Try This Now</button>
+                    </div>
+
+                    <div class="tool-card">
+                        <div class="tool-number">02</div>
+                        <h3>Grief Journaling</h3>
+                        <p>Write letters to your loved one, record memories, or simply express your feelings. No one
+                            else needs to read it.</p>
+                        <a href="assets/downloads/My_Grief_Journal.txt" download="My_Grief_Journal.txt"
+                            class="tool-try-btn">Download Journal Template</a>
+                    </div>
+
+                    <div class="tool-card">
+                        <div class="tool-number">03</div>
+                        <h3>Memory Rituals</h3>
+                        <p>Light a candle on special dates, visit meaningful places, or cook their favorite meal. These
+                            rituals keep their memory alive.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Memory Wall -->
+            <section class="content-section memory-wall">
+                <h2 class="section-title">Memory Wall</h2>
+                <p class="section-subtitle">Share and honor the memories of your loved ones</p>
+
+                <div class="memory-submission">
+                    <h3><i class="fas fa-feather-alt"></i> Share a Memory</h3>
+                    <form id="memoryForm" class="memory-form">
+                        <div class="form-group">
+                            <label>Loved One's Name (Optional):</label>
+                            <input type="text" placeholder="Name" id="memoryName">
+                        </div>
+                        <div class="form-group">
+                            <label>Your Memory:</label>
+                            <textarea id="memoryText"
+                                placeholder="Share a special memory, what you miss most, or a lesson they taught you..."
+                                rows="4"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Share Anonymously:</label>
+                            <input type="checkbox" id="shareAnon" checked>
+                        </div>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-dove"></i> Share Memory
+                        </button>
+                    </form>
+                </div>
+
+                <div class="memories-container" id="memoriesContainer">
+                    <!-- Memories will be loaded here -->
+                    <div class="memory-placeholder">
+                        <p>Be the first to share a memory...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- When to Seek Help -->
+            <section class="content-section help-section emergency-section">
+                <div class="emergency-alert">
+                    <div class="alert-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="alert-content">
+                        <h3>When to Seek Immediate Help</h3>
+                        <p>If you're experiencing any of the following, please reach out immediately:</p>
+                        <ul>
+                            <li>Thoughts of harming yourself or others</li>
+                            <li>Inability to perform daily tasks for an extended period</li>
+                            <li>Using alcohol or substances to cope with grief</li>
+                            <li>Feeling completely detached from reality</li>
+                        </ul>
+                        <div class="alert-buttons">
+                            <a href="tel:+254112219135" class="btn-primary emergency-call">
+                                <i class="fas fa-phone"></i> Call Now: +254 112 219 135
+                            </a>
+                            <a href="booking-portal.html" class="btn-secondary">
+                                <i class="fas fa-calendar"></i> Book Urgent Session
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer (Same as index.html) -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col about-col">
+                    <h3><span class="still">STILL</span> <span class="standing">STANDING</span></h3>
+                    <p>A sanctuary for those navigating grief, addiction recovery, and mental health challenges.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="mailto:manyasadaniel630@gmail.com"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col quick-links">
+                    <h4>Quick Help</h4>
+                    <ul>
+                        <li><a href="grief-support.html#lossChild">Parent Support</a></li>
+                        <li><a href="grief-support.html#memoryWall">Memory Wall</a></li>
+                        <li><a href="booking-portal.html">Support Groups</a></li>
+                        <li><a href="mental-health.html">Crisis Resources</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col contact-col">
+                    <h4>24/7 Support</h4>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-phone"></i> <a href="tel:+254112219135">+254 112 219 135</a></li>
+                        <li><i class="fab fa-whatsapp"></i> <a href="https://wa.me/25496874539">+254 968 74539</a></li>
+                        <li><i class="fas fa-envelope"></i> <a href="mailto:manyasadaniel630@gmail.com">Email
+                                Support</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; <span id="currentYear"></span> STILL STANDING. All rights reserved.</p>
+                <p class="disclaimer">You are not alone. We are here for you.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <script src="js/security.js"></script>
+
+    <!-- Grief Page Specific JS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Collapse/Expand for loss categories
+            document.querySelectorAll('.collapse-toggle').forEach(toggle => {
+                toggle.addEventListener('click', function () {
+                    const content = this.parentElement.nextElementSibling;
+                    content.style.display = content.style.display === 'block' ? 'none' : 'block';
+                    this.textContent = content.style.display === 'block' ? '−' : '+';
+                });
+            });
+
+            // Memory Form Submission
+            const memoryForm = document.getElementById('memoryForm');
+            if (memoryForm) {
+                memoryForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    const name = document.getElementById('memoryName').value || 'Anonymous';
+                    const memory = document.getElementById('memoryText').value;
+                    const isAnon = document.getElementById('shareAnon').checked;
+
+                    if (!memory.trim()) {
+                        alert('Please share a memory');
+                        return;
+                    }
+
+                    const memoryElement = document.createElement('div');
+                    memoryElement.className = 'memory-item';
+                    memoryElement.innerHTML = `
+                        <div class="memory-content">
+                            <div class="memory-header">
+                                <span class="memory-author">${isAnon ? 'Anonymous' : name}</span>
+                                <span class="memory-date">Just now</span>
+                            </div>
+                            <p class="memory-text">${memory}</p>
+                            <div class="memory-actions">
+                                <button class="memory-heart"><i class="far fa-heart"></i> <span>0</span></button>
+                                <button class="memory-support"><i class="fas fa-hands-helping"></i> Support</button>
+                            </div>
+                        </div>
+                    `;
+
+                    const container = document.getElementById('memoriesContainer');
+                    const placeholder = container.querySelector('.memory-placeholder');
+                    if (placeholder) placeholder.remove();
+
+                    container.insertBefore(memoryElement, container.firstChild);
+                    memoryForm.reset();
+
+                    // Add heart functionality
+                    memoryElement.querySelector('.memory-heart').addEventListener('click', function () {
+                        const heartIcon = this.querySelector('i');
+                        const countSpan = this.querySelector('span');
+                        let count = parseInt(countSpan.textContent);
+
+                        if (heartIcon.classList.contains('far')) {
+                            heartIcon.classList.replace('far', 'fas');
+                            countSpan.textContent = count + 1;
+                            this.style.color = '#e74c3c';
+                        } else {
+                            heartIcon.classList.replace('fas', 'far');
+                            countSpan.textContent = count - 1;
+                            this.style.color = '';
+                        }
+                    });
+                });
+            }
+
+            // Breathing exercise tool
+            document.querySelectorAll('.tool-try-btn').forEach(btn => {
+                if (btn.textContent.includes('Try This Now')) {
+                    btn.addEventListener('click', function () {
+                        const modal = document.createElement('div');
+                        modal.className = 'breathing-modal';
+                        modal.innerHTML = `
+                            <div class="modal-content">
+                                <h3><i class="fas fa-wind"></i> Calming Breath Exercise</h3>
+                                <div class="breathing-animation">
+                                    <div class="breathing-circle"></div>
+                                    <p class="breathing-instruction">Breathe In...</p>
+                                </div>
+                                <p>Follow the circle: Expand as you inhale, shrink as you exhale.</p>
+                                <button class="close-modal">Close</button>
+                            </div>
+                        `;
+                        document.body.appendChild(modal);
+
+                        // Start breathing animation
+                        const circle = modal.querySelector('.breathing-circle');
+                        const instruction = modal.querySelector('.breathing-instruction');
+                        let inhale = true;
+
+                        const breathCycle = setInterval(() => {
+                            if (inhale) {
+                                circle.style.transform = 'scale(1.5)';
+                                instruction.textContent = 'Breathe In...';
+                                inhale = false;
+                            } else {
+                                circle.style.transform = 'scale(1)';
+                                instruction.textContent = 'Breathe Out...';
+                                inhale = true;
+                            }
+                        }, 4000);
+
+                        // Close modal
+                        modal.querySelector('.close-modal').addEventListener('click', function () {
+                            clearInterval(breathCycle);
+                            modal.remove();
+                        });
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

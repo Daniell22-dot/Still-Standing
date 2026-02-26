@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- PWA Support -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#667eea">
+    <link rel="apple-touch-icon" href="/images/icon-192x192.png">
+
+    <title>STILL STANDING - Together in Resilience</title>
+
+    <!-- Security Meta Tags -->
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self' https://apis.google.com; style-src 'self' 'unsafe-inline';">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@300;400;500&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p>Loading Sanctuary...</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <!-- Logo -->
+            <a href="index.html" class="logo">
+                <h1><span class="still">STILL</span> <span class="standing">STANDING</span></h1>
+                <p class="tagline">Together in Resilience</p>
+            </a>
+
+            <!-- Mobile Menu Toggle -->
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <!-- Navigation Links -->
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html" class="active"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="about.html"><i class="fas fa-heart"></i> Our Story</a></li>
+                <li class="dropdown">
+                    <a href="grief-support.html"><i class="fas fa-hands-helping"></i> Support <i
+                            class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="grief-support.html">Grief & Loss</a></li>
+                        <li><a href="addiction-recovery.html">Addiction Recovery</a></li>
+                        <li><a href="mental-health.html">Mental Health</a></li>
+                        <li><a href="gbv-support.html">GBV Support</a></li>
+                        <li><a href="child-abuse-support.html">Child Abuse Support</a></li>
+                    </ul>
+                </li>
+                <li><a href="community.html"><i class="fas fa-users"></i> Community</a></li>
+                <li><a href="booking-portal.html"><i class="fas fa-calendar-check"></i> My Journey</a></li>
+                <li><a href="contact.html" class="contact-btn"><i class="fas fa-phone-alt"></i> Get Help</a></li>
+            </ul>
+
+            <!-- Crisis Button -->
+            <div class="crisis-alert">
+                <a href="tel:+254112219135" class="crisis-btn">
+                    <i class="fas fa-life-ring"></i> CRISIS HELP
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h2 class="hero-title animate-fade-in">You Are Not Alone</h2>
+            <p class="hero-subtitle animate-fade-in-delay">In grief, in struggle, in recovery - we stand together</p>
+            <div class="hero-buttons">
+                <a href="contact.html" class="btn-primary animate-slide-up">I Need Support</a>
+                <a href="community.html" class="btn-secondary animate-slide-up-delay">Share Your Story</a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- Quick Help Section -->
+    <section class="quick-help">
+        <div class="container">
+            <h2 class="section-title">Immediate Support</h2>
+            <div class="help-cards">
+                <div class="help-card emergency">
+                    <div class="help-icon">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <h3>24/7 Crisis Line</h3>
+                    <p>Call now if you're in crisis</p>
+                    <a href="tel:+254112219135" class="help-btn">+254 112 219 135</a>
+                </div>
+
+                <div class="help-card chat">
+                    <div class="help-icon">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <h3>WhatsApp Support</h3>
+                    <p>Text for confidential help</p>
+                    <a href="https://wa.me/25496874539" class="help-btn">Chat on WhatsApp</a>
+                </div>
+
+                <div class="help-card resources">
+                    <div class="help-icon">
+                        <i class="fas fa-first-aid"></i>
+                    </div>
+                    <h3>Emergency Resources</h3>
+                    <p>Quick access to help</p>
+                    <a href="mental-health.html#emergency" class="help-btn">View Resources</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Sections -->
+    <main class="main-content">
+        <!-- Grief Support Preview -->
+        <section class="content-section grief-preview">
+            <div class="container">
+                <h2 class="section-title">Grief & Loss Support</h2>
+                <p class="section-subtitle">Honoring your journey through loss</p>
+                <div class="preview-content">
+                    <div class="preview-text">
+                        <p>Losing someone we love changes us forever. Whether it's a grandparent, parent, child, or
+                            friend, your grief is valid and your healing journey is honored here.</p>
+                        <a href="grief-support.html" class="read-more">Find Support <i
+                                class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <div class="preview-image">
+                        <!-- Add your image here -->
+                        <div class="image-placeholder">Hope & Healing Image</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Addiction Recovery Preview -->
+        <section class="content-section recovery-preview">
+            <div class="container">
+                <h2 class="section-title">Addiction Recovery</h2>
+                <p class="section-subtitle">The ARR (12 Addiction Recovery Rules) Path</p>
+                <div class="arr-grid">
+                    <!-- ARR Rules 1-6 Preview -->
+                    <div class="arr-card">
+                        <div class="arr-number">1</div>
+                        <h4>Admission</h4>
+                        <p>The first step toward freedom</p>
+                    </div>
+                    <!-- Add more ARR cards... -->
+                </div>
+                <div class="section-footer">
+                    <a href="addiction-recovery.html" class="btn-outline">View All 12 Rules</a>
+                    <a href="pages/substances/" class="btn-outline">Substance Information</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mental Health Preview -->
+        <section class="content-section mental-health-preview">
+            <div class="container">
+                <h2 class="section-title">Mental Health Resources</h2>
+                <p class="section-subtitle">Your mind matters. Every day.</p>
+                <!-- Add content... -->
+            </div>
+        </section>
+
+        <!-- Community Stories -->
+        <section class="content-section community-preview">
+            <div class="container">
+                <h2 class="section-title">Community Stories</h2>
+                <p class="section-subtitle">Read how others are "Still Standing"</p>
+                <!-- Add community stories preview... -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col about-col">
+                    <h3><span class="still">STILL</span> <span class="standing">STANDING</span></h3>
+                    <p>A sanctuary for those navigating grief, addiction recovery, and mental health challenges. You are
+                        not alone.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="mailto:manyasadaniel630@gmail.com"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col quick-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="grief-support.html">Grief Support</a></li>
+                        <li><a href="addiction-recovery.html">ARR Rules</a></li>
+                        <li><a href="mental-health.html">Crisis Resources</a></li>
+                        <li><a href="booking-portal.html">Book a Session</a></li>
+                        <li><a href="volunteers.html">Volunteer</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col contact-col">
+                    <h4>Contact</h4>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-phone"></i> <a href="tel:+254112219135">+254 112 219 135</a></li>
+                        <li><i class="fab fa-whatsapp"></i> <a href="https://wa.me/25496874539">+254 968 74539</a></li>
+                        <li><i class="fas fa-envelope"></i> <a
+                                href="mailto:manyasadaniel630@gmail.com">manyasadaniel630@gmail.com</a></li>
+                    </ul>
+                    <p class="disclaimer"><strong>In crisis?</strong> Call immediately. We're here 24/7.</p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; <span id="currentYear"></span> STILL STANDING. All rights reserved. | Created with <i
+                        class="fas fa-heart"></i> by Daniel Manyasa</p>
+                <p class="security-notice"><i class="fas fa-shield-alt"></i> This is a secure, confidential space</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Files -->
+    <script src="js/particles.js"></script>
+    <script src="js/daily-verse.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/security.js"></script>
+
+    <!-- Only load booking JS on booking page -->
+    <script>
+        if (window.location.pathname.includes('booking-portal')) {
+            document.write('<script src="js/booking.js"><\/script>');
+            document.write('<script src="js/progress-tracker.js"><\/script>');
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TerraGuide's First Web Map</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrvVDsK9nt12AQHCea0SCxrp3Fw="
+     crossorigin=""/>
+
+    <!-- Custom CSS for the map container -->
+    <style>
+        #map {
+            height: 100vh; /* Make the map take full viewport height */
+            width: 100%;  /* Make the map take full viewport width */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- This is the HTML element where our map will be displayed -->
+    <div id="map"></div>
+
+    <!-- Leaflet JavaScript -->
+    <!-- Make sure you put this after Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjGwZIUTKB4pMFAHzEUADwPfmhA9Qc="
+     crossorigin=""></script>
+
+    <script>
+        // Initialize the map
+        // L.map('map') creates a map object and attaches it to the HTML element with id="map"
+        // setView([latitude, longitude], zoom_level) sets the initial view
+        var map = L.map('map').setView([0, 0], 2); // Centered at 0,0 (equator, prime meridian) with zoom level 2
+
+        // Add a tile layer (the base map imagery)
+        // We're using OpenStreetMap tiles here
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        // You can add markers too!
+        // var marker = L.marker([51.5, -0.09]).addTo(map); // Example marker in London
+        // marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
+        
+        // Let's add a marker for a hypothetical land parcel in New York
+        var ny_lat = 40.7128;
+        var ny_lon = -74.0060;
+        L.marker([ny_lat, ny_lon]).addTo(map)
+            .bindPopup("<b>Example Location!</b><br>A hypothetical parcel in NYC.")
+            .openPopup();
+
+        // You can also draw a circle
+        // L.circle([51.508, -0.11], {
+        //     color: 'red',
+        //     fillColor: '#f03',
+        //     fillOpacity: 0.5,
+        //     radius: 500
+        // }).addTo(map).bindPopup("I am a circle.");
+
+        // And a polygon
+        // var polygon = L.polygon([
+        //     [51.509, -0.08],
+        //     [51.503, -0.06],
+        //     [51.51, -0.047]
+        // ]).addTo(map).bindPopup("I am a polygon.");
+    </script>
+
+</body>
+</html>

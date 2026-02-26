@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coping with Anxiety - STILL STANDING</title>
+    <meta name="description" content="Practical strategies and tools for managing anxiety. You are safe here.">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <!-- Icons & Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@300;400;500&display=swap"
+        rel="stylesheet">
+
+    <style>
+        .anxiety-hero {
+            background: linear-gradient(rgba(243, 156, 18, 0.9), rgba(230, 126, 34, 0.9));
+            color: white;
+            padding: 100px 0 60px;
+            text-align: center;
+            margin-top: 70px;
+        }
+
+        .strategy-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            border-left: 5px solid #f39c12;
+            transition: var(--transition);
+        }
+
+        .strategy-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .strategy-icon {
+            font-size: 2.5rem;
+            color: #f39c12;
+            margin-bottom: 20px;
+        }
+
+        .step-list {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .step-list li {
+            margin-bottom: 15px;
+            padding-left: 40px;
+            position: relative;
+        }
+
+        .step-list li::before {
+            content: attr(data-step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 30px;
+            height: 30px;
+            background: #fef9e7;
+            color: #f39c12;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .interactive-box {
+            background: #fef9e7;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <h1><span class="still">STILL</span> <span class="standing">STANDING</span></h1>
+                <p class="tagline">Together in Resilience</p>
+            </a>
+
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="about.html"><i class="fas fa-heart"></i> Our Story</a></li>
+                <li class="dropdown">
+                    <a href="mental-health.html" class="active"><i class="fas fa-hands-helping"></i> Support <i
+                            class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="grief-support.html">Grief & Loss</a></li>
+                        <li><a href="addiction-recovery.html">Addiction Recovery</a></li>
+                        <li><a href="mental-health.html" class="active">Mental Health</a></li>
+                        <li><a href="gbv-support.html">GBV Support</a></li>
+                        <li><a href="child-abuse-support.html">Child Abuse Support</a></li>
+                    </ul>
+                </li>
+                <li><a href="community.html"><i class="fas fa-users"></i> Community</a></li>
+                <li><a href="booking-portal.html"><i class="fas fa-calendar-check"></i> My Journey</a></li>
+                <li><a href="contact.html" class="contact-btn"><i class="fas fa-phone-alt"></i> Get Help</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="anxiety-hero">
+        <div class="container">
+            <h1 class="animate-fade-in">Coping with Anxiety</h1>
+            <p class="hero-subtitle animate-fade-in-delay">Practical tools to find calm in the chaos</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="content-section">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-8 mx-auto">
+                    <!-- Understanding Anxiety -->
+                    <section class="mb-5">
+                        <h2 class="section-title">Understanding Anxiety</h2>
+                        <p>Anxiety is your body's natural response to stress. It's a feeling of fear or apprehension
+                            about what's to come. While it can feel overwhelming, remember that it is a wave that will
+                            pass. You are safe.</p>
+                    </section>
+
+                    <!-- Strategy 1: Box Breathing -->
+                    <div class="strategy-card scroll-animate">
+                        <div class="strategy-icon"><i class="fas fa-wind"></i></div>
+                        <h3>1. Box Breathing</h3>
+                        <p>A simple, powerful technique to reset your nervous system.</p>
+
+                        <div class="interactive-box">
+                            <h4>Let's try it together:</h4>
+                            <ul class="step-list">
+                                <li data-step="1">Breathe IN for 4 seconds</li>
+                                <li data-step="2">HOLD for 4 seconds</li>
+                                <li data-step="3">Breathe OUT for 4 seconds</li>
+                                <li data-step="4">HOLD for 4 seconds</li>
+                            </ul>
+                            <button class="btn-outline" onclick="startSimpleBreathing(this)">Start Guide</button>
+                        </div>
+                    </div>
+
+                    <!-- Strategy 2: 5-4-3-2-1 Grounding -->
+                    <div class="strategy-card scroll-animate">
+                        <div class="strategy-icon"><i class="fas fa-anchor"></i></div>
+                        <h3>2. The 5-4-3-2-1 Grounding Technique</h3>
+                        <p>Use your senses to bring yourself back to the present moment.</p>
+
+                        <ul class="step-list">
+                            <li data-step="5"><strong>Acknowledge 5 things you see around you.</strong> (A pen, a spot
+                                on the ceiling, anything in your surroundings.)</li>
+                            <li data-step="4"><strong>Acknowledge 4 things you can touch.</strong> (Your hair, a pillow,
+                                the ground under your feet.)</li>
+                            <li data-step="3"><strong>Acknowledge 3 things you hear.</strong> (Any external sound. If
+                                you can hear your belly rumbling that counts!)</li>
+                            <li data-step="2"><strong>Acknowledge 2 things you can smell.</strong> (Maybe you are in
+                                your office and smell pencil, or maybe you are in your bedroom and smell a pillow.)</li>
+                            <li data-step="1"><strong>Acknowledge 1 thing you can taste.</strong> (What does the inside
+                                of your mouth taste like? Gum, coffee, or the sandwich from lunch?)</li>
+                        </ul>
+                    </div>
+
+                    <!-- Strategy 3: Challenge Thoughts -->
+                    <div class="strategy-card scroll-animate">
+                        <div class="strategy-icon"><i class="fas fa-brain"></i></div>
+                        <h3>3. Challenge Anxious Thoughts</h3>
+                        <p>Anxiety often lies to us. Ask yourself these questions when you feel spiraling:</p>
+
+                        <ul class="step-list">
+                            <li data-step="?">Is this thought based on fact or feeling?</li>
+                            <li data-step="?">What is the evidence FOR this thought?</li>
+                            <li data-step="?">What is the evidence AGAINST this thought?</li>
+                            <li data-step="?">What would I tell a friend who had this thought?</li>
+                        </ul>
+                    </div>
+
+                    <!-- Professional Help -->
+                    <section class="text-center mt-5">
+                        <h3>Need more support?</h3>
+                        <p>Sometimes self-help isn't enough, and that's okay. Our counselors are here for you.</p>
+                        <a href="booking-portal.html" class="btn-primary">Book a Session</a>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; <span id="currentYear"></span> STILL STANDING. Mental health resources and support.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        function startSimpleBreathing(btn) {
+            btn.textContent = "Breathe In...";
+            btn.disabled = true;
+
+            const steps = ["Breathe In... (4s)", "Hold... (4s)", "Breathe Out... (4s)", "Hold... (4s)"];
+            let step = 0;
+
+            const interval = setInterval(() => {
+                btn.textContent = steps[step];
+                step = (step + 1) % 4;
+            }, 4000);
+
+            // Stop after 3 cycles (48 seconds) or let user stop? 
+            // For simplicity, let's run for a few cycles then reset
+            setTimeout(() => {
+                clearInterval(interval);
+                btn.textContent = "Start Guide";
+                btn.disabled = false;
+            }, 48000);
+        }
+    </script>
+</body>
+
+</html>

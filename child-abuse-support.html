@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Child Abuse Support - STILL STANDING</title>
+    <meta name="description"
+        content="Resources and reporting channels for child protection. Every child deserves to be safe.">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <!-- Icons & Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@300;400;500&display=swap"
+        rel="stylesheet">
+
+    <style>
+        .child-hero {
+            background: linear-gradient(rgba(41, 128, 185, 0.9), rgba(52, 152, 219, 0.9));
+            /* Blue theme */
+            color: white;
+            padding: 100px 0 60px;
+            text-align: center;
+            margin-top: 70px;
+        }
+
+        .info-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            border-left: 5px solid #3498db;
+        }
+
+        .helpline-box {
+            background: #e8f4fc;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 30px;
+            border: 2px dashed #3498db;
+        }
+
+        .helpline-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2980b9;
+            display: block;
+            margin: 10px 0;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <h1><span class="still">STILL</span> <span class="standing">STANDING</span></h1>
+                <p class="tagline">Together in Resilience</p>
+            </a>
+
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li class="dropdown">
+                    <a href="#" class="active"><i class="fas fa-hands-helping"></i> Support <i
+                            class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="grief-support.html">Grief & Loss</a></li>
+                        <li><a href="addiction-recovery.html">Addiction Recovery</a></li>
+                        <li><a href="mental-health.html">Mental Health</a></li>
+                        <li><a href="gbv-support.html">GBV Support</a></li>
+                        <li><a href="child-abuse-support.html" class="active">Child Abuse Support</a></li>
+                    </ul>
+                </li>
+                <li><a href="community.html"><i class="fas fa-users"></i> Community</a></li>
+                <li><a href="booking-portal.html"><i class="fas fa-calendar-check"></i> My Journey</a></li>
+                <li><a href="contact.html" class="contact-btn"><i class="fas fa-phone-alt"></i> Get Help</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="child-hero">
+        <div class="container">
+            <h1 class="animate-fade-in">Child Protection & Support</h1>
+            <p class="hero-subtitle animate-fade-in-delay">Protecting our children, securing our future.</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="content-section">
+        <div class="container">
+
+            <!-- Immediate Reporting -->
+            <section class="mb-5">
+                <div class="helpline-box">
+                    <h2><i class="fas fa-phone-volume"></i> Child Helpline Kenya</h2>
+                    <p>Report abuse, neglect, or exploitation. Free 24/7.</p>
+                    <a href="tel:116" class="helpline-number">116</a>
+                    <p>Speak up. You might be the only one who can help.</p>
+                </div>
+            </section>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="info-card">
+                        <h3><i class="fas fa-exclamation-circle"></i> Signs of Abuse</h3>
+                        <ul>
+                            <li>Unexplained injuries (bruises, burns, cuts)</li>
+                            <li>Withdrawal from friends or usual activities</li>
+                            <li>Changes in behavior (aggression, depression)</li>
+                            <li>Fear of going home or seeing specific people</li>
+                            <li>Changes in eating or sleeping habits</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="info-card">
+                        <h3><i class="fas fa-shield-alt"></i> How to Help</h3>
+                        <ul>
+                            <li><strong>Listen:</strong> If a child talks to you, listen without judgment.</li>
+                            <li><strong>Reassure:</strong> Let them know it's not their fault.</li>
+                            <li><strong>Report:</strong> Call 116 or report to the nearest police station/Gender Desk.
+                            </li>
+                            <li><strong>Support:</strong> Connect them with professional help.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <section class="mt-5 text-center">
+                <h3>For Parents & Guardians</h3>
+                <p>Parenting is hard, but you don't have to do it alone. If you're struggling or need guidance, our
+                    counselors are here.</p>
+                <a href="booking-portal.html" class="btn-primary">Get Parenting Support</a>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; <span id="currentYear"></span> STILL STANDING. Protecting every child.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>document.getElementById('currentYear').textContent = new Date().getFullYear();</script>
+</body>
+
+</html>
