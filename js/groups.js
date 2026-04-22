@@ -10,13 +10,8 @@ async function loadGroups(topic = '') {
     grid.innerHTML = '<div class="glass-panel" style="padding: 40px; text-align: center;"><i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary-color);"></i><p>Loading groups...</p></div>';
 
     try {
-        const API_URL = 'http://localhost:5000/api/v1/groups';
-        const url = topic ?
-            `${API_URL}?topic=${topic}` :
-            API_URL;
-
-        const response = await fetch(url);
-        const data = await response.json();
+        const endpoint = topic ? `/groups?topic=${topic}` : '/groups';
+        const data = await API.request(endpoint);
 
         if (data.success && data.groups.length > 0) {
             grid.innerHTML = data.groups.map(group => `
@@ -61,8 +56,7 @@ function formatTopic(topic) {
 
 async function viewGroup(groupId) {
     try {
-        const response = await fetch(`http://localhost:5000/api/groups/${groupId}`);
-        const data = await response.json();
+        const data = await API.request(`/groups/${groupId}`);
 
         if (data.success) {
             showGroupModal(data.group);
@@ -135,14 +129,7 @@ async function joinGroup(groupId) {
     }
 
     try {
-        const response = await fetch(`http://localhost:5000/api/groups/${groupId}/join`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
-
-        const data = await response.json();
+        const data = await API.request(`/groups/${groupId}/join`, 'POST');
         if (data.success) {
             alert('Successfully joined group!');
             document.querySelector('.group-detail-modal').remove();
@@ -213,16 +200,7 @@ async function handleCreateGroup(e) {
     const token = localStorage.getItem('still_standing_token');
 
     try {
-        const response = await fetch('http://localhost:5000/api/groups', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({ name, topic, description })
-        });
-
-        const data = await response.json();
+        const data = await API.request('/groups', 'POST', { name, topic, description });
         if (data.success) {
             alert('Group created successfully!');
             document.querySelector('.group-detail-modal').remove();

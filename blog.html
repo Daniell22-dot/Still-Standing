@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Healing Articles & Resources - STILL STANDING</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="js/api-config.js"></script>
+    <script src="js/main.js"></script>
+    <style>
+        .blog-header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 100px 0 60px;
+            text-align: center;
+            margin-top: 70px;
+        }
+        
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .blog-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .blog-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .blog-image {
+            height: 200px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+        
+        .blog-content {
+            padding: 25px;
+        }
+        
+        .blog-category {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+        }
+        
+        .cat-grief { background: #3498db; color: white; }
+        .cat-recovery { background: #2ecc71; color: white; }
+        .cat-mental { background: #9b59b6; color: white; }
+        .cat-selfcare { background: #e74c3c; color: white; }
+        
+        .blog-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+        
+        .blog-meta {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        
+        .blog-excerpt {
+            color: #555;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .read-more {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .sidebar {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 40px;
+        }
+        
+        .search-widget input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .category-list {
+            list-style: none;
+        }
+        
+        .category-list li {
+            margin-bottom: 10px;
+        }
+        
+        .category-list a {
+            color: #333;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .category-list a:hover {
+            color: #3498db;
+            padding-left: 5px;
+        }
+        
+        .popular-post {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .popular-post img {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            background: #ddd;
+        }
+        
+        @media (max-width: 768px) {
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="main-nav">[Same navigation as index.html]</nav>
+
+<section class="blog-header">
+    <div class="container">
+        <h1><i class="fas fa-blog"></i> Healing Blog</h1>
+        <p>Articles, insights, and stories to support your journey</p>
+    </div>
+</section>
+
+<div class="container">
+    <div class="blog-grid" id="blogGrid"></div>
+    
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="search-widget">
+            <input type="text" id="searchBlog" placeholder="Search articles...">
+        </div>
+        
+        <h3>Categories</h3>
+        <ul class="category-list" id="categoryList">
+            <li><a href="#" data-cat="all">All Posts</a></li>
+            <li><a href="#" data-cat="grief">Grief & Loss</a></li>
+            <li><a href="#" data-cat="recovery">Addiction Recovery</a></li>
+            <li><a href="#" data-cat="mental">Mental Health</a></li>
+            <li><a href="#" data-cat="selfcare">Self-Care</a></li>
+        </ul>
+        
+        <h3>Popular Posts</h3>
+        <div id="popularPosts"></div>
+        
+        <h3>Newsletter</h3>
+        <p>Get new articles delivered to your inbox</p>
+        <form id="blogNewsletter">
+            <input type="email" placeholder="Your email" style="width: 100%; padding: 10px; margin: 10px 0;">
+            <button type="submit" class="btn-primary" style="width: 100%;">Subscribe</button>
+        </form>
+    </div>
+</div>
+
+<script>
+const blogPosts = [
+    {
+        id: 1,
+        title: "Understanding the 5 Stages of Grief",
+        category: "grief",
+        date: "December 1, 2024",
+        readTime: "5 min read",
+        excerpt: "Grief is not linear. Learn about denial, anger, bargaining, depression, and acceptance - and why it's okay to move between them.",
+        image: "grief",
+        author: "Daniel Manyasa"
+    },
+    {
+        id: 2,
+        title: "The ARR Rules: A Guide to Addiction Recovery",
+        category: "recovery",
+        date: "November 28, 2024",
+        readTime: "8 min read",
+        excerpt: "The 12 Addiction Recovery Rules explained in detail, with practical exercises for each step.",
+        image: "recovery",
+        author: "Daniel Manyasa"
+    },
+    {
+        id: 3,
+        title: "5 Grounding Techniques for Anxiety Attacks",
+        category: "mental",
+        date: "November 25, 2024",
+        readTime: "4 min read",
+        excerpt: "Simple, effective techniques to calm your nervous system during moments of intense anxiety.",
+        image: "mental",
+        author: "Sarah K."
+    },
+    {
+        id: 4,
+        title: "Self-Care During the Holidays",
+        category: "selfcare",
+        date: "November 20, 2024",
+        readTime: "6 min read",
+        excerpt: "The holiday season can be challenging. Here's how to prioritize your mental health.",
+        image: "selfcare",
+        author: "Mental Health Team"
+    },
+    {
+        id: 5,
+        title: "Helping a Friend Through Grief",
+        category: "grief",
+        date: "November 15, 2024",
+        readTime: "5 min read",
+        excerpt: "What to say (and what not to say) when someone you care about is grieving.",
+        image: "grief",
+        author: "Community Team"
+    },
+    {
+        id: 6,
+        title: "Building a Recovery Support System",
+        category: "recovery",
+        date: "November 10, 2024",
+        readTime: "7 min read",
+        excerpt: "Why community matters in recovery and how to build your support network.",
+        image: "recovery",
+        author: "Recovery Coach"
+    }
+];
+
+function getCategoryClass(category) {
+    const classes = {
+        grief: "cat-grief",
+        recovery: "cat-recovery",
+        mental: "cat-mental",
+        selfcare: "cat-selfcare"
+    };
+    return classes[category] || "cat-grief";
+}
+
+function getCategoryLabel(category) {
+    const labels = {
+        grief: "Grief & Loss",
+        recovery: "Addiction Recovery",
+        mental: "Mental Health",
+        selfcare: "Self-Care"
+    };
+    return labels[category] || category;
+}
+
+function getImageIcon(category) {
+    const icons = {
+        grief: "fas fa-heart-broken",
+        recovery: "fas fa-hand-holding-heart",
+        mental: "fas fa-brain",
+        selfcare: "fas fa-spa"
+    };
+    return icons[category] || "fas fa-book";
+}
+
+let currentPosts = [];
+
+async function renderBlogPosts(filter = "all", search = "") {
+    const grid = document.getElementById('blogGrid');
+    grid.innerHTML = '<div style="text-align: center; grid-column: 1/-1;"><i class="fas fa-spinner fa-spin"></i> Loading articles...</div>';
+
+    try {
+        const query = {};
+        if (filter !== 'all') query.category = filter;
+        if (search) query.search = search;
+
+        const result = await API.request('/blog', 'GET', null, query);
+        currentPosts = result.data;
+
+        if (currentPosts.length === 0) {
+            grid.innerHTML = '<div style="text-align: center; grid-column: 1/-1;"><h3>No posts found</h3><p>Try a different search term</p></div>';
+            return;
+        }
+
+        grid.innerHTML = currentPosts.map(post => `
+            <div class="blog-card">
+                <div class="blog-image">
+                    ${post.image_url ? `<img src="${post.image_url}" alt="${post.title}" style="width:100%; height:100%; object-fit:cover;">` : `<i class="${getImageIcon(post.category)}"></i>`}
+                </div>
+                <div class="blog-content">
+                    <span class="blog-category ${getCategoryClass(post.category)}">${getCategoryLabel(post.category)}</span>
+                    <h3 class="blog-title">${post.title}</h3>
+                    <div class="blog-meta">
+                        <i class="fas fa-user"></i> ${post.author_name || 'Daniel Manyasa'} &nbsp;|&nbsp;
+                        <i class="fas fa-calendar"></i> ${new Date(post.created_at).toLocaleDateString()} &nbsp;|&nbsp;
+                        <i class="fas fa-clock"></i> ${post.read_time || '5 min read'}
+                    </div>
+                    <p class="blog-excerpt">${post.excerpt}</p>
+                    <a href="#" class="read-more" onclick="showPost(${post.id}); return false;">Read More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        `).join('');
+    } catch (error) {
+        grid.innerHTML = '<div style="text-align: center; grid-column: 1/-1;"><h3>Error loading articles</h3><p>Please try again later</p></div>';
+    }
+}
+
+function showPost(postId) {
+    const post = blogPosts.find(p => p.id === postId);
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.style.display = 'flex';
+    modal.innerHTML = `
+        <div class="modal-content" style="max-width: 700px; max-height: 80vh; overflow-y: auto;">
+            <div style="text-align: right;">
+                <button onclick="this.closest('.modal').remove()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+            </div>
+            <span class="blog-category ${getCategoryClass(post.category)}">${getCategoryLabel(post.category)}</span>
+            <h2>${post.title}</h2>
+            <div class="blog-meta">
+                <i class="fas fa-user"></i> ${post.author} | ${post.date} | ${post.readTime}
+            </div>
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                <p>${post.excerpt}</p>
+                <p style="margin-top: 15px;">This is a preview. The full article will be available in the complete version of STILL STANDING.</p>
+            </div>
+            <div style="background: #e8f4fc; padding: 20px; border-radius: 10px;">
+                <h4>💬 Share Your Thoughts</h4>
+                <textarea rows="3" placeholder="Leave a comment..." style="width: 100%; padding: 10px; margin: 10px 0;"></textarea>
+                <button class="btn-primary" onclick="alert('Comment feature coming soon!'); this.closest('.modal').remove();">Post Comment</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+// Category filtering
+document.querySelectorAll('.category-list a').forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const category = link.dataset.cat;
+        renderBlogPosts(category, document.getElementById('searchBlog').value);
+    });
+});
+
+// Search functionality
+document.getElementById('searchBlog').addEventListener('input', (e) => {
+    renderBlogPosts("all", e.target.value);
+});
+
+// Popular posts
+const popularSection = document.getElementById('popularPosts');
+popularSection.innerHTML = blogPosts.slice(0, 3).map(post => `
+    <div class="popular-post">
+        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white;">
+            <i class="${getImageIcon(post.category)}"></i>
+        </div>
+        <div>
+            <a href="#" onclick="showPost(${post.id}); return false;" style="font-weight: 600; color: #333; text-decoration: none;">${post.title}</a>
+            <div style="font-size: 0.8rem; color: #666;">${post.date}</div>
+        </div>
+    </div>
+`).join('');
+
+// Newsletter
+document.getElementById('blogNewsletter').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = e.target.querySelector('input[type="email"]').value;
+    try {
+        await API.request('/blog/newsletter', 'POST', { email });
+        alert('Thank you for subscribing! You\'ll receive our latest articles.');
+        e.target.reset();
+    } catch (error) {
+        alert('Subscription failed. Please try again.');
+    }
+});
+
+// Initial render
+renderBlogPosts();
+</script>
+
+</body>
+</html>

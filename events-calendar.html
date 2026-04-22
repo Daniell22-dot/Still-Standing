@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events & Workshops - STILL STANDING</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="js/api-config.js"></script>
+    <script src="js/main.js"></script>
+    <style>
+        .events-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 100px 0 60px;
+            text-align: center;
+            margin-top: 70px;
+        }
+        
+        .calendar-container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 40px 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+        }
+        
+        .calendar-day-header {
+            text-align: center;
+            font-weight: bold;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .calendar-day {
+            min-height: 100px;
+            padding: 10px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .calendar-day:hover {
+            background: #f8f9fa;
+            transform: scale(1.02);
+        }
+        
+        .calendar-day.has-event {
+            background: #e8f4fc;
+            border-color: #3498db;
+        }
+        
+        .calendar-day.today {
+            background: #fef9e7;
+            border-color: #f39c12;
+        }
+        
+        .event-dot {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            width: 8px;
+            height: 8px;
+            background: #e74c3c;
+            border-radius: 50%;
+        }
+        
+        .events-list {
+            margin-top: 40px;
+        }
+        
+        .event-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 5px solid #3498db;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .event-card:hover {
+            transform: translateX(5px);
+        }
+        
+        .event-type {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .type-workshop { background: #3498db; color: white; }
+        .type-support-group { background: #2ecc71; color: white; }
+        .type-webinar { background: #9b59b6; color: white; }
+        .type-special { background: #e74c3c; color: white; }
+        
+        .register-btn {
+            background: #3498db;
+            color: white;
+            padding: 8px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .register-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .view-toggle {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .toggle-btn {
+            padding: 10px 20px;
+            background: white;
+            border: 2px solid #3498db;
+            color: #3498db;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .toggle-btn.active {
+            background: #3498db;
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .calendar-day {
+                min-height: 60px;
+                font-size: 0.8rem;
+            }
+            
+            .calendar-day-header {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation same as index.html-->
+<nav class="main-nav">
+    <div class="container">
+        <a href="index.html" class="logo">STILL STANDING</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="events-calendar.html">Events & Workshops</a></li>
+            <li><a href="resources.html">Resources</a></li>
+            <li><a href="stories.html">Stories</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="nav-actions">
+            <button id="loginBtn" class="btn-outline">Login</button>
+            <button id="registerBtn" class="btn-primary">Register</button>
+        </div>
+    </div>
+</nav>
+
+<section class="events-header">
+    <div class="container">
+        <h1><i class="fas fa-calendar-alt"></i> Events & Workshops</h1>
+        <p>Connect, learn, and heal together through our community events</p>
+    </div>
+</section>
+
+<div class="container">
+    <div class="view-toggle">
+        <button class="toggle-btn active" data-view="calendar">📅 Calendar View</button>
+        <button class="toggle-btn" data-view="list">📋 List View</button>
+    </div>
+    
+    <!-- Calendar View -->
+    <div id="calendarView" class="calendar-container">
+        <div class="calendar-header">
+            <button id="prevMonth" class="btn-outline"><i class="fas fa-chevron-left"></i></button>
+            <h2 id="currentMonthYear"></h2>
+            <button id="nextMonth" class="btn-outline"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        <div class="calendar-grid" id="calendarGrid"></div>
+    </div>
+    
+    <!-- List View -->
+    <div id="listView" style="display: none;">
+        <div class="events-list" id="eventsList"></div>
+    </div>
+    
+    <!-- Upcoming Events Section -->
+    <div class="events-list" id="upcomingEvents"></div>
+</div>
+
+<!-- Register Modal -->
+<div id="registerModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <h2>Register for Event</h2>
+        <form id="registerForm">
+            <div class="form-group">
+                <label>Full Name *</label>
+                <input type="text" id="regName" required>
+            </div>
+            <div class="form-group">
+                <label>Email *</label>
+                <input type="email" id="regEmail" required>
+            </div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="tel" id="regPhone">
+            </div>
+            <div class="form-group">
+                <label>How did you hear about this event?</label>
+                <select id="regSource">
+                    <option>Website</option>
+                    <option>Social Media</option>
+                    <option>Friend/Family</option>
+                    <option>Email Newsletter</option>
+                    <option>Other</option>
+                </select>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn-secondary" id="closeRegModal">Cancel</button>
+                <button type="submit" class="btn-primary">Register</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+let currentDate = new Date();
+let currentView = "calendar";
+let selectedEvent = null;
+
+function getDaysInMonth(year, month) {
+    return new Date(year, month + 1, 0).getDate();
+}
+
+function getFirstDayOfMonth(year, month) {
+    return new Date(year, month, 1).getDay();
+}
+
+function renderCalendar() {
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+    const daysInMonth = getDaysInMonth(year, month);
+    const firstDay = getFirstDayOfMonth(year, month);
+    const today = new Date();
+    
+    // Update month/year display
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    document.getElementById('currentMonthYear').textContent = `${monthNames[month]} ${year}`;
+    
+    // Create calendar grid
+    let calendarHTML = '';
+    const dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    dayHeaders.forEach(day => {
+        calendarHTML += `<div class="calendar-day-header">${day}</div>`;
+    });
+    
+    // Empty cells for days before month starts
+    for (let i = 0; i < firstDay; i++) {
+        calendarHTML += `<div class="calendar-day"></div>`;
+    }
+    
+    // Fill in days
+    for (let day = 1; day <= daysInMonth; day++) {
+        const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        const dayEvents = currentEvents.filter(e => e.event_date.split('T')[0] === dateStr);
+        const isToday = today.getFullYear() === year && today.getMonth() === month && today.getDate() === day;
+        
+        calendarHTML += `
+            <div class="calendar-day ${dayEvents.length > 0 ? 'has-event' : ''} ${isToday ? 'today' : ''}" data-date="${dateStr}">
+                ${day}
+                ${dayEvents.length > 0 ? `<div class="event-dot"></div>` : ''}
+            </div>
+        `;
+    }
+    
+    document.getElementById('calendarGrid').innerHTML = calendarHTML;
+    
+    // Add click handlers to calendar days
+    document.querySelectorAll('.calendar-day[data-date]').forEach(day => {
+        day.addEventListener('click', () => {
+            const date = day.dataset.date;
+            showEventsForDate(date);
+        });
+    });
+}
+
+function showEventsForDate(date) {
+    const dayEvents = currentEvents.filter(e => e.event_date.split('T')[0] === date);
+    if (dayEvents.length === 0) {
+        alert('No events scheduled for this date');
+        return;
+    }
+    
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.style.display = 'flex';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <h3>Events on ${date}</h3>
+            ${dayEvents.map(event => `
+                <div class="event-card" style="margin-bottom: 15px;">
+                    <span class="event-type type-${event.type}">${event.type.toUpperCase()}</span>
+                    <h4>${event.title}</h4>
+                    <p><i class="fas fa-clock"></i> ${event.time}</p>
+                    <p><i class="fas fa-map-marker-alt"></i> ${event.location}</p>
+                    <button class="register-btn" onclick="openRegisterModal(${event.id})">Register Now</button>
+                </div>
+            `).join('')}
+            <button class="btn-secondary" onclick="this.closest('.modal').remove()">Close</button>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+let currentEvents = [];
+
+async function loadEvents() {
+    try {
+        const result = await API.request('/events');
+        currentEvents = result.data;
+        renderCalendar();
+        renderListView();
+        renderFeaturedEvents();
+    } catch (error) {
+        console.error('Load events error:', error);
+    }
+}
+
+function renderListView() {
+    const upcomingEvents = currentEvents.filter(e => new Date(e.event_date) >= new Date().setHours(0,0,0,0));
+    upcomingEvents.sort((a, b) => new Date(a.event_date) - new Date(b.event_date));
+    
+    const eventsList = document.getElementById('eventsList');
+    if (!eventsList) return;
+
+    eventsList.innerHTML = upcomingEvents.map(event => `
+        <div class="event-card">
+            <span class="event-type type-${event.type}">${event.type.toUpperCase()}</span>
+            <h3>${event.title}</h3>
+            <p><strong>📅 Date:</strong> ${new Date(event.event_date).toLocaleDateString()}</p>
+            <p><strong>⏰ Time:</strong> ${event.event_time || 'TBD'}</p>
+            <p><strong>📍 Location:</strong> ${event.location || 'Online'}</p>
+            <p><strong>👤 Facilitator:</strong> ${event.facilitator || 'STILL STANDING Team'}</p>
+            <p>${event.description}</p>
+            ${event.recurring ? '<p><em>🔄 Recurring event - join any week!</em></p>' : ''}
+            <button class="register-btn" onclick="openRegisterModal(${event.id})">Register Now</button>
+        </div>
+    `).join('');
+    
+    if (upcomingEvents.length === 0) {
+        eventsList.innerHTML = '<div style="text-align: center; padding: 60px;"><h3>No upcoming events</h3><p>Check back soon for new events!</p></div>';
+    }
+}
+
+function renderFeaturedEvents() {
+    const upcomingSection = document.getElementById('upcomingEvents');
+    if (!upcomingSection) return;
+
+    const featured = currentEvents.filter(e => new Date(e.event_date) >= new Date().setHours(0,0,0,0)).slice(0, 3);
+    
+    upcomingSection.innerHTML = `
+        <h2><i class="fas fa-star"></i> Featured Upcoming Events</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+        ${featured.length > 0 ? featured.map(event => `
+            <div class="event-card">
+                <span class="event-type type-${event.type}">${event.type.toUpperCase()}</span>
+                <h3>${event.title}</h3>
+                <p><strong>📅 ${new Date(event.event_date).toLocaleDateString()}</strong> at ${event.event_time || 'TBD'}</p>
+                <p>${event.description}</p>
+                <button class="register-btn" onclick="openRegisterModal(${event.id})">Register Now →</button>
+            </div>
+        `).join('') : '<p>No featured events at this time.</p>'}
+        </div>
+    `;
+}
+
+function openRegisterModal(eventId) {
+    selectedEvent = currentEvents.find(e => e.id === eventId);
+    const modal = document.getElementById('registerModal');
+    if (modal) modal.style.display = 'flex';
+}
+
+// View toggle
+document.querySelectorAll('.toggle-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentView = btn.dataset.view;
+        
+        if (currentView === 'calendar') {
+            document.getElementById('calendarView').style.display = 'block';
+            document.getElementById('listView').style.display = 'none';
+            renderCalendar();
+        } else {
+            document.getElementById('calendarView').style.display = 'none';
+            document.getElementById('listView').style.display = 'block';
+            renderListView();
+        }
+    });
+});
+
+// Month navigation
+document.getElementById('prevMonth').addEventListener('click', () => {
+    currentDate.setMonth(currentDate.getMonth() - 1);
+    renderCalendar();
+});
+
+document.getElementById('nextMonth').addEventListener('click', () => {
+    currentDate.setMonth(currentDate.getMonth() + 1);
+    renderCalendar();
+});
+
+// Register form
+document.getElementById('registerForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = {
+        event_id: selectedEvent.id,
+        name: document.getElementById('regName').value,
+        email: document.getElementById('regEmail').value,
+        phone: document.getElementById('regPhone').value,
+        source: document.getElementById('regSource').value
+    };
+
+    try {
+        await API.request('/events/register', 'POST', formData);
+        alert(`Thank you for registering for "${selectedEvent.title}"! You will receive a confirmation email shortly.`);
+        document.getElementById('registerModal').style.display = 'none';
+        e.target.reset();
+        loadEvents(); // Refresh to update participant count
+    } catch (error) {
+        alert('Registration failed. Please try again.');
+    }
+});
+
+document.getElementById('closeRegModal').addEventListener('click', () => {
+    document.getElementById('registerModal').style.display = 'none';
+});
+
+// Initial load
+loadEvents();
+</script>
+
+<script src="js/main.js"></script>
+</body>
+</html>

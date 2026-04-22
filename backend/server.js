@@ -18,6 +18,10 @@ const volunteerRoutes = require('./routes/volunteerRoutes');
 const reactionRoutes = require('./routes/reactionRoutes');
 const groupRoutes = require('./routes/groupRoutes');
 const qaRoutes = require('./routes/qaRoutes');
+const blogRoutes = require('./routes/blogRoutes');
+const resourceRoutes = require('./routes/resourceRoutes');
+const eventRoutes = require('./routes/eventRoutes');
+const downloadRoutes = require('./routes/downloadRoutes');
 
 // Import Security Middleware
 const {
@@ -113,7 +117,16 @@ db.getConnection((err, connection) => {
     createTables();
 });
 
-// 7. API Routes (v1 Versioning)
+// Legacy /api routes for older frontend files
+app.use('/api/auth', authRoutes);
+app.use('/api/bookings', bookingRoutes);
+app.use('/api/stories', storyRoutes);
+app.use('/api/volunteers', volunteerRoutes);
+app.use('/api/qa', qaRoutes);
+app.use('/api/groups', groupRoutes);
+app.use('/api/reactions', reactionRoutes);
+
+// API Routes (v1 Versioning)
 const API_V1 = '/api/v1';
 
 // Specifically limit auth routes
@@ -126,13 +139,11 @@ app.use(`${API_V1}/volunteers`, volunteerRoutes);
 app.use(`${API_V1}/reactions`, reactionRoutes);
 app.use(`${API_V1}/groups`, groupRoutes);
 app.use(`${API_V1}/qa`, qaRoutes);
+app.use(`${API_V1}/blog`, blogRoutes);
+app.use(`${API_V1}/resources`, resourceRoutes);
+app.use(`${API_V1}/events`, eventRoutes);
+app.use(`${API_V1}/downloads`, downloadRoutes);
 app.use(`${API_V1}`, apiRoutes);
-
-// Keep legacy routes for backward compatibility (optional, but good if transition is slow)
-// We'll redir them or just keep them for now
-app.use('/api/auth', authRoutes);
-app.use('/api/bookings', bookingRoutes);
-app.use('/api/stories', storyRoutes);
 
 // Health check
 app.get('/health', (req, res) => {
@@ -304,6 +315,187 @@ function createTables() {
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
     `;
 
+    const createQAQuestionsTable = `
+        CREATE TABLE IF NOT EXISTS qa_questions (
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            user_id INT,
+            question TEXT NOT NULL,
+            category VARCHAR(100),
+            is_anonymous BOOLEAN DEFAULT TRUE,
+            status ENUM('pending', 'answered', 'rejected') DEFAULT 'pending',
+            views INT DEFAULT 0,
+            upvotes INT DEFAULT 0,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
+            INDEX idx_status (status),
+            INDEX idx_category (category)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    `;
+
+    const createQAAnswersTable = `
+        CREATE TABLE IF NOT EXISTS qa_answers (
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            question_id INT NOT NULL,
+            user_id INT NOT NULL,
+            answer TEXT NOT NULL,
+            is_expert BOOLEAN DEFAULT FALSE,
+            is_accepted BOOLEAN DEFAULT FALSE,
+            upvotes INT DEFAULT 0,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            FOREIGN KEY (question_id) REFERENCES qa_questions(id) ON DELETE CASCADE,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+            INDEX idx_question (question_id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    `;
+
+    const createStoryReactionsTable = `
+        CREATE TABLE IF NOT EXISTS story_reactions (
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            story_id INT NOT NULL,
+            user_id INT NOT NULL,
+            reaction_type VARCHAR(50) NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            UNIQUE KEY unique_user_story_reaction (user_id, story_id, reaction_type),
+            FOREIGN KEY (story_id) REFERENCES stories(id) ON DELETE CASCADE,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    `;
+
+    const createSupportGroupsTable = `
+        CREATE TABLE IF NOT EXISTS support_groups (
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            name VARCHAR(255) NOT NULL,
+            description TEXT,
+            topic VARCHAR(100) NOT NULL,
+            is_private BOOLEAN DEFAULT FALSE,
+            created_by INT,
+            member_count INT DEFAULT 0,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL,
+            INDEX idx_topic (topic)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    `;
+
+    const createGroupMembersTable = `
+        CREATE TABLE IF NOT EXISTS group_members (
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            group_id INT NOT NULL,
+            user_id INT NOT NULL,
+            role ENUM('member', 'moderator', 'admin') DEFAULT 'member',
+            joined_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            UNIQUE KEY unique_user_group (user_id, group_id),
+            FOREIGN KEY (group_id) REFERENCES support_groups(id) ON DELETE CASCADE,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    `;
+
+    const createVolunteersTable = `
+        CREATE TABLE IF NOT EXISTS volunteers (
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            full_name VARCHAR(255) NOT NULL,
+            email VARCHAR(255) NOT NULL,
+            phone VARCHAR(20),
+            age INT,
+            location VARCHAR(255),
+            roles JSON,
+            experience TEXT,
+            motivation TEXT,
+            skills TEXT,
+            hours_per_week INT,
+            available_days JSON,
+            status ENUM('pending', 'reviewed', 'approved', 'rejected', 'training', 'active') DEFAULT 'pending',
+            admin_notes TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            INDEX idx_status (status),
+            INDEX idx_email (email)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    `;
+
+    const createBlogPostsTable = `
+        CREATE TABLE IF NOT EXISTS blog_posts (
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            title VARCHAR(255) NOT NULL,
+            slug VARCHAR(255) UNIQUE NOT NULL,
+            content TEXT NOT NULL,
+            excerpt TEXT,
+            category VARCHAR(100),
+            author_id INT,
+            author_name VARCHAR(255),
+            image_url VARCHAR(500),
+            read_time VARCHAR(50),
+            status ENUM('draft', 'published', 'archived') DEFAULT 'draft',
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE SET NULL,
+            INDEX idx_status (status),
+            INDEX idx_category (category)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    `;
+
+    const createResourceDirectoryTable = `
+        CREATE TABLE IF NOT EXISTS resource_directory (
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            name VARCHAR(255) NOT NULL,
+            type ENUM('counseling', 'rehab', 'shelter', 'hotline', 'support-group') NOT NULL,
+            location VARCHAR(255),
+            phone VARCHAR(20),
+            website VARCHAR(500),
+            description TEXT,
+            rating DECIMAL(3,2) DEFAULT 0.00,
+            reviews_count INT DEFAULT 0,
+            status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending',
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            INDEX idx_type (type),
+            INDEX idx_location (location)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    `;
+
+    const createEventsTable = `
+        CREATE TABLE IF NOT EXISTS events (
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            title VARCHAR(255) NOT NULL,
+            type ENUM('workshop', 'support-group', 'webinar', 'special') NOT NULL,
+            event_date DATE NOT NULL,
+            event_time VARCHAR(100),
+            location VARCHAR(255),
+            description TEXT,
+            facilitator VARCHAR(255),
+            recurring BOOLEAN DEFAULT FALSE,
+            max_participants INT,
+            current_participants INT DEFAULT 0,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            INDEX idx_date (event_date),
+            INDEX idx_type (type)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    `;
+
+    const createNewsletterSubsTable = `
+        CREATE TABLE IF NOT EXISTS newsletter_subs (
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            email VARCHAR(255) UNIQUE NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    `;
+
+    const createEventRegistrationsTable = `
+        CREATE TABLE IF NOT EXISTS event_registrations (
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            event_id INT NOT NULL,
+            name VARCHAR(255) NOT NULL,
+            email VARCHAR(255) NOT NULL,
+            phone VARCHAR(20),
+            source VARCHAR(100),
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE,
+            INDEX idx_event (event_id),
+            INDEX idx_email (email)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    `;
+
     const queries = [
         createUsersTable,
         createBookingsTable,
@@ -311,7 +503,18 @@ function createTables() {
         createProgressTable,
         createEmergencyContactsTable,
         createResourcesTable,
-        createStoryCommentsTable
+        createStoryCommentsTable,
+        createQAQuestionsTable,
+        createQAAnswersTable,
+        createStoryReactionsTable,
+        createSupportGroupsTable,
+        createGroupMembersTable,
+        createVolunteersTable,
+        createBlogPostsTable,
+        createResourceDirectoryTable,
+        createEventsTable,
+        createEventRegistrationsTable,
+        createNewsletterSubsTable
     ];
 
     db.getConnection((err, connection) => {

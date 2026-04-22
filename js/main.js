@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:5000/api/v1';
+const API_BASE_URL = '/api/v1';
 
 // Load Daily Verse Script
 function loadDailyVerse() {
@@ -61,7 +61,7 @@ const apiRequest = async (endpoint, method = 'GET', data = null) => {
     }
 };
 
-// Example: Login function
+// Login function
 const loginUser = async (email, password) => {
     try {
         const response = await apiRequest('/auth/login', 'POST', { email, password });
@@ -79,7 +79,7 @@ const loginUser = async (email, password) => {
     }
 };
 
-// Example: Get user bookings
+// Get user bookings
 const getUserBookings = async () => {
     try {
         const response = await apiRequest('/bookings/my-bookings', 'GET');
@@ -90,7 +90,7 @@ const getUserBookings = async () => {
     }
 };
 
-// Example: Create booking
+// Create booking
 const createBooking = async (bookingData) => {
     try {
         const response = await apiRequest('/bookings', 'POST', bookingData);
@@ -101,7 +101,7 @@ const createBooking = async (bookingData) => {
     }
 };
 
-// Example: Submit story
+// Submit story
 const submitStory = async (storyData) => {
     try {
         const response = await apiRequest('/stories', 'POST', storyData);
@@ -112,7 +112,7 @@ const submitStory = async (storyData) => {
     }
 };
 
-// Example: Update progress
+// Update progress
 const updateProgress = async (progressData) => {
     try {
         const response = await apiRequest('/progress', 'POST', progressData);
@@ -391,6 +391,8 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
     });
+
+    console.log('Downloads page loaded - resources ready for download');
 
     // 12. Initialize Components
     console.log('STILL STANDING - Initialized');

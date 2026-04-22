@@ -65,6 +65,35 @@
             <i class="fas fa-sync-alt"></i> Try Again
         </a>
     </div>
+  // Optional: Add a script to automatically check for connectivity and reload the page
+    <script>
+        window.addEventListener('load', () => {
+            const checkOnlineStatus = () => {
+                if (navigator.onLine) {
+                    window.location.reload();
+                }
+            };
+
+            setInterval(checkOnlineStatus, 5000); // Check every 5 seconds
+
+            // Optional: Add a button to play calming music while offline
+            const calmMusicBtn = document.createElement('button');
+            calmMusicBtn.textContent = 'Play Calming Music';
+            calmMusicBtn.className = 'offline-button';
+            calmMusicBtn.style.marginTop = '20px';
+            calmMusicBtn.onclick = () => {
+                const audio = new Audio('audio/calm-music.mp3'); 
+                audio.play();
+            };
+            document.body.appendChild(calmMusicBtn);
+        });
+    </script>
+      // Redirect to home page after regaining connectivity
+    <script>
+        window.addEventListener('online', () => {
+            window.location.href = '/index.html';
+        });
+    </script>
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">

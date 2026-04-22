@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resource Directory - Find Help Near You - STILL STANDING</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="js/api-config.js"></script>
+    <script src="js/main.js"></script>
+    <style>
+        .directory-header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 100px 0 60px;
+            text-align: center;
+            margin-top: 70px;
+        }
+        
+        .search-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: -30px auto 40px;
+            max-width: 800px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .search-box input {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        
+        .filter-btn {
+            padding: 8px 20px;
+            border: 2px solid #3498db;
+            background: white;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn.active, .filter-btn:hover {
+            background: #3498db;
+            color: white;
+        }
+        
+        .resource-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .resource-type {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .type-counseling { background: #3498db; color: white; }
+        .type-rehab { background: #2ecc71; color: white; }
+        .type-shelter { background: #e74c3c; color: white; }
+        .type-hotline { background: #f39c12; color: white; }
+        .type-support-group { background: #9b59b6; color: white; }
+        
+        .rating {
+            color: #f39c12;
+            margin: 10px 0;
+        }
+        
+        .resource-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .btn-small {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+        }
+        
+        .add-resource {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #2ecc71;
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(46,204,113,0.4);
+            transition: all 0.3s ease;
+        }
+        
+        .add-resource:hover {
+            transform: scale(1.1);
+        }
+        
+        @media (max-width: 768px) {
+            .search-box {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation (same as index.html) -->
+<nav class="main-nav">
+    <div class="container">
+        <a href="index.html" class="logo">STILL STANDING</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="stories.html">Stories</a></li>
+            <li><a href="resources.html" class="active">Resources</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="nav-actions">
+            <button class="btn-primary" id="loginBtn"><i class="fas fa-sign-in-alt"></i> Login</button>
+        </div>
+    </div>
+</nav>
+
+<section class="directory-header">
+    <div class="container">
+        <h1><i class="fas fa-compass"></i> Resource Directory</h1>
+        <p>Find help near you - counselors, rehab centers, shelters, and support groups</p>
+    </div>
+</section>
+
+<div class="container">
+    <!-- Search Section -->
+    <div class="search-section">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search by name, location, or keyword...">
+            <button class="btn-primary" id="searchBtn"><i class="fas fa-search"></i> Search</button>
+        </div>
+        
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">All Resources</button>
+            <button class="filter-btn" data-filter="counseling">Counseling</button>
+            <button class="filter-btn" data-filter="rehab">Rehab Centers</button>
+            <button class="filter-btn" data-filter="shelter">Shelters</button>
+            <button class="filter-btn" data-filter="hotline">Hotlines</button>
+            <button class="filter-btn" data-filter="support-group">Support Groups</button>
+        </div>
+        
+        <div class="filter-buttons">
+            <button class="filter-btn" data-location="nairobi">Nairobi</button>
+            <button class="filter-btn" data-location="mombasa">Mombasa</button>
+            <button class="filter-btn" data-location="kisumu">Kisumu</button>
+            <button class="filter-btn" data-location="nakuru">Nakuru</button>
+            <button class="filter-btn" data-location="online">Online</button>
+        </div>
+    </div>
+    
+    <!-- Results Count -->
+    <div id="resultsCount" style="margin-bottom: 20px;"></div>
+    
+    <!-- Resources List -->
+    <div id="resourcesList"></div>
+</div>
+
+<!-- Add Resource Modal -->
+<div id="addResourceModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <h2>Suggest a Resource</h2>
+        <form id="resourceForm">
+            <div class="form-group">
+                <label>Resource Name *</label>
+                <input type="text" id="resName" required>
+            </div>
+            <div class="form-group">
+                <label>Type *</label>
+                <select id="resType">
+                    <option value="counseling">Counseling</option>
+                    <option value="rehab">Rehab Center</option>
+                    <option value="shelter">Shelter</option>
+                    <option value="hotline">Hotline</option>
+                    <option value="support-group">Support Group</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Location</label>
+                <input type="text" id="resLocation" placeholder="City, County">
+            </div>
+            <div class="form-group">
+                <label>Phone</label>
+                <input type="tel" id="resPhone">
+            </div>
+            <div class="form-group">
+                <label>Website (optional)</label>
+                <input type="url" id="resWebsite">
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <textarea id="resDescription" rows="3"></textarea>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn-secondary" id="closeResourceModal">Cancel</button>
+                <button type="submit" class="btn-primary">Submit Resource</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<button class="add-resource" id="addResourceBtn">
+    <i class="fas fa-plus"></i>
+</button>
+
+<script>
+// Sample resources database
+const resources = [
+    {
+        id: 1,
+        name: "STILL STANDING Crisis Line",
+        type: "hotline",
+        location: "Online",
+        phone: "+254 112 219 135",
+        website: "tel:+254112219135",
+        description: "24/7 confidential crisis support and peer counseling",
+        rating: 5,
+        reviews: 127
+    },
+    {
+        id: 2,
+        name: "Nairobi Counseling Centre",
+        type: "counseling",
+        location: "Nairobi",
+        phone: "+254 20 1234567",
+        website: "https://example.com",
+        description: "Professional counseling for grief, addiction, and mental health",
+        rating: 4.5,
+        reviews: 89
+    },
+    {
+        id: 3,
+        name: "Healing Steps Rehab",
+        type: "rehab",
+        location: "Nairobi",
+        phone: "+254 722 123456",
+        description: "Inpatient addiction treatment with aftercare program",
+        rating: 4.8,
+        reviews: 234
+    },
+    {
+        id: 4,
+        name: "Safe Haven Shelter",
+        type: "shelter",
+        location: "Nairobi",
+        phone: "+254 722 789012",
+        description: "Emergency shelter for GBV survivors",
+        rating: 4.6,
+        reviews: 56
+    },
+    {
+        id: 5,
+        name: "Befrienders Kenya",
+        type: "hotline",
+        location: "Online",
+        phone: "+254 722 178177",
+        description: "Emotional support helpline",
+        rating: 4.7,
+        reviews: 312
+    },
+    {
+        id: 6,
+        name: "Mombasa Recovery Group",
+        type: "support-group",
+        location: "Mombasa",
+        phone: "+254 711 234567",
+        description: "Weekly addiction recovery support group",
+        rating: 4.9,
+        reviews: 78
+    },
+    {
+        id: 7,
+        name: "Kisumu Mental Health Hub",
+        type: "counseling",
+        location: "Kisumu",
+        phone: "+254 722 345678",
+        description: "Affordable mental health counseling",
+        rating: 4.4,
+        reviews: 45
+    },
+    {
+        id: 8,
+        name: "Women's Rights Awareness Programme",
+        type: "shelter",
+        location: "Nakuru",
+        phone: "+254 722 456789",
+        description: "Shelter and legal aid for GBV survivors",
+        rating: 4.7,
+        reviews: 89
+    }
+];
+let currentFilter = "all";
+let currentLocation = "";
+let currentSearch = "";
+
+async function displayResources() {
+    const grid = document.getElementById('resourceGrid');
+    grid.innerHTML = '<div style="text-align: center; grid-column: 1/-1;"><i class="fas fa-spinner fa-spin"></i> Loading directory...</div>';
+
+    try {
+        const query = {};
+        if (currentFilter !== 'all') query.type = currentFilter;
+        if (currentLocation) query.location = currentLocation;
+        if (currentSearch) query.search = currentSearch;
+
+        const result = await API.request('/resources', 'GET', null, query);
+        const resources = result.data;
+
+        if (resources.length === 0) {
+            grid.innerHTML = '<div style="text-align: center; grid-column: 1/-1;"><h3>No centers found</h3><p>Try a different filter or search term</p></div>';
+            return;
+        }
+
+        grid.innerHTML = resources.map(resource => `
+            <div class="resource-card">
+                <span class="resource-type">${getTypeLabel(resource.type)}</span>
+                <h3 class="resource-name">${resource.name}</h3>
+                <p class="resource-location"><i class="fas fa-map-marker-alt"></i> ${resource.location || 'Online / Nationwide'}</p>
+                <div class="resource-rating">
+                    ${'★'.repeat(Math.round(resource.rating || 0))}${'☆'.repeat(5 - Math.round(resource.rating || 0))}
+                    <span>(${resource.reviews_count || 0} reviews)</span>
+                </div>
+                <p class="resource-desc">${resource.description || 'Professional support and recovery services.'}</p>
+                ${resource.phone ? `<p><i class="fas fa-phone"></i> ${resource.phone}</p>` : ''}
+                <div class="resource-actions">
+                    ${resource.phone ? `<a href="tel:${resource.phone.replace(/\s/g, '')}" class="btn-small btn-primary"><i class="fas fa-phone"></i> Call</a>` : ''}
+                    ${resource.website && resource.website.startsWith('http') ? `<a href="${resource.website}" target="_blank" class="btn-small btn-outline"><i class="fas fa-external-link-alt"></i> Website</a>` : ''}
+                    <button class="btn-small btn-outline" onclick="saveResource(${resource.id})"><i class="fas fa-bookmark"></i> Save</button>
+                </div>
+            </div>
+        `).join('');
+    } catch (error) {
+        grid.innerHTML = '<div style="text-align: center; grid-column: 1/-1;"><h3>Error loading directory</h3><p>Please try again later</p></div>';
+    }
+}
+
+function getTypeLabel(type) {
+    const labels = {
+        counseling: "Counseling",
+        rehab: "Rehab Center",
+        shelter: "Shelter",
+        hotline: "24/7 Hotline",
+        "support-group": "Support Group"
+    };
+    return labels[type] || type;
+}
+
+function resetFilters() {
+    currentFilter = "all";
+    currentLocation = "";
+    currentSearch = "";
+    document.getElementById('searchInput').value = "";
+    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelector('.filter-btn[data-filter="all"]').classList.add('active');
+    displayResources();
+}
+
+// Filter buttons
+document.querySelectorAll('.filter-btn[data-filter]').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn[data-filter]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.dataset.filter;
+        displayResources();
+    });
+});
+
+document.querySelectorAll('.filter-btn[data-location]').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn[data-location]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentLocation = btn.dataset.location;
+        displayResources();
+    });
+});
+
+// Search
+document.getElementById('searchBtn').addEventListener('click', () => {
+    currentSearch = document.getElementById('searchInput').value;
+    displayResources();
+});
+
+document.getElementById('searchInput').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        currentSearch = e.target.value;
+        displayResources();
+    }
+});
+
+// Add Resource Modal
+const addResourceBtn = document.getElementById('addResourceBtn');
+const addModal = document.getElementById('addResourceModal');
+const closeModal = document.getElementById('closeResourceModal');
+
+addResourceBtn.addEventListener('click', () => {
+    addModal.style.display = 'flex';
+});
+
+closeModal.addEventListener('click', () => {
+    addModal.style.display = 'none';
+});
+
+document.getElementById('resourceForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = {
+        name: document.getElementById('resName').value,
+        type: document.getElementById('resType').value,
+        location: document.getElementById('resLocation').value,
+        phone: document.getElementById('resPhone').value,
+        website: document.getElementById('resWebsite').value,
+        description: document.getElementById('resDescription').value
+    };
+
+    try {
+        await API.request('/resources/suggest', 'POST', formData);
+        alert('Thank you for suggesting a resource! It will be reviewed and added soon.');
+        addModal.style.display = 'none';
+        e.target.reset();
+    } catch (error) {
+        alert('Submission failed. Please try again.');
+    }
+});
+
+// Save resource function
+function saveResource(id) {
+    let saved = JSON.parse(localStorage.getItem('savedResources') || '[]');
+    if (!saved.includes(id)) {
+        saved.push(id);
+        localStorage.setItem('savedResources', JSON.stringify(saved));
+        alert('Resource saved to your account!');
+    } else {
+        alert('Resource already saved');
+    }
+}
+
+// Initial display
+displayResources();
+</script>
+
+</body>
+</html>

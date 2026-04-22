@@ -7,6 +7,7 @@ const STATIC_ASSETS = [
     '/',
     '/index.html',
     '/about.html',
+    '/offline.html',
     '/booking-portal.html',
     '/community.html',
     '/volunteers.html',
@@ -64,6 +65,35 @@ self.addEventListener('fetch', event => {
 
     // Skip non-GET requests
     if (request.method !== 'GET') return;
+
+    // Skip cross-origin requests (e.g., analytics, third-party APIs)
+     if (requestUrl.origin !== location.origin && 
+        !requestUrl.hostname.includes('cdnjs.cloudflare.com') &&
+        !requestUrl.hostname.includes('fonts.googleapis.com')) {
+        return;
+    }
+
+
+    // Handle html requests with network-first strategy
+     if (event.request.headers.get('accept').includes('text/html')) {
+        event.respondWith(
+            fetch(event.request)
+                .then((response) => {
+                    // Cache the fetched page
+                    const responseClone = response.clone();
+                    caches.open(CACHE_NAME).then((cache) => {
+                        cache.put(event.request, responseClone);
+                    });
+                    return response;
+                })
+                .catch(() => {
+                    // Return offline page if network fails
+                    return caches.match(OFFLINE_URL);
+                })
+        );
+        return;
+    }
+    
 
     // Skip API calls (we want fresh data)
     if (request.url.includes('/api/')) {
@@ -158,50 +188,139 @@ async function syncFormData() {
     }
 }
 
-// Push notifications
-self.addEventListener('push', event => {
-    const data = event.data ? event.data.json() : {};
-
+// Push notification event
+self.addEventListener('push', (event) => {
+    console.log('[Service Worker] Push received:', event);
+    
+    let data = {
+        title: 'STILL STANDING',
+        body: 'You have a new notification',
+        icon: '/assets/icons/icon-192x192.png',
+        badge: '/assets/icons/badge-72x72.png',
+        tag: 'notification',
+        url: '/'
+    };
+    
+    if (event.data) {
+        try {
+            data = JSON.parse(event.data.text());
+        } catch (e) {
+            data.body = event.data.text();
+        }
+    }
+    
     const options = {
-        body: data.body || 'You have a new notification',
-        icon: '/images/icon-192x192.png',
-        badge: '/images/badge-72x72.png',
+        body: data.body,
+        icon: data.icon,
+        badge: data.badge,
         vibrate: [200, 100, 200],
-        data: data.url || '/',
+        tag: data.tag,
+        data: {
+            url: data.url,
+            dateOfArrival: Date.now()
+        },
         actions: [
-            { action: 'open', title: 'View' },
-            { action: 'close', title: 'Dismiss' }
+            {
+                action: 'open',
+                title: 'Open',
+                icon: '/assets/icons/open-icon.png'
+            },
+            {
+                action: 'dismiss',
+                title: 'Dismiss',
+                icon: '/assets/icons/close-icon.png'
+            }
         ]
     };
-
+    
     event.waitUntil(
-        self.registration.showNotification(data.title || 'STILL STANDING', options)
+        self.registration.showNotification(data.title, options)
     );
 });
 
-// Notification click handler
-self.addEventListener('notificationclick', event => {
+// Notification click event
+self.addEventListener('notificationclick', (event) => {
+    console.log('[Service Worker] Notification click:', event);
+    
     event.notification.close();
+    
+    if (event.action === 'dismiss') {
+        return;
+    }
+    
+    const urlToOpen = event.notification.data?.url || '/';
+    
+    event.waitUntil(
+        clients.matchAll({
+            type: 'window',
+            includeUncontrolled: true
+        }).then((windowClients) => {
+            // Check if there is already a window/tab open with the target URL
+            for (let i = 0; i < windowClients.length; i++) {
+                const client = windowClients[i];
+                if (client.url === urlToOpen && 'focus' in client) {
+                    return client.focus();
+                }
+            }
+            // If not, open a new window/tab
+            if (clients.openWindow) {
+                return clients.openWindow(urlToOpen);
+            }
+        })
+    );
+});
 
-    if (event.action === 'open' || !event.action) {
-        event.waitUntil(
-            clients.openWindow(event.notification.data)
-        );
+
+// Background sync event
+self.addEventListener('sync', (event) => {
+    console.log('[Service Worker] Background sync:', event);
+    
+    if (event.tag === 'sync-journal-entries') {
+        event.waitUntil(syncJournalEntries());
     }
 });
 
-// Helper to open IndexedDB
-function openDB() {
-    return new Promise((resolve, reject) => {
-        const request = indexedDB.open('still-standing-db', 1);
+async function syncJournalEntries() {
+    // Implementation for syncing offline journal entries
+    console.log('Syncing journal entries...');
+    
+    // Open IndexedDB
+    const db = await openIndexedDB();
+    const tx = db.transaction('pendingEntries', 'readonly');
+    const store = tx.objectStore('pendingEntries');
+    const entries = await store.getAll();
+    
+    // Send each entry to server
+    for (const entry of entries) {
+        try {
+            const response = await fetch('/api/journal/sync', {
+                method: 'POST',
+                body: JSON.stringify(entry),
+                headers: { 'Content-Type': 'application/json' }
+            });
+            
+            if (response.ok) {
+                // Remove synced entry
+                const deleteTx = db.transaction('pendingEntries', 'readwrite');
+                deleteTx.objectStore('pendingEntries').delete(entry.id);
+            }
+        } catch (error) {
+            console.error('Sync failed for entry:', entry.id, error);
+        }
+    }
+}
 
+function openIndexedDB() {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open('StillStanding-DB', 1);
+        
         request.onerror = () => reject(request.error);
         request.onsuccess = () => resolve(request.result);
-
-        request.onupgradeneeded = event => {
+        
+        request.onupgradeneeded = (event) => {
             const db = event.target.result;
-            if (!db.objectStoreNames.contains('pending-submissions')) {
-                db.createObjectStore('pending-submissions', { keyPath: 'id', autoIncrement: true });
+            if (!db.objectStoreNames.contains('pendingEntries')) {
+                db.createObjectStore('pendingEntries', { keyPath: 'id', autoIncrement: true });
             }
         };
     });

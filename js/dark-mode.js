@@ -1,269 +1,193 @@
-// Dark Mode Implementation
+/**
+ * STILL STANDING - Dark Mode Manager
+ * Handles theme switching, persistence, and user preferences
+ */
 
-// Create dark mode CSS variables
-const darkModeStyles = `
-:root[data-theme="dark"] {
-    /* Dark Theme Colors */
-    --dark-bg: #0f0f23;
-    --dark-bg-light: #1a1a2e;
-    --dark-surface: #16213e;
-    --dark-surface-light: #1f2a44;
-    --dark-text: #e4e4e7;
-    --dark-text-muted: #a1a1aa;
-    --dark-border: #27272a;
-    --dark-primary: #8b5cf6;
-    --dark-secondary: #a78bfa;
-    --dark-accent: #f87171;
-    --dark-healing: #34d399;
-    
-    /* Override light theme variables */
-    --background-color: var(--dark-bg);
-    --surface-color: var(--dark-surface);
-    --dark-color: var(--dark-text);
-    --gray-color: var(--dark-text-muted);
-    --border-color: var(--dark-border);
-    --primary-color: var(--dark-primary);
-    --secondary-color: var(--dark-secondary);
-    --accent-color: var(--dark-accent);
-    --healing-color: var(--dark-healing);
-    
-    /* Glassmorphism for dark mode */
-    --glass-bg: rgba(30, 30, 46, 0.7);
-    --glass-border: rgba(255, 255, 255, 0.1);
-}
-
-:root[data-theme="dark"] body {
-    background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
-    color: var(--dark-text);
-}
-
-:root[data-theme="dark"] .glass-panel {
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-}
-
-:root[data-theme="dark"] .main-nav {
-    background: rgba(15, 15, 35, 0.95);
-    border-bottom: 1px solid var(--dark-border);
-}
-
-:root[data-theme="dark"] .nav-link {
-    color: var(--dark-text);
-}
-
-:root[data-theme="dark"] .nav-link:hover {
-    background: rgba(139, 92, 246, 0.1);
-    color: var(--dark-primary);
-}
-
-:root[data-theme="dark"] input,
-:root[data-theme="dark"] textarea,
-:root[data-theme="dark"] select {
-    background: var(--dark-surface-light);
-    border: 1px solid var(--dark-border);
-    color: var(--dark-text);
-}
-
-:root[data-theme="dark"] input:focus,
-:root[data-theme="dark"] textarea:focus,
-:root[data-theme="dark"] select:focus {
-    border-color: var(--dark-primary);
-    background: var(--dark-surface);
-}
-
-:root[data-theme="dark"] .admin-table {
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-}
-
-:root[data-theme="dark"] .admin-table th {
-    background: var(--dark-surface-light);
-    color: var(--dark-text);
-    border-bottom: 2px solid var(--dark-border);
-}
-
-:root[data-theme="dark"] .admin-table td {
-    border-bottom: 1px solid var(--dark-border);
-    color: var(--dark-text);
-}
-
-:root[data-theme="dark"] .admin-table tr:hover {
-    background: rgba(139, 92, 246, 0.05);
-}
-
-:root[data-theme="dark"] .btn-primary {
-    background: var(--dark-primary);
-    color: white;
-}
-
-:root[data-theme="dark"] .btn-primary:hover {
-    background: var(--dark-secondary);
-}
-
-:root[data-theme="dark"] .btn-outline {
-    border: 1px solid var(--dark-primary);
-    color: var(--dark-primary);
-}
-
-:root[data-theme="dark"] .btn-outline:hover {
-    background: var(--dark-primary);
-    color: white;
-}
-
-:root[data-theme="dark"] .modal-overlay {
-    background: rgba(0, 0, 0, 0.85);
-}
-
-:root[data-theme="dark"] .modal-content {
-    background: var(--dark-surface);
-    color: var(--dark-text);
-    border: 1px solid var(--dark-border);
-}
-
-:root[data-theme="dark"] .text-muted {
-    color: var(--dark-text-muted);
-}
-
-:root[data-theme="dark"] .admin-sidebar {
-    background: var(--dark-bg-light);
-    border-right: 1px solid var(--dark-border);
-}
-
-:root[data-theme="dark"] .stat-card {
-    background: var(--dark-surface);
-    border: 1px solid var(--dark-border);
-}
-
-:root[data-theme="dark"] canvas#particle-canvas {
-    opacity: 0.3;
-}
-
-/* Dark mode toggle button */
-.dark-mode-toggle {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    background: var(--primary-color);
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-size: 1.4rem;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-    transition: all 0.3s ease;
-    z-index: 999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.dark-mode-toggle:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
-}
-
-.dark-mode-toggle i {
-    transition: transform 0.3s ease;
-}
-
-.dark-mode-toggle:active i {
-    transform: rotate(360deg);
-}
-
-:root[data-theme="dark"] .dark-mode-toggle {
-    background: var(--dark-secondary);
-}
-`;
-
-// Inject dark mode styles
-const styleSheet = document.createElement('style');
-styleSheet.textContent = darkModeStyles;
-document.head.appendChild(styleSheet);
-
-// Dark Mode Toggle Functionality
 class DarkModeManager {
     constructor() {
         this.theme = localStorage.getItem('still_standing_theme') || 'light';
+        this.toggleButton = null;
         this.init();
     }
 
     init() {
         // Apply saved theme
         this.applyTheme(this.theme);
-
-        // Create toggle button
+        
+        // Create toggle button if it doesn't exist
         this.createToggleButton();
-
+        
         // Listen for system preference changes
-        if (window.matchMedia) {
-            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-                if (!localStorage.getItem('still_standing_theme')) {
-                    this.setTheme(e.matches ? 'dark' : 'light');
-                }
-            });
-        }
-    }
-
-    createToggleButton() {
-        const button = document.createElement('button');
-        button.className = 'dark-mode-toggle';
-        button.setAttribute('aria-label', 'Toggle dark mode');
-        button.setAttribute('title', 'Toggle dark mode');
-        button.innerHTML = this.theme === 'dark' ?
-            '<i class="fas fa-sun"></i>' :
-            '<i class="fas fa-moon"></i>';
-
-        button.addEventListener('click', () => this.toggleTheme());
-
-        document.body.appendChild(button);
-        this.toggleButton = button;
-    }
-
-    toggleTheme() {
-        const newTheme = this.theme === 'light' ? 'dark' : 'light';
-        this.setTheme(newTheme);
-    }
-
-    setTheme(theme) {
-        this.theme = theme;
-        this.applyTheme(theme);
-        localStorage.setItem('still_standing_theme', theme);
-
-        // Update button icon
-        if (this.toggleButton) {
-            this.toggleButton.innerHTML = theme === 'dark' ?
-                '<i class="fas fa-sun"></i>' :
-                '<i class="fas fa-moon"></i>';
-        }
+        this.listenForSystemPreference();
+        
+        // Listen for storage changes (sync across tabs)
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'still_standing_theme') {
+                this.applyTheme(e.newValue);
+            }
+        });
     }
 
     applyTheme(theme) {
-        document.documentElement.setAttribute('data-theme', theme);
-
-        // Add transition for smooth theme change
-        document.documentElement.style.transition = 'background-color 0.3s ease, color 0.3s ease';
-        setTimeout(() => {
-            document.documentElement.style.transition = '';
-        }, 300);
+        const root = document.documentElement;
+        
+        if (theme === 'dark') {
+            root.setAttribute('data-theme', 'dark');
+            this.updateToggleButton(true);
+            document.body.style.background = '#0f0f1a';
+        } else {
+            root.removeAttribute('data-theme');
+            this.updateToggleButton(false);
+            document.body.style.background = '';
+        }
+        
+        this.theme = theme;
+        localStorage.setItem('still_standing_theme', theme);
+        
+        // Dispatch event for other components
+        window.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme } }));
     }
 
-    getCurrentTheme() {
+    createToggleButton() {
+        // Check if button already exists
+        if (document.querySelector('.dark-mode-toggle')) return;
+        
+        // Find navigation container
+        const navContainer = document.querySelector('.nav-container');
+        if (!navContainer) return;
+        
+        // Create toggle button
+        const toggleBtn = document.createElement('button');
+        toggleBtn.className = 'dark-mode-toggle';
+        toggleBtn.setAttribute('aria-label', 'Toggle dark mode');
+        toggleBtn.innerHTML = `
+            <i class="fas fa-moon"></i>
+            <i class="fas fa-sun" style="display: none;"></i>
+        `;
+        
+        // Add styles
+        toggleBtn.style.cssText = `
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--gray-700);
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            margin-left: 15px;
+        `;
+        
+        // Add hover effect
+        toggleBtn.addEventListener('mouseenter', () => {
+            toggleBtn.style.background = 'rgba(0,0,0,0.05)';
+        });
+        toggleBtn.addEventListener('mouseleave', () => {
+            toggleBtn.style.background = 'none';
+        });
+        
+        // Add click handler
+        toggleBtn.addEventListener('click', () => this.toggle());
+        
+        // Insert after crisis button or at end of nav-container
+        const crisisAlert = document.querySelector('.crisis-alert');
+        if (crisisAlert) {
+            crisisAlert.after(toggleBtn);
+        } else {
+            navContainer.appendChild(toggleBtn);
+        }
+        
+        this.toggleButton = toggleBtn;
+        this.updateToggleButton(this.theme === 'dark');
+    }
+
+    updateToggleButton(isDark) {
+        if (!this.toggleButton) return;
+        
+        const moonIcon = this.toggleButton.querySelector('.fa-moon');
+        const sunIcon = this.toggleButton.querySelector('.fa-sun');
+        
+        if (isDark) {
+            moonIcon.style.display = 'none';
+            sunIcon.style.display = 'inline-block';
+            this.toggleButton.style.color = '#f39c12';
+        } else {
+            moonIcon.style.display = 'inline-block';
+            sunIcon.style.display = 'none';
+            this.toggleButton.style.color = '';
+        }
+    }
+
+    toggle() {
+        const newTheme = this.theme === 'light' ? 'dark' : 'light';
+        this.applyTheme(newTheme);
+        
+        // Show feedback
+        this.showToast(`Dark mode ${newTheme === 'dark' ? 'enabled' : 'disabled'}`);
+    }
+
+    listenForSystemPreference() {
+        // Check if user hasn't set a preference
+        if (!localStorage.getItem('still_standing_theme')) {
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (prefersDark) {
+                this.applyTheme('dark');
+            }
+        }
+        
+        // Listen for system preference changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            // Only apply if user hasn't manually set a preference
+            if (!localStorage.getItem('still_standing_theme')) {
+                this.applyTheme(e.matches ? 'dark' : 'light');
+            }
+        });
+    }
+
+    showToast(message) {
+        // Create toast if it doesn't exist
+        let toast = document.querySelector('.dark-mode-toast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.className = 'dark-mode-toast';
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: var(--gray-800);
+                color: white;
+                padding: 10px 20px;
+                border-radius: 8px;
+                font-size: 0.9rem;
+                z-index: 10000;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+                pointer-events: none;
+            `;
+            document.body.appendChild(toast);
+        }
+        
+        toast.textContent = message;
+        toast.style.opacity = '1';
+        
+        setTimeout(() => {
+            toast.style.opacity = '0';
+        }, 2000);
+    }
+
+    // Get current theme
+    getTheme() {
         return this.theme;
     }
+
+    // Check if dark mode is active
+    isDark() {
+        return this.theme === 'dark';
+    }
 }
 
-// Initialize dark mode on page load
-let darkModeManager;
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-        darkModeManager = new DarkModeManager();
-    });
-} else {
-    darkModeManager = new DarkModeManager();
-}
-
-// Export for use in other scripts
-window.darkModeManager = darkModeManager;
+// Initialize dark mode when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    window.darkMode = new DarkModeManager();
+});

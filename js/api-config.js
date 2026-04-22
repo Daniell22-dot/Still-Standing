@@ -23,6 +23,23 @@ const API_CONFIG = {
             CREATE: '/stories',
             LIST: '/stories',
             MY_STORIES: '/stories/my-stories'
+        },
+        BLOG: {
+            LIST: '/blog',
+            DETAIL: '/blog',
+            SUBSCRIBE: '/blog/newsletter'
+        },
+        EVENTS: {
+            LIST: '/events',
+            REGISTER: '/events/register'
+        },
+        RESOURCES: {
+            LIST: '/resources',
+            SUGGEST: '/resources/suggest'
+        },
+        DOWNLOADS: {
+            LIST: '/downloads',
+            TRACK: '/downloads/track'
         }
     }
 };

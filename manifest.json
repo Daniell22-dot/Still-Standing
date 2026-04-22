@@ -1,6 +1,7 @@
 {
     "name": "STILL STANDING",
     "short_name": "Still Standing",
+    "author": "Daniel Manyasa",
     "description": "A compassionate mental health support platform providing crisis intervention, counseling, and community support for those in need.",
     "start_url": "/index.html",
     "display": "standalone",
@@ -8,6 +9,7 @@
     "theme_color": "#667eea",
     "orientation": "portrait-primary",
     "scope": "/",
+    "categories": ["health", "lifestyle", "social", "medical"],
     "icons": [
         {
             "src": "/images/icon-72x72.png",
@@ -58,12 +60,7 @@
             "purpose": "any maskable"
         }
     ],
-    "categories": [
-        "health",
-        "medical",
-        "lifestyle",
-        "social"
-    ],
+    
     "screenshots": [
         {
             "src": "/images/screenshot-desktop.png",
@@ -87,7 +84,8 @@
             "icons": [
                 {
                     "src": "/images/icon-crisis-96x96.png",
-                    "sizes": "96x96"
+                    "sizes": "96x96",
+                    "purpose": "any maskable"
                 }
             ]
         },
@@ -99,7 +97,8 @@
             "icons": [
                 {
                     "src": "/images/icon-booking-96x96.png",
-                    "sizes": "96x96"
+                    "sizes": "96x96",
+                    "purpose": "any maskable"
                 }
             ]
         },
@@ -111,7 +110,8 @@
             "icons": [
                 {
                     "src": "/images/icon-community-96x96.png",
-                    "sizes": "96x96"
+                    "sizes": "96x96",
+                    "purpose": "any maskable"
                 }
             ]
         }

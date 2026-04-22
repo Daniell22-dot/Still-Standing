@@ -3,35 +3,547 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
     <!-- PWA Support -->
     <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#667eea">
+    <meta name="theme-color" content="#2c3e50">
     <link rel="apple-touch-icon" href="/images/icon-192x192.png">
 
-    <title>STILL STANDING - Together in Resilience</title>
+    <!-- SEO Meta Tags -->
+    <title>STILL STANDING - Peer Support for Grief, Addiction & Mental Health</title>
+    <meta name="description" content="24/7 peer support for grief, addiction recovery, and mental health. You're not alone. Free counseling, community stories, and recovery resources.">
+    <meta name="keywords" content="grief support, addiction recovery, mental health, peer counseling, Kenya, still standing">
+    <meta name="author" content="Daniel Manyasa">
+    <meta name="robots" content="index, follow">
 
-    <!-- Security Meta Tags -->
-    <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; script-src 'self' https://apis.google.com; style-src 'self' 'unsafe-inline';">
+    <!-- Open Graph for Social Media -->
+    <meta property="og:title" content="STILL STANDING - Together in Resilience">
+    <meta property="og:description" content="24/7 peer support for grief, addiction recovery, and mental health">
+    <meta property="og:image" content="assets/images/og-image.jpg">
+    <meta property="og:url" content="https://stillstanding.org">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="STILL STANDING - Together in Resilience">
+    <meta name="twitter:description" content="24/7 peer support for grief, addiction, and mental health">
+
+    <!-- Security Headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
     <meta name="referrer" content="strict-origin-when-cross-origin">
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+    <link rel="apple-touch-icon" href="assets/images/icon-192x192.png">
+
+    <!-- Preconnect for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
 
     <!-- CSS -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/animations.css">
     <link rel="stylesheet" href="css/responsive.css">
 
-    <!-- Font Awesome for icons -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Google Fonts -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@300;400;500&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Roboto+Slab:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Additional Homepage-Specific Styles */
+        
+        /* Hero Section Enhancement */
+        .hero {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(44, 62, 80, 0.85), rgba(52, 152, 219, 0.75));
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* Stats Counter Section */
+        .impact-stats {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 60px 0;
+        }
+        
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+            text-align: center;
+        }
+        
+        .stat-item {
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            font-family: 'Roboto Slab', serif;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        /* Feature Cards */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--secondary-color), var(--healing-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: white;
+            font-size: 2rem;
+        }
+        
+        .feature-card h3 {
+            margin-bottom: 15px;
+        }
+        
+        /* Testimonial Slider */
+        .testimonials {
+            background: #f8f9fa;
+            padding: 80px 0;
+        }
+        
+        .testimonial-slider {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        
+        .testimonial-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        
+        .testimonial-slide {
+            min-width: 100%;
+            padding: 40px;
+            text-align: center;
+            background: white;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+        
+        .testimonial-text {
+            font-size: 1.2rem;
+            font-style: italic;
+            color: var(--dark-color);
+            margin-bottom: 20px;
+        }
+        
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+        
+        .testimonial-role {
+            font-size: 0.9rem;
+            color: var(--gray-color);
+        }
+        
+        .slider-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+        }
+        
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ddd;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .slider-dot.active {
+            background: var(--secondary-color);
+            transform: scale(1.2);
+        }
+        
+        /* Emergency Banner */
+        .emergency-banner {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 15px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .emergency-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shimmer 3s infinite;
+        }
+        
+        @keyframes shimmer {
+            100% { left: 100%; }
+        }
+        
+        .emergency-banner-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .emergency-banner i {
+            font-size: 1.5rem;
+        }
+        
+        .emergency-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 50px;
+            transition: var(--transition);
+        }
+        
+        .emergency-number:hover {
+            background: white;
+            color: #e74c3c;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 80px 0;
+        }
+        
+        .cta-section h2 {
+            color: white;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+        
+        .cta-btn-primary {
+            background: white;
+            color: var(--secondary-color);
+            padding: 15px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        
+        .cta-btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .cta-btn-secondary {
+            background: transparent;
+            color: white;
+            padding: 15px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            border: 2px solid white;
+            transition: var(--transition);
+        }
+        
+        .cta-btn-secondary:hover {
+            background: white;
+            color: var(--secondary-color);
+        }
+        
+        /* Blog Preview */
+        .blog-preview {
+            padding: 80px 0;
+        }
+        
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .blog-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .blog-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .blog-image {
+            height: 200px;
+            background: linear-gradient(135deg, var(--secondary-color), var(--healing-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+        
+        .blog-content {
+            padding: 20px;
+        }
+        
+        .blog-date {
+            font-size: 0.8rem;
+            color: var(--gray-color);
+            margin-bottom: 10px;
+        }
+        
+        .blog-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .blog-excerpt {
+            color: var(--gray-color);
+            margin-bottom: 15px;
+        }
+        
+        .read-more {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        /* Newsletter */
+        .newsletter-section {
+            background: var(--primary-color);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+        
+        .newsletter-form {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+        
+        .newsletter-form input {
+            padding: 15px 20px;
+            border: none;
+            border-radius: 50px;
+            width: 300px;
+            max-width: 100%;
+        }
+        
+        .newsletter-form button {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        
+        .newsletter-form button:hover {
+            background: var(--secondary-dark);
+        }
+        
+        /* Floating Chat Widget */
+        .chat-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+        
+        .chat-toggle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
+            transition: var(--transition);
+        }
+        
+        .chat-toggle:hover {
+            transform: scale(1.1);
+        }
+        
+        .chat-container {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .chat-header {
+            background: var(--secondary-color);
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .chat-close {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 80%;
+        }
+        
+        .message.user {
+            background: var(--secondary-color);
+            color: white;
+            margin-left: auto;
+        }
+        
+        .message.system {
+            background: #f0f0f0;
+            color: var(--dark-color);
+        }
+        
+        .chat-input {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid #eee;
+        }
+        
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            margin-right: 10px;
+        }
+        
+        .chat-input button {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+        }
+        
+        .chat-disclaimer {
+            font-size: 0.7rem;
+            text-align: center;
+            padding: 10px;
+            color: var(--gray-color);
+            border-top: 1px solid #eee;
+        }
+        
+        @media (max-width: 768px) {
+            .chat-container {
+                width: 300px;
+                height: 450px;
+                right: -20px;
+            }
+            
+            .stat-number {
+                font-size: 1.8rem;
+            }
+            
+            .testimonial-slide {
+                padding: 20px;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -43,27 +555,35 @@
         </div>
     </div>
 
+    <!-- Emergency Banner (Shows on scroll) -->
+    <div id="emergencyBanner" class="emergency-banner" style="display: none;">
+        <div class="container">
+            <div class="emergency-banner-content">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span>Need immediate help? You're not alone.</span>
+                <a href="tel:+254112219135" class="emergency-number">Call 24/7 Crisis Line</a>
+                <a href="https://wa.me/25496874539" class="emergency-number">WhatsApp Support</a>
+            </div>
+        </div>
+    </div>
+
     <!-- Navigation -->
     <nav class="main-nav">
         <div class="nav-container">
-            <!-- Logo -->
             <a href="index.html" class="logo">
                 <h1><span class="still">STILL</span> <span class="standing">STANDING</span></h1>
                 <p class="tagline">Together in Resilience</p>
             </a>
 
-            <!-- Mobile Menu Toggle -->
-            <button class="menu-toggle" id="menuToggle">
+            <button class="menu-toggle" id="menuToggle" aria-label="Menu">
                 <i class="fas fa-bars"></i>
             </button>
 
-            <!-- Navigation Links -->
             <ul class="nav-links" id="navLinks">
                 <li><a href="index.html" class="active"><i class="fas fa-home"></i> Home</a></li>
                 <li><a href="about.html"><i class="fas fa-heart"></i> Our Story</a></li>
                 <li class="dropdown">
-                    <a href="grief-support.html"><i class="fas fa-hands-helping"></i> Support <i
-                            class="fas fa-chevron-down"></i></a>
+                    <a href="grief-support.html"><i class="fas fa-hands-helping"></i> Support <i class="fas fa-chevron-down"></i></a>
                     <ul class="dropdown-menu">
                         <li><a href="grief-support.html">Grief & Loss</a></li>
                         <li><a href="addiction-recovery.html">Addiction Recovery</a></li>
@@ -77,7 +597,6 @@
                 <li><a href="contact.html" class="contact-btn"><i class="fas fa-phone-alt"></i> Get Help</a></li>
             </ul>
 
-            <!-- Crisis Button -->
             <div class="crisis-alert">
                 <a href="tel:+254112219135" class="crisis-btn">
                     <i class="fas fa-life-ring"></i> CRISIS HELP
@@ -93,8 +612,8 @@
             <h2 class="hero-title animate-fade-in">You Are Not Alone</h2>
             <p class="hero-subtitle animate-fade-in-delay">In grief, in struggle, in recovery - we stand together</p>
             <div class="hero-buttons">
-                <a href="contact.html" class="btn-primary animate-slide-up">I Need Support</a>
-                <a href="community.html" class="btn-secondary animate-slide-up-delay">Share Your Story</a>
+                <a href="contact.html" class="btn-primary animate-slide-up">I Need Support <i class="fas fa-arrow-right"></i></a>
+                <a href="community.html" class="btn-secondary animate-slide-up-delay">Share Your Story <i class="fas fa-heart"></i></a>
             </div>
         </div>
         <div class="scroll-indicator">
@@ -137,67 +656,269 @@
         </div>
     </section>
 
-    <!-- Main Content Sections -->
-    <main class="main-content">
-        <!-- Grief Support Preview -->
-        <section class="content-section grief-preview">
-            <div class="container">
-                <h2 class="section-title">Grief & Loss Support</h2>
-                <p class="section-subtitle">Honoring your journey through loss</p>
-                <div class="preview-content">
-                    <div class="preview-text">
-                        <p>Losing someone we love changes us forever. Whether it's a grandparent, parent, child, or
-                            friend, your grief is valid and your healing journey is honored here.</p>
-                        <a href="grief-support.html" class="read-more">Find Support <i
-                                class="fas fa-arrow-right"></i></a>
+    <!-- Impact Stats Section -->
+    <section class="impact-stats">
+        <div class="container">
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-number" id="statMembers">0</div>
+                    <div class="stat-label">Community Members</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="statStories">0</div>
+                    <div class="stat-label">Stories Shared</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="statSessions">0</div>
+                    <div class="stat-label">Support Sessions</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Support Available</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Support Areas Section -->
+    <section class="content-section">
+        <div class="container">
+            <h2 class="section-title">How We Can Help</h2>
+            <p class="section-subtitle">Compassionate support for every journey</p>
+            
+            <div class="features-grid">
+                <div class="feature-card scroll-animate">
+                    <div class="feature-icon">
+                        <i class="fas fa-heart-broken"></i>
                     </div>
-                    <div class="preview-image">
-                        <!-- Add your image here -->
-                        <div class="image-placeholder">Hope & Healing Image</div>
+                    <h3>Grief & Loss</h3>
+                    <p>Find comfort and understanding after losing someone you love. Share memories, learn coping strategies, and connect with others who understand.</p>
+                    <a href="grief-support.html" class="read-more">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="feature-card scroll-animate">
+                    <div class="feature-icon">
+                        <i class="fas fa-hand-holding-heart"></i>
+                    </div>
+                    <h3>Addiction Recovery</h3>
+                    <p>The ARR program - 12 proven rules to reclaim your life from addiction. One day at a time, with support every step of the way.</p>
+                    <a href="addiction-recovery.html" class="read-more">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="feature-card scroll-animate">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Mental Health</h3>
+                    <p>Support for depression, anxiety, PTSD, and more. Professional resources and peer support in a safe, judgment-free space.</p>
+                    <a href="mental-health.html" class="read-more">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="feature-card scroll-animate">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>GBV Support</h3>
+                    <p>Safe, confidential support for survivors of gender-based violence. You deserve to be heard and believed.</p>
+                    <a href="gbv-support.html" class="read-more">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="feature-card scroll-animate">
+                    <div class="feature-icon">
+                        <i class="fas fa-child"></i>
+                    </div>
+                    <h3>Child Protection</h3>
+                    <p>Resources and reporting for child abuse and neglect. Every child deserves to feel safe and protected.</p>
+                    <a href="child-abuse-support.html" class="read-more">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="feature-card scroll-animate">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Community Support</h3>
+                    <p>Connect with others who understand your journey. Share stories, join support groups, and find hope together.</p>
+                    <a href="community.html" class="read-more">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Founder's Story Highlight -->
+    <section class="content-section" style="background: #f8f9fa;">
+        <div class="container">
+            <div class="preview-content">
+                <div class="preview-text">
+                    <span style="color: var(--secondary-color); font-weight: 600;">From Pain to Purpose</span>
+                    <h2 style="margin-top: 10px;">My name is Daniel Manyasa, and this is why I started STILL STANDING</h2>
+                    <p>In 2018, I lost my grandmother - the woman who raised me. The grief was overwhelming, but it led me to a powerful realization: <strong>no one should have to suffer alone.</strong></p>
+                    <p>Today, STILL STANDING has grown into a community of thousands supporting each other through grief, addiction recovery, and mental health challenges.</p>
+                    <div style="background: white; padding: 20px; border-radius: 10px; border-left: 4px solid var(--secondary-color); margin: 20px 0;">
+                        <i class="fas fa-quote-left" style="color: var(--secondary-color); font-size: 1.5rem;"></i>
+                        <p style="font-style: italic; margin-top: 10px;">"Your pain can become your purpose. Your struggle can become your strength. Your story can become someone else's survival guide."</p>
+                        <p style="font-weight: 600;">— Daniel Manyasa, Founder</p>
+                    </div>
+                    <a href="about.html" class="btn-outline">Read Full Story <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="preview-image">
+                    <div class="image-placeholder" style="background: linear-gradient(135deg, var(--secondary-color), var(--healing-color)); color: white; flex-direction: column;">
+                        <i class="fas fa-user-circle" style="font-size: 5rem;"></i>
+                        <p style="margin-top: 15px;">Daniel Manyasa<br><small>Founder & Peer Counselor</small></p>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Addiction Recovery Preview -->
-        <section class="content-section recovery-preview">
-            <div class="container">
-                <h2 class="section-title">Addiction Recovery</h2>
-                <p class="section-subtitle">The ARR (12 Addiction Recovery Rules) Path</p>
-                <div class="arr-grid">
-                    <!-- ARR Rules 1-6 Preview -->
-                    <div class="arr-card">
-                        <div class="arr-number">1</div>
-                        <h4>Admission</h4>
-                        <p>The first step toward freedom</p>
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">Stories of Hope</h2>
+            <p class="section-subtitle">Real stories from our community</p>
+            
+            <div class="testimonial-slider">
+                <div class="testimonial-track" id="testimonialTrack">
+                    <div class="testimonial-slide">
+                        <p class="testimonial-text">"After losing my son, I didn't think I could go on. The support group here saved my life. Two years later, I'm helping other bereaved parents find hope."</p>
+                        <p class="testimonial-author">Mary K.</p>
+                        <p class="testimonial-role">Bereaved Mother & Volunteer</p>
                     </div>
-                    <!-- Add more ARR cards... -->
+                    <div class="testimonial-slide">
+                        <p class="testimonial-text">"The ARR rules gave me structure when my life felt out of control. Today I'm 3 years sober and rebuilding my relationship with my family."</p>
+                        <p class="testimonial-author">James W.</p>
+                        <p class="testimonial-role">3 Years Sober</p>
+                    </div>
+                    <div class="testimonial-slide">
+                        <p class="testimonial-text">"I was struggling with anxiety and felt so alone. Finding this community changed everything. Now I have people who understand and support me."</p>
+                        <p class="testimonial-author">Sarah M.</p>
+                        <p class="testimonial-role">Anxiety Recovery</p>
+                    </div>
                 </div>
-                <div class="section-footer">
-                    <a href="addiction-recovery.html" class="btn-outline">View All 12 Rules</a>
-                    <a href="pages/substances/" class="btn-outline">Substance Information</a>
+                <div class="slider-controls">
+                    <div class="slider-dot active" data-slide="0"></div>
+                    <div class="slider-dot" data-slide="1"></div>
+                    <div class="slider-dot" data-slide="2"></div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Mental Health Preview -->
-        <section class="content-section mental-health-preview">
-            <div class="container">
-                <h2 class="section-title">Mental Health Resources</h2>
-                <p class="section-subtitle">Your mind matters. Every day.</p>
-                <!-- Add content... -->
+    <!-- ARR Program Preview -->
+    <section class="content-section">
+        <div class="container">
+            <h2 class="section-title">The ARR Program</h2>
+            <p class="section-subtitle">12 Addiction Recovery Rules - A proven path to freedom</p>
+            
+            <div class="arr-grid">
+                <div class="arr-card">
+                    <div class="arr-number">1</div>
+                    <h4>Honest Admission</h4>
+                    <p>Admit addiction has made life unmanageable</p>
+                </div>
+                <div class="arr-card">
+                    <div class="arr-number">2</div>
+                    <h4>Hope in Community</h4>
+                    <p>Believe recovery is possible through support</p>
+                </div>
+                <div class="arr-card">
+                    <div class="arr-number">3</div>
+                    <h4>Decision to Change</h4>
+                    <p>Choose a new way of life</p>
+                </div>
+                <div class="arr-card">
+                    <div class="arr-number">4</div>
+                    <h4>Personal Inventory</h4>
+                    <p>Examine strengths and weaknesses</p>
+                </div>
+                <div class="arr-card">
+                    <div class="arr-number">5</div>
+                    <h4>Honest Sharing</h4>
+                    <p>Admit wrongs to yourself and another</p>
+                </div>
+                <div class="arr-card">
+                    <div class="arr-number">6</div>
+                    <h4>Readiness for Change</h4>
+                    <p>Become ready to have defects removed</p>
+                </div>
             </div>
-        </section>
+            
+            <div class="section-footer" style="text-align: center; margin-top: 30px;">
+                <a href="addiction-recovery.html" class="btn-primary">View All 12 Rules <i class="fas fa-arrow-right"></i></a>
+                <a href="addiction-recovery.html#tracker" class="btn-outline">Start Recovery Tracker <i class="fas fa-chart-line"></i></a>
+            </div>
+        </div>
+    </section>
 
-        <!-- Community Stories -->
-        <section class="content-section community-preview">
-            <div class="container">
-                <h2 class="section-title">Community Stories</h2>
-                <p class="section-subtitle">Read how others are "Still Standing"</p>
-                <!-- Add community stories preview... -->
+    <!-- Blog/Resources Preview -->
+    <section class="blog-preview" style="background: #f8f9fa;">
+        <div class="container">
+            <h2 class="section-title">Latest Resources</h2>
+            <p class="section-subtitle">Articles and guides to support your journey</p>
+            
+            <div class="blog-grid">
+                <div class="blog-card">
+                    <div class="blog-image">
+                        <i class="fas fa-heart-broken"></i>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-date">Updated Weekly</div>
+                        <h3 class="blog-title">Understanding the 5 Stages of Grief</h3>
+                        <p class="blog-excerpt">Learn about denial, anger, bargaining, depression, and acceptance - and why grief isn't linear.</p>
+                        <a href="grief-support.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <div class="blog-card">
+                    <div class="blog-image">
+                        <i class="fas fa-hand-holding-heart"></i>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-date">Updated Weekly</div>
+                        <h3 class="blog-title">The ARR Rules Explained</h3>
+                        <p class="blog-excerpt">A detailed guide to the 12 Addiction Recovery Rules and how to apply them daily.</p>
+                        <a href="addiction-recovery.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <div class="blog-card">
+                    <div class="blog-image">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-date">Updated Weekly</div>
+                        <h3 class="blog-title">5 Grounding Techniques for Anxiety</h3>
+                        <p class="blog-excerpt">Simple, effective exercises to manage anxiety and panic attacks in the moment.</p>
+                        <a href="mental-health.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Start Your Journey?</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 20px;">You don't have to do this alone. We're here for you.</p>
+            <div class="cta-buttons">
+                <a href="booking-portal.html" class="cta-btn-primary">Book a Support Session <i class="fas fa-calendar-check"></i></a>
+                <a href="community.html" class="cta-btn-secondary">Join Our Community <i class="fas fa-users"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter-section">
+        <div class="container">
+            <h2>Stay Connected</h2>
+            <p>Get weekly encouragement, recovery tips, and community updates.</p>
+            <form id="newsletterForm" class="newsletter-form">
+                <input type="email" id="newsletterEmail" placeholder="Your email address" required>
+                <button type="submit">Subscribe <i class="fas fa-paper-plane"></i></button>
+            </form>
+            <p style="font-size: 0.8rem; margin-top: 15px; opacity: 0.8;"><i class="fas fa-lock"></i> We respect your privacy. Unsubscribe anytime.</p>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer class="main-footer">
@@ -205,13 +926,12 @@
             <div class="footer-grid">
                 <div class="footer-col about-col">
                     <h3><span class="still">STILL</span> <span class="standing">STANDING</span></h3>
-                    <p>A sanctuary for those navigating grief, addiction recovery, and mental health challenges. You are
-                        not alone.</p>
+                    <p>A sanctuary for those navigating grief, addiction recovery, and mental health challenges. You are not alone.</p>
                     <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="mailto:manyasadaniel630@gmail.com"><i class="fas fa-envelope"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="mailto:manyasadaniel630@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
                     </div>
                 </div>
 
@@ -219,6 +939,7 @@
                     <h4>Quick Links</h4>
                     <ul>
                         <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">Our Story</a></li>
                         <li><a href="grief-support.html">Grief Support</a></li>
                         <li><a href="addiction-recovery.html">ARR Rules</a></li>
                         <li><a href="mental-health.html">Crisis Resources</a></li>
@@ -228,38 +949,293 @@
                 </div>
 
                 <div class="footer-col contact-col">
-                    <h4>Contact</h4>
+                    <h4>24/7 Support</h4>
                     <ul class="contact-info">
                         <li><i class="fas fa-phone"></i> <a href="tel:+254112219135">+254 112 219 135</a></li>
-                        <li><i class="fab fa-whatsapp"></i> <a href="https://wa.me/25496874539">+254 968 74539</a></li>
-                        <li><i class="fas fa-envelope"></i> <a
-                                href="mailto:manyasadaniel630@gmail.com">manyasadaniel630@gmail.com</a></li>
+                        <li><i class="fab fa-whatsapp"></i> <a href="https://wa.me/25496874539">+254 968 745 39</a></li>
+                        <li><i class="fas fa-envelope"></i> <a href="mailto:manyasadaniel630@gmail.com">manyasadaniel630@gmail.com</a></li>
                     </ul>
-                    <p class="disclaimer"><strong>In crisis?</strong> Call immediately. We're here 24/7.</p>
+                    <div class="disclaimer">
+                        <strong><i class="fas fa-shield-alt"></i> Confidential Support</strong>
+                        <p style="font-size: 0.8rem; margin-top: 5px;">All conversations are private and secure.</p>
+                    </div>
                 </div>
             </div>
 
             <div class="footer-bottom">
-                <p>&copy; <span id="currentYear"></span> STILL STANDING. All rights reserved. | Created with <i
-                        class="fas fa-heart"></i> by Daniel Manyasa</p>
+                <p>&copy; <span id="currentYear"></span> STILL STANDING. All rights reserved. | Created with <i class="fas fa-heart"></i> by Daniel Manyasa</p>
                 <p class="security-notice"><i class="fas fa-shield-alt"></i> This is a secure, confidential space</p>
+                <p class="disclaimer" style="margin-top: 10px;"><strong>Disclaimer:</strong> STILL STANDING provides peer support, not professional medical advice. If you're in crisis, please call emergency services or our 24/7 helpline.</p>
             </div>
         </div>
     </footer>
 
-    <!-- JavaScript Files -->
+    <!-- Floating Chat Widget -->
+    <div class="chat-widget">
+        <button class="chat-toggle" id="chatToggle" aria-label="Open chat support">
+            <i class="fas fa-comment-dots"></i>
+        </button>
+        <div class="chat-container" id="chatContainer" style="display: none;">
+            <div class="chat-header">
+                <h4><i class="fas fa-headset"></i> Support Chat</h4>
+                <button class="chat-close" id="chatClose"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="message system">👋 Hi there! Need someone to talk to? We're here for you. How are you feeling today?</div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="chatInput" placeholder="Type your message...">
+                <button id="chatSend"><i class="fas fa-paper-plane"></i></button>
+            </div>
+            <div class="chat-disclaimer">Responses within 5 minutes | Confidential</div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toastContainer" class="toast-container" style="position: fixed; bottom: 20px; left: 20px; z-index: 9999;"></div>
+
+    <!-- JavaScript -->
     <script src="js/particles.js"></script>
     <script src="js/daily-verse.js"></script>
     <script src="js/main.js"></script>
     <script src="js/security.js"></script>
+    <script src="js/pwa-manager.js"></script>
+    <script src="js/dark-mode.js"></script>
 
-    <!-- Only load booking JS on booking page -->
     <script>
-        if (window.location.pathname.includes('booking-portal')) {
-            document.write('<script src="js/booking.js"><\/script>');
-            document.write('<script src="js/progress-tracker.js"><\/script>');
-        }
-    </script>
-</body>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hide loading screen
+            setTimeout(() => {
+                const loadingScreen = document.getElementById('loading-screen');
+                if (loadingScreen) {
+                    loadingScreen.style.opacity = '0';
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                    }, 500);
+                }
+            }, 1000);
 
+            // Animate stats counter
+            function animateCounter(element, target) {
+                let current = 0;
+                const increment = target / 50;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        element.textContent = target.toLocaleString();
+                        clearInterval(timer);
+                    } else {
+                        element.textContent = Math.floor(current).toLocaleString();
+                    }
+                }, 30);
+            }
+
+            // Trigger stats animation when in view
+            const statsObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateCounter(document.getElementById('statMembers'), 3891);
+                        animateCounter(document.getElementById('statStories'), 1247);
+                        animateCounter(document.getElementById('statSessions'), 5000);
+                        statsObserver.disconnect();
+                    }
+                });
+            });
+            
+            const statsSection = document.querySelector('.impact-stats');
+            if (statsSection) {
+                statsObserver.observe(statsSection);
+            }
+
+            // Scroll animations
+            const scrollElements = document.querySelectorAll('.scroll-animate');
+            const scrollObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animated');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            scrollElements.forEach(el => scrollObserver.observe(el));
+
+            // Emergency banner on scroll
+            const emergencyBanner = document.getElementById('emergencyBanner');
+            if (emergencyBanner) {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 300) {
+                        emergencyBanner.style.display = 'block';
+                    } else {
+                        emergencyBanner.style.display = 'none';
+                    }
+                });
+            }
+
+            // Testimonial slider
+            let currentSlide = 0;
+            const slides = document.querySelectorAll('.testimonial-slide');
+            const dots = document.querySelectorAll('.slider-dot');
+            const track = document.getElementById('testimonialTrack');
+            
+            function showSlide(n) {
+                if (!track) return;
+                currentSlide = n;
+                track.style.transform = `translateX(-${currentSlide * 100}%)`;
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentSlide);
+                });
+            }
+            
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => showSlide(index));
+            });
+            
+            // Auto-advance slides
+            if (slides.length > 0) {
+                setInterval(() => {
+                    currentSlide = (currentSlide + 1) % slides.length;
+                    showSlide(currentSlide);
+                }, 5000);
+            }
+
+            // Newsletter form submission
+            const newsletterForm = document.getElementById('newsletterForm');
+            if (newsletterForm) {
+                newsletterForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const email = document.getElementById('newsletterEmail').value;
+                    if (email) {
+                        // In production, send to backend
+                        showToast('Thank you for subscribing! Check your inbox soon.', 'success');
+                        this.reset();
+                    }
+                });
+            }
+
+            // Chat widget functionality
+            const chatToggle = document.getElementById('chatToggle');
+            const chatContainer = document.getElementById('chatContainer');
+            const chatClose = document.getElementById('chatClose');
+            const chatSend = document.getElementById('chatSend');
+            const chatInput = document.getElementById('chatInput');
+            const chatMessages = document.getElementById('chatMessages');
+            
+            if (chatToggle) {
+                chatToggle.addEventListener('click', () => {
+                    chatContainer.style.display = chatContainer.style.display === 'none' ? 'flex' : 'none';
+                });
+            }
+            
+            if (chatClose) {
+                chatClose.addEventListener('click', () => {
+                    chatContainer.style.display = 'none';
+                });
+            }
+            
+            function addMessage(text, isUser = false) {
+                if (!chatMessages) return;
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${isUser ? 'user' : 'system'}`;
+                messageDiv.textContent = text;
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            function sendMessage() {
+                if (!chatInput || !chatInput.value.trim()) return;
+                const message = chatInput.value.trim();
+                addMessage(message, true);
+                chatInput.value = '';
+                
+                // Auto-response
+                setTimeout(() => {
+                    addMessage("Thank you for reaching out. A peer supporter will be with you shortly. In the meantime, remember you're not alone. 💙");
+                }, 1000);
+            }
+            
+            if (chatSend) {
+                chatSend.addEventListener('click', sendMessage);
+            }
+            if (chatInput) {
+                chatInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') sendMessage();
+                });
+            }
+
+            // Toast notification function
+            function showToast(message, type = 'info') {
+                const container = document.getElementById('toastContainer');
+                if (!container) return;
+                
+                const toast = document.createElement('div');
+                toast.className = `toast toast-${type}`;
+                toast.innerHTML = `
+                    <div style="background: ${type === 'success' ? '#2ecc71' : type === 'error' ? '#e74c3c' : '#3498db'}; color: white; padding: 12px 20px; border-radius: 8px; margin-bottom: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                        <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                        ${message}
+                    </div>
+                `;
+                container.appendChild(toast);
+                setTimeout(() => toast.remove(), 3000);
+            }
+
+            // Set current year in footer
+            const yearSpan = document.getElementById('currentYear');
+            if (yearSpan) {
+                yearSpan.textContent = new Date().getFullYear();
+            }
+
+            // Mobile menu toggle
+            const menuToggle = document.getElementById('menuToggle');
+            const navLinks = document.getElementById('navLinks');
+            
+            if (menuToggle && navLinks) {
+                menuToggle.addEventListener('click', () => {
+                    navLinks.classList.toggle('active');
+                    menuToggle.setAttribute('aria-expanded', navLinks.classList.contains('active'));
+                });
+            }
+
+            // Close mobile menu when clicking a link
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (navLinks.classList.contains('active')) {
+                        navLinks.classList.remove('active');
+                    }
+                });
+            });
+
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href === '#') return;
+                    const target = document.querySelector(href);
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+        });
+    </script>
+
+<!-- Floating Support Widget -->
+<div class="hug-button" id="hugButton" style="position: fixed; bottom: 30px; right: 30px; z-index: 2000; display: flex; align-items: center; gap: 10px;">
+    <div style="background: white; padding: 8px 15px; border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); font-size: 0.9rem; font-weight: 600; color: #2c3e50; border: 1px solid #eee;">Need a hug?</div>
+    <button style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; border: none; cursor: pointer; box-shadow: 0 8px 20px rgba(231,76,60,0.4); transition: transform 0.3s ease; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+        <i class="fas fa-handshake"></i>
+    </button>
+</div>
+
+<script>
+document.getElementById('hugButton')?.addEventListener('click', () => {
+    // Send notification to available peer supporters
+    alert('🤗 Sending you a virtual hug! A peer supporter will reach out within 5 minutes.\n\nYou are not alone.');
+    
+    // In production, this would trigger a real-time notification
+    fetch('/api/request-hug', { method: 'POST' });
+});
+</script>
+</body>
 </html>

@@ -1,278 +1,271 @@
-// PWA Installer and Manager
+/**
+ * STILL STANDING - PWA Manager
+ * Handles service worker registration, offline support, and installation prompts
+ */
+
 class PWAManager {
     constructor() {
         this.deferredPrompt = null;
+        this.installButton = null;
         this.init();
     }
 
-    init() {
+    async init() {
         // Register service worker
-        if ('serviceWorker' in navigator) {
-            this.registerServiceWorker();
-        }
-
-        // Listen for install prompt
+        await this.registerServiceWorker();
+        
+        // Listen for beforeinstallprompt event
         window.addEventListener('beforeinstallprompt', (e) => {
-            console.log('[PWA] Install prompt available');
             e.preventDefault();
             this.deferredPrompt = e;
-            this.showInstallButton();
+            this.showInstallPrompt();
         });
-
-        // Listen for app installed
+        
+        // Listen for app installed event
         window.addEventListener('appinstalled', () => {
-            console.log('[PWA] App installed successfully');
-            this.deferredPrompt = null;
-            this.hideInstallButton();
-            this.showToast('App installed successfully! You can now use STILL STANDING offline.');
+            this.onAppInstalled();
         });
-
-        // Check if already installed
-        if (window.matchMedia('(display-mode: standalone)').matches) {
-            console.log('[PWA] Running in standalone mode');
-        }
+        
+        // Check if app is already installed
+        this.checkIfInstalled();
+        
+        // Setup offline detection
+        this.setupOfflineDetection();
     }
 
     async registerServiceWorker() {
-        try {
-            const registration = await navigator.serviceWorker.register('/service-worker.js', {
-                scope: '/'
-            });
-
-            console.log('[PWA] Service Worker registered:', registration.scope);
-
-            // Check for updates
-            registration.addEventListener('updatefound', () => {
-                const newWorker = registration.installing;
-                console.log('[PWA] New service worker found');
-
-                newWorker.addEventListener('statechange', () => {
-                    if (newWorker.state === 'activated') {
-                        this.showUpdateNotification();
-                    }
+        if ('serviceWorker' in navigator) {
+            try {
+                const registration = await navigator.serviceWorker.register('/service-worker.js');
+                console.log('Service Worker registered successfully:', registration);
+                
+                // Check for updates
+                registration.addEventListener('updatefound', () => {
+                    const newWorker = registration.installing;
+                    newWorker.addEventListener('statechange', () => {
+                        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                            this.showUpdateNotification();
+                        }
+                    });
                 });
-            });
-
-            // Check for updates every hour
-            setInterval(() => {
-                registration.update();
-            }, 60 * 60 * 1000);
-
-        } catch (error) {
-            console.error('[PWA] Service Worker registration failed:', error);
+                
+            } catch (error) {
+                console.error('Service Worker registration failed:', error);
+            }
         }
     }
 
-    showInstallButton() {
-        // Create install button if it doesn't exist
-        if (document.getElementById('pwa-install-btn')) return;
-
-        const installBtn = document.createElement('button');
-        installBtn.id = 'pwa-install-btn';
-        installBtn.className = 'pwa-install-button';
-        installBtn.innerHTML = `
-            <i class="fas fa-download"></i>
-            <span>Install App</span>
+    showInstallPrompt() {
+        // Create install banner if not already shown
+        if (localStorage.getItem('pwa_install_dismissed')) return;
+        
+        const banner = document.createElement('div');
+        banner.className = 'pwa-install-banner';
+        banner.innerHTML = `
+            <div class="pwa-install-content">
+                <div class="pwa-install-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <div class="pwa-install-text">
+                    <strong>Install STILL STANDING App</strong>
+                    <p>Get quick access, offline support, and instant notifications</p>
+                </div>
+                <div class="pwa-install-buttons">
+                    <button class="pwa-install-btn" id="pwaInstallBtn">Install</button>
+                    <button class="pwa-dismiss-btn" id="pwaDismissBtn">Not Now</button>
+                </div>
+            </div>
         `;
-        installBtn.addEventListener('click', () => this.promptInstall());
-
-        document.body.appendChild(installBtn);
-
+        
         // Add styles
-        const styles = `
-            .pwa-install-button {
-                position: fixed;
-                top: 80px;
-                right: 20px;
-                background: var(--healing-color);
-                color: white;
-                border: none;
-                padding: 12px 20px;
-                border-radius: 25px;
-                font-size: 0.9rem;
-                font-weight: 600;
-                cursor: pointer;
-                box-shadow: 0 4px 15px rgba(52, 211, 153, 0.4);
-                transition: all 0.3s ease;
-                z-index: 998;
-                display: flex;
-                align-items: center;
-                gap: 8px;
-                animation: slideInRight 0.5s ease;
-            }
-
-            .pwa-install-button:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 6px 20px rgba(52, 211, 153, 0.6);
-            }
-
-            .pwa-install-button i {
-                font-size: 1.1rem;
-            }
-
-            @keyframes slideInRight {
-                from {
-                    transform: translateX(100px);
-                    opacity: 0;
-                }
-                to {
-                    transform: translateX(0);
-                    opacity: 1;
-                }
-            }
-
-            @media (max-width: 768px) {
-                .pwa-install-button {
-                    top: auto;
-                    bottom: 80px;
-                    right: 20px;
-                    font-size: 0.85rem;
-                    padding: 10px 16px;
-                }
-            }
+        banner.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            z-index: 10000;
+            animation: slideUp 0.5s ease;
+            max-width: 400px;
+            margin: 0 auto;
         `;
-
-        const styleSheet = document.createElement('style');
-        styleSheet.textContent = styles;
-        document.head.appendChild(styleSheet);
-    }
-
-    hideInstallButton() {
-        const btn = document.getElementById('pwa-install-btn');
-        if (btn) {
-            btn.style.animation = 'slideOutRight 0.5s ease';
-            setTimeout(() => btn.remove(), 500);
+        
+        document.body.appendChild(banner);
+        
+        // Add install handler
+        const installBtn = document.getElementById('pwaInstallBtn');
+        if (installBtn) {
+            installBtn.addEventListener('click', async () => {
+                if (this.deferredPrompt) {
+                    this.deferredPrompt.prompt();
+                    const { outcome } = await this.deferredPrompt.userChoice;
+                    if (outcome === 'accepted') {
+                        console.log('User accepted the install prompt');
+                    }
+                    this.deferredPrompt = null;
+                }
+                banner.remove();
+            });
+        }
+        
+        // Add dismiss handler
+        const dismissBtn = document.getElementById('pwaDismissBtn');
+        if (dismissBtn) {
+            dismissBtn.addEventListener('click', () => {
+                localStorage.setItem('pwa_install_dismissed', 'true');
+                banner.remove();
+            });
         }
     }
 
-    async promptInstall() {
-        if (!this.deferredPrompt) {
-            console.log('[PWA] Install prompt not available');
-            return;
+    onAppInstalled() {
+        console.log('App was installed');
+        // Show success message
+        this.showNotification('STILL STANDING installed successfully!');
+        
+        // Hide install prompt
+        const banner = document.querySelector('.pwa-install-banner');
+        if (banner) banner.remove();
+    }
+
+    checkIfInstalled() {
+        // Check if app is running in standalone mode (installed)
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+        if (isStandalone) {
+            console.log('App is running in standalone mode');
+            // Hide install prompts
+            localStorage.setItem('pwa_install_dismissed', 'true');
         }
+    }
 
-        // Show install prompt
-        this.deferredPrompt.prompt();
+    setupOfflineDetection() {
+        window.addEventListener('online', () => {
+            this.showNotification('You are back online!', 'success');
+            this.syncOfflineData();
+        });
+        
+        window.addEventListener('offline', () => {
+            this.showNotification('You are offline. Some features may be limited.', 'warning');
+        });
+        
+        // Check initial status
+        if (!navigator.onLine) {
+            this.showNotification('You are offline. Previous content is still available.', 'info');
+        }
+    }
 
-        // Wait for user choice
-        const { outcome } = await this.deferredPrompt.userChoice;
-        console.log(`[PWA] User ${outcome} the install prompt`);
-
-        this.deferredPrompt = null;
-        this.hideInstallButton();
+    async syncOfflineData() {
+        // Sync any pending data from IndexedDB
+        if ('indexedDB' in window) {
+            // Implementation for syncing offline data
+            console.log('Syncing offline data...');
+        }
     }
 
     showUpdateNotification() {
         const notification = document.createElement('div');
         notification.className = 'pwa-update-notification';
         notification.innerHTML = `
-            <div class="pwa-update-content">
+            <div class="update-content">
                 <i class="fas fa-sync-alt"></i>
-                <span>A new version is available!</span>
-                <button onclick="window.location.reload()">Update Now</button>
+                <span>New version available! Refresh to update.</span>
+                <button id="refreshBtn">Refresh</button>
             </div>
         `;
-
-        document.body.appendChild(notification);
-
-        const styles = `
-            .pwa-update-notification {
-                position: fixed;
-                top: 20px;
-                left: 50%;
-                transform: translateX(-50%);
-                background: var(--primary-color);
-                color: white;
-                padding: 15px 25px;
-                border-radius: 10px;
-                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-                z-index: 9999;
-                animation: slideInDown 0.5s ease;
-            }
-
-            .pwa-update-content {
-                display: flex;
-                align-items: center;
-                gap: 15px;
-            }
-
-            .pwa-update-content button {
-                background: white;
-                color: var(--primary-color);
-                border: none;
-                padding: 8px 16px;
-                border-radius: 5px;
-                font-weight: 600;
-                cursor: pointer;
-                transition: all 0.3s ease;
-            }
-
-            .pwa-update-content button:hover {
-                transform: scale(1.05);
-            }
-
-            @keyframes slideInDown {
-                from {
-                    transform: translate(-50%, -100px);
-                    opacity: 0;
-                }
-                to {
-                    transform: translate(-50%, 0);
-                    opacity: 1;
-                }
-            }
+        
+        notification.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--secondary-color);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            z-index: 10000;
+            animation: slideInRight 0.5s ease;
         `;
-
-        const styleSheet = document.createElement('style');
-        styleSheet.textContent = styles;
-        document.head.appendChild(styleSheet);
+        
+        document.body.appendChild(notification);
+        
+        const refreshBtn = document.getElementById('refreshBtn');
+        if (refreshBtn) {
+            refreshBtn.addEventListener('click', () => {
+                window.location.reload();
+            });
+        }
+        
+        setTimeout(() => {
+            notification.remove();
+        }, 10000);
     }
 
-    showToast(message) {
+    showNotification(message, type = 'info') {
         const toast = document.createElement('div');
-        toast.className = 'pwa-toast';
+        toast.className = `pwa-toast toast-${type}`;
         toast.textContent = message;
         toast.style.cssText = `
             position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #333;
+            bottom: 80px;
+            left: 20px;
+            right: 20px;
+            background: ${type === 'success' ? '#2ecc71' : type === 'warning' ? '#f39c12' : '#3498db'};
             color: white;
-            padding: 15px 25px;
+            padding: 12px 20px;
             border-radius: 8px;
-            font-size: 0.9rem;
-            z-index: 9999;
-            animation: fadeInOut 3s ease;
+            z-index: 10000;
+            animation: slideUp 0.3s ease;
+            max-width: 350px;
         `;
-
+        
         document.body.appendChild(toast);
-
-        setTimeout(() => toast.remove(), 3000);
+        
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
     }
 
-    // Check if offline
-    checkOnlineStatus() {
-        window.addEventListener('online', () => {
-            this.showToast('✅ Back online!');
-        });
+    // Check if service worker supports push notifications
+    async requestPushPermission() {
+        if ('Notification' in window && 'serviceWorker' in navigator) {
+            const permission = await Notification.requestPermission();
+            if (permission === 'granted') {
+                console.log('Push notifications granted');
+                await this.subscribeToPush();
+            }
+        }
+    }
 
-        window.addEventListener('offline', () => {
-            this.showToast('⚠️ You are offline. Some features may be limited.');
+    async subscribeToPush() {
+        const registration = await navigator.serviceWorker.ready;
+        const subscription = await registration.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: this.urlBase64ToUint8Array('YOUR_VAPID_PUBLIC_KEY')
         });
+        
+        // Send subscription to server
+        await fetch('/api/push/subscribe', {
+            method: 'POST',
+            body: JSON.stringify(subscription),
+            headers: { 'Content-Type': 'application/json' }
+        });
+    }
+
+    urlBase64ToUint8Array(base64String) {
+        const padding = '='.repeat((4 - base64String.length % 4) % 4);
+        const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+        const rawData = window.atob(base64);
+        const outputArray = new Uint8Array(rawData.length);
+        for (let i = 0; i < rawData.length; ++i) {
+            outputArray[i] = rawData.charCodeAt(i);
+        }
+        return outputArray;
     }
 }
 
-// Initialize PWA Manager
-let pwaManager;
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-        pwaManager = new PWAManager();
-        pwaManager.checkOnlineStatus();
-    });
-} else {
-    pwaManager = new PWAManager();
-    pwaManager.checkOnlineStatus();
-}
-
-window.pwaManager = pwaManager;
+// Initialize PWA manager
+document.addEventListener('DOMContentLoaded', () => {
+    window.pwaManager = new PWAManager();
+});

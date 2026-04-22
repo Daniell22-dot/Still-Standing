@@ -9,12 +9,8 @@ async function loadQuestions(status = '') {
     list.innerHTML = '<div class="glass-panel" style="padding: 40px; text-align: center;"><i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary-color);"></i><p>Loading questions...</p></div>';
 
     try {
-        const url = status ?
-            `http://localhost:5000/api/v1/qa/questions?status=${status}` :
-            'http://localhost:5000/api/v1/qa/questions';
-
-        const response = await fetch(url);
-        const data = await response.json();
+        const endpoint = status ? `/qa/questions?status=${status}` : '/qa/questions';
+        const data = await API.request(endpoint);
 
         if (data.success && data.questions.length > 0) {
             list.innerHTML = data.questions.map(q => `
@@ -66,8 +62,7 @@ function filterQuestions(status) {
 
 async function viewQuestion(questionId) {
     try {
-        const response = await fetch(`http://localhost:5000/api/qa/questions/${questionId}`);
-        const data = await response.json();
+        const data = await API.request(`/qa/questions/${questionId}`);
 
         if (data.success) {
             showQuestionModal(data.question);
@@ -187,16 +182,7 @@ async function handleAskQuestion(e) {
     const token = localStorage.getItem('still_standing_token');
 
     try {
-        const response = await fetch('http://localhost:5000/api/qa/questions', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({ question, category, isAnonymous })
-        });
-
-        const data = await response.json();
+        const data = await API.request('/qa/questions', 'POST', { question, category, isAnonymous });
         if (data.success) {
             alert('Question submitted successfully!');
             document.querySelector('.group-detail-modal').remove();
@@ -246,16 +232,7 @@ async function handleSubmitAnswer(e, questionId) {
     const token = localStorage.getItem('still_standing_token');
 
     try {
-        const response = await fetch(`http://localhost:5000/api/qa/questions/${questionId}/answers`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({ answer })
-        });
-
-        const data = await response.json();
+        const data = await API.request(`/qa/questions/${questionId}/answers`, 'POST', { answer });
         if (data.success) {
             alert('Answer submitted successfully!');
             document.querySelectorAll('.group-detail-modal').forEach(m => m.remove());
@@ -279,16 +256,7 @@ async function toggleUpvote(targetType, targetId, event) {
     }
 
     try {
-        const response = await fetch('http://localhost:5000/api/qa/upvote', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({ targetType, targetId })
-        });
-
-        const data = await response.json();
+        const data = await API.request('/qa/upvote', 'POST', { targetType, targetId });
         if (data.success) {
             // Reload the question to show updated counts
             const questionId = targetType === 'question' ? targetId : null;
