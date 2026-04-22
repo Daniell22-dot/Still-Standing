@@ -16,10 +16,26 @@ exports.submitQuestion = async (req, res) => {
             });
         }
 
+        // Perform AI Analysis
+        let sentimentData = { polarity: 0, risk_score: 0 };
+        try {
+            const { analyzeSentiment } = require('../utils/aiService');
+            sentimentData = await analyzeSentiment(question);
+        } catch (aiError) {
+            console.error('AI Analysis failed:', aiError);
+        }
+
         const [result] = await promisePool.query(
-            `INSERT INTO qa_questions (user_id, question, category, is_anonymous) 
-             VALUES (?, ?, ?, ?)`,
-            [userId, question, category || null, isAnonymous !== false]
+            `INSERT INTO qa_questions (user_id, question, category, is_anonymous, sentiment_polarity, risk_score) 
+             VALUES (?, ?, ?, ?, ?, ?)`,
+            [
+                userId, 
+                question, 
+                category || null, 
+                isAnonymous !== false,
+                sentimentData.polarity,
+                sentimentData.risk_score
+            ]
         );
 
         res.status(201).json({

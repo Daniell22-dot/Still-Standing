@@ -23,18 +23,29 @@ exports.createStory = async (req, res, next) => {
             content.toLowerCase().includes(word.toLowerCase())
         );
 
+        // Perform AI Analysis
+        let sentimentData = { polarity: 0, risk_score: 0 };
+        try {
+            const { analyzeSentiment } = require('../utils/aiService');
+            sentimentData = await analyzeSentiment(content);
+        } catch (aiError) {
+            console.error('AI Analysis failed, proceeding with defaults:', aiError);
+        }
+
         // Insert story
         const [result] = await promisePool.query(
             `INSERT INTO stories 
-             (user_id, title, content, category, is_anonymous, allow_comments) 
-             VALUES (?, ?, ?, ?, ?, ?)`,
+             (user_id, title, content, category, is_anonymous, allow_comments, sentiment_polarity, risk_score) 
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
             [
                 is_anonymous ? null : userId,
                 title || null,
                 content,
                 category,
-                is_anonymous !== false, // Default to true
-                allow_comments !== false // Default to true
+                is_anonymous !== false,
+                allow_comments !== false,
+                sentimentData.polarity,
+                sentimentData.risk_score
             ]
         );
 

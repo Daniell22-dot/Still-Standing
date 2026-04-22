@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - STILL STANDING</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .gallery-hero {
+            background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(52, 152, 219, 0.7)), url('assets/images/gallery-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            padding: 100px 0 60px;
+            text-align: center;
+            color: white;
+            margin-top: 70px;
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            padding: 50px 0;
+        }
+        .gallery-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            aspect-ratio: 4/3;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .gallery-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+        .filter-nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            padding: 10px 25px;
+            border-radius: 25px;
+            border: 1px solid var(--secondary-color);
+            background: white;
+            color: var(--secondary-color);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--secondary-color);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <h1><span class="still">STILL</span> <span class="standing">STANDING</span></h1>
+                <p class="tagline">Together in Resilience</p>
+            </a>
+
+            <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="about.html"><i class="fas fa-heart"></i> Our Story</a></li>
+                <li class="dropdown">
+                    <a href="grief-support.html"><i class="fas fa-hands-helping"></i> Support <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="grief-support.html">Grief & Loss</a></li>
+                        <li><a href="addiction-recovery.html">Addiction Recovery</a></li>
+                        <li><a href="mental-health.html">Mental Health</a></li>
+                        <li><a href="gbv-support.html">GBV Support</a></li>
+                        <li><a href="child-abuse-support.html">Child Abuse Support</a></li>
+                        <li><hr style="border: 0; border-top: 1px solid #eee; margin: 5px 0;"></li>
+                        <li><a href="crisis-toolkit.html" style="color: var(--accent-color); font-weight: 600;">Crisis Toolkit</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#"><i class="fas fa-book-open"></i> Resources <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="blog.html">Healing Blog</a></li>
+                        <li><a href="events-calendar.html">Events Calendar</a></li>
+                        <li><a href="resources.html">Resource Directory</a></li>
+                        <li><a href="gallery.html" class="active">Community Gallery</a></li>
+                        <li><a href="downloads.html">Downloads</a></li>
+                        <li><a href="volunteers.html">Volunteer With Us</a></li>
+                    </ul>
+                </li>
+                <li><a href="community.html"><i class="fas fa-users"></i> Community</a></li>
+                <li><a href="booking-portal.html"><i class="fas fa-calendar-check"></i> My Journey</a></li>
+                <li><a href="contact.html" class="contact-btn"><i class="fas fa-phone-alt"></i> Get Help</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="gallery-hero">
+        <div class="container">
+            <h1>Our Community Gallery</h1>
+            <p>Visual moments of resilience, support, and hope.</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="filter-nav">
+            <button class="filter-btn active">All</button>
+            <button class="filter-btn">Events</button>
+            <button class="filter-btn">Workshops</button>
+            <button class="filter-btn">Support Groups</button>
+            <button class="filter-btn">Impact</button>
+        </div>
+
+        <div class="gallery-grid">
+            <!-- Items will be loaded here -->
+            <div class="gallery-item glass-panel">
+                <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Support Group">
+                <div class="gallery-overlay">
+                    <h3>Peer Support Meeting</h3>
+                    <p>Community members sharing stories of hope.</p>
+                </div>
+            </div>
+            <div class="gallery-item glass-panel">
+                <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Workshop">
+                <div class="gallery-overlay">
+                    <h3>Resilience Workshop</h3>
+                    <p>Learning tools to handle life's storms.</p>
+                </div>
+            </div>
+            <div class="gallery-item glass-panel">
+                <img src="https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Outreach">
+                <div class="gallery-overlay">
+                    <h3>Community Outreach</h3>
+                    <p>Taking support to where it's needed most.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

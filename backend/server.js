@@ -248,6 +248,8 @@ function createTables() {
             status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending',
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            sentiment_polarity DECIMAL(3,2) DEFAULT 0.00,
+            risk_score DECIMAL(5,2) DEFAULT 0.00,
             FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
             INDEX idx_category (category),
             INDEX idx_status (status),
@@ -327,6 +329,8 @@ function createTables() {
             upvotes INT DEFAULT 0,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            sentiment_polarity DECIMAL(3,2) DEFAULT 0.00,
+            risk_score DECIMAL(5,2) DEFAULT 0.00,
             FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
             INDEX idx_status (status),
             INDEX idx_category (category)
